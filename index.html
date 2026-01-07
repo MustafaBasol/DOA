@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Autoviseo | Dijital Otomasyon Ajansı</title>
+  <meta name="description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+
+<body>
+  <!-- Arka plan (mevcut ring/texture kalsın) -->
+  <div class="backdrop">
+    <div class="backdrop__ring"></div>
+    <div class="backdrop__ring backdrop__ring--sm"></div>
+    <div class="backdrop__texture"></div>
+
+    <!-- Yeni: Küp montaj animasyonu -->
+    <div class="cube-bg" aria-hidden="true">
+      <div class="cube-bg__grid">
+        <!-- 5x5 parçalar: bir tanesi “missing”, bir tanesi “flying” -->
+        <!-- Not: Grid otomatik üretim yerine manuel koyduk, basit kalsın -->
+        <span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span>
+        <span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell cube-bg__cell--missing"></span><span class="cube-bg__cell"></span>
+        <span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span>
+        <span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span>
+        <span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span><span class="cube-bg__cell"></span>
+
+        <span class="cube-bg__cell cube-bg__cell--flying"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-frame">
+    <header class="site-header" data-animate>
+      <a class="site-header__logo" href="#top" aria-label="Autoviseo">Autoviseo</a>
+
+      <nav class="site-header__nav">
+        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="site-header__links">
+          <li><a href="#services">Hizmetler</a></li>
+          <li><a href="#contact">İletişim</a></li>
+        </ul>
+      </nav>
+
+      <a class="button button--sm" href="#contact">Ücretsiz Ön Analiz</a>
+    </header>
+
+    <main>
+      <section class="hero" id="top" data-theme="dark">
+        <div class="hero__content" data-animate>
+          <span class="hero__eyebrow">Dijital Otomasyon Ajansı</span>
+
+          <h1>İşini otomasyonla hızlandır.</h1>
+
+          <p>
+            Autoviseo; entegrasyonlar, CRM akışları, raporlama ve AI destekli otomasyonlarla
+            operasyonlarını sadeleştirir. Az eforla daha çok çıktı.
+          </p>
+
+          <div class="hero__actions">
+            <a class="button" href="#contact">Görüşme planla</a>
+            <a class="button button--ghost" href="#services">Ne yapıyoruz?</a>
+          </div>
+
+          <div class="hero__mini">
+            <span class="chip">n8n / Make / Zapier</span>
+            <span class="chip">Salesforce / HubSpot</span>
+            <span class="chip">Telegram / E-posta / Sheets</span>
+          </div>
+        </div>
+
+        <!-- Sağ tarafı daha sade tut -->
+<div class="hero__visual" data-animate>
+  <!-- Anlamlı içerik: örnek otomasyon akışı -->
+  <div class="flow-card" data-parallax>
+    <div class="flow-card__top">
+      <span class="flow-card__tag">Örnek Otomasyon</span>
+      <span class="flow-card__pill">3–7 gün</span>
+    </div>
+
+    <h3 class="flow-card__title">Lead → CRM → Teklif → Bildirim</h3>
+    <p class="flow-card__subtitle">Teknik olmayan biri için bile anlaşılır bir akış.</p>
+
+    <ol class="flow-steps" aria-label="Otomasyon adımları">
+      <li>
+        <span class="flow-dot"></span>
+        <div>
+          <strong>Form / Mail gelir</strong>
+          <span>Web formu veya e-posta</span>
+        </div>
+      </li>
+      <li>
+        <span class="flow-dot"></span>
+        <div>
+          <strong>CRM kaydı açılır</strong>
+          <span>Salesforce / HubSpot</span>
+        </div>
+      </li>
+      <li>
+        <span class="flow-dot"></span>
+        <div>
+          <strong>Otomatik teklif/yanıt</strong>
+          <span>Şablon + AI destekli taslak</span>
+        </div>
+      </li>
+      <li>
+        <span class="flow-dot"></span>
+        <div>
+          <strong>Telegram bildirim</strong>
+          <span>Ekip anında haberdar</span>
+        </div>
+      </li>
+      <li>
+        <span class="flow-dot"></span>
+        <div>
+          <strong>Haftalık rapor</strong>
+          <span>Sheets / Airtable / DB</span>
+        </div>
+      </li>
+    </ol>
+
+    <div class="flow-card__bottom">
+      <div class="flow-mini">
+        <span class="flow-mini__k">Araçlar</span>
+        <span class="flow-mini__v">n8n · Webhooks · Sheets · Telegram</span>
+      </div>
+      <a class="flow-card__link" href="#services">Diğer akışlar →</a>
+    </div>
+  </div>
+
+  <!-- Arka planda hafif “küp parçası yerine oturuyor” animasyonu -->
+  <div class="cube-hero" aria-hidden="true">
+    <div class="cube-hero__grid">
+      <span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span>
+      <span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell cube-hero__cell--missing"></span><span class="cube-hero__cell"></span>
+      <span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span>
+      <span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span><span class="cube-hero__cell"></span>
+
+      <span class="cube-hero__cell cube-hero__cell--flying"></span>
+    </div>
+  </div>
+</div>
+
+      </section>
+
+      <section class="capabilities" id="services">
+        <header class="section-heading" data-animate>
+          <span class="section-heading__eyebrow">Hizmetler</span>
+          <h2>Net, ölçülebilir otomasyonlar.</h2>
+        </header>
+
+        <div class="capabilities__grid">
+          <article class="capability-card" data-animate>
+            <h3>Entegrasyon & İş Akışı</h3>
+            <p>Sistemlerini birbirine bağlar, manuel işleri otomatikleştiririz.</p>
+            <ul>
+              <li>Webhook / API entegrasyonları</li>
+              <li>Google Sheets / Airtable veri akışları</li>
+              <li>Telegram / e-posta bildirimleri</li>
+            </ul>
+          </article>
+
+          <article class="capability-card" data-animate>
+            <h3>CRM & RevOps</h3>
+            <p>Lead → fırsat → teklif → fatura akışlarını hızlandırırız.</p>
+            <ul>
+              <li>Salesforce akışları ve otomasyonlar</li>
+              <li>Pipeline hijyeni, görev otomasyonu</li>
+              <li>Raporlama ve dashboard</li>
+            </ul>
+          </article>
+
+          <article class="capability-card" data-animate>
+            <h3>AI Destekli Otomasyon</h3>
+            <p>İçerik, sınıflandırma ve özetleme işlerini AI ile ölçekleriz.</p>
+            <ul>
+              <li>Otomatik e-posta/mesaj taslakları</li>
+              <li>Ticket/lead sınıflandırma</li>
+              <li>Bilgi tabanı / SOP üretimi</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta" id="contact" data-theme="dark">
+        <div class="cta__content" data-animate>
+          <span class="cta__eyebrow">İletişim</span>
+          <h2>Ne otomatikleştirmek istiyorsun?</h2>
+          <p>1–2 cümle yaz. Sana uygun bir yol haritasıyla geri döneyim.</p>
+
+          <form class="cta__form" novalidate>
+            <div class="form-field">
+              <label for="name">İsim</label>
+              <input type="text" id="name" name="name" placeholder="Mustafa" required />
+            </div>
+
+            <div class="form-field">
+              <label for="email">E-posta</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required />
+            </div>
+
+            <div class="form-field">
+              <label for="message">Kısaca hedef</label>
+              <input type="text" id="message" name="message" placeholder="Örn: CRM → Telegram bildirimleri, teklif/fatura akışı..." required />
+            </div>
+
+            <button class="button" type="submit">Gönder</button>
+            <p class="form-hint">İstersen doğrudan: <a href="mailto:info@autoviseo.com">info@autoviseo.com</a></p>
+          </form>
+        </div>
+
+        <!-- Sağ rozet: abartısız tut -->
+        <div class="cta__badge" data-animate>
+          <span class="cta__badge-pill">Hızlı Başlangıç</span>
+          <strong>7 gün</strong>
+          <span>İlk otomasyonu canlıya alma hedefi</span>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="site-footer__brand" data-animate>
+        <span class="site-footer__logo">Autoviseo</span>
+        <p>Otomasyon. Entegrasyon. Operasyonel sadeleşme.</p>
+      </div>
+      <div class="site-footer__legal">
+        <span>&copy; <span data-year></span> Autoviseo.</span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="assets/js/main.js" defer></script>
+</body>
+</html>
