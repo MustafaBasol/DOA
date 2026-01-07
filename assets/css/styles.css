@@ -8,6 +8,7 @@
     --text-primary: #f8f9ff;
     --text-secondary: #c6c8dc;
     --text-muted: rgba(198, 200, 220, 0.72);
+    --text-placeholder: rgba(198, 200, 220, 0.55);
     --accent: #7c5cff;
     --accent-strong: #6545ff;
     --accent-soft: rgba(124, 92, 255, 0.18);
@@ -918,7 +919,7 @@ backdrop-filter: blur(12px);
 
 .cta__form input::placeholder,
 .cta__form textarea::placeholder {
-  color: rgba(198, 200, 220, 0.55);
+  color: var(--text-placeholder);
 }
 
 .cta__form button {
