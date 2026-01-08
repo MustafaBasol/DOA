@@ -128,10 +128,22 @@ backdrop-filter: blur(12px);
 
 
 .site-header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-size: 1rem;
+}
+
+.site-header__logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.site-header__logo span {
+    display: inline-block;
 }
 
 .site-header__nav {
@@ -550,8 +562,19 @@ backdrop-filter: blur(12px);
 
 .capabilities__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(1.5rem, 2.8vw, 2.6rem);
+}
+@media (max-width: 1100px) {
+    .capabilities__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 720px) {
+    .capabilities__grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
 
 .capability-card {
@@ -877,10 +900,14 @@ backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
   width: min(92vw, var(--max-width));
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.75fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
 }
 
 .cta__content {
-  padding-right: clamp(2rem, 5vw, 3rem);
+  padding-right: 0;
 }
 
 .cta__content h2 {
@@ -890,24 +917,35 @@ backdrop-filter: blur(12px);
 .cta__form {
   margin-top: 2rem;
   display: grid;
-  gap: 1.2rem;
-  max-width: 480px;
+  gap: 1.25rem;
+  max-width: 100%;
+  padding: 1.6rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(160deg, rgba(12, 16, 32, 0.9), rgba(8, 12, 24, 0.75));
+  box-shadow: 0 24px 60px -40px rgba(0, 0, 0, 0.8);
 }
 
 .cta__form input,
 .cta__form textarea {
-  padding: 0.9rem 1.1rem;
+  padding: 0.95rem 1.1rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 8, 18, 0.8);
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   width: 100%;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .cta__form textarea {
   min-height: 120px;
   resize: vertical;
+}
+
+.cta__form input::placeholder,
+.cta__form textarea::placeholder {
+  color: rgba(198, 200, 220, 0.55);
 }
 
 .cta__form button {
@@ -929,26 +967,43 @@ backdrop-filter: blur(12px);
     gap: 0.45rem;
 }
 
+.form-field--hp {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
 .form-field label {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(198, 200, 220, 0.78);
 }
 
 .form-field input,
 .form-field select {
-    padding: 0.85rem 1rem;
-    border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    background: rgba(8, 12, 24, 0.6);
+    padding: 0.95rem 1rem;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(7, 9, 20, 0.9);
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 0.96rem;
+    transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 
 .form-field input:focus,
 .form-field select:focus {
     outline: none;
-    border-color: rgba(124, 92, 255, 0.6);
-    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.25);
+    border-color: rgba(124, 92, 255, 0.8);
+    background: rgba(9, 12, 26, 0.95);
+    box-shadow: 0 0 0 3px rgba(124, 92, 255, 0.24);
+}
+
+.form-field:focus-within label {
+    color: rgba(248, 249, 255, 0.92);
 }
 
 .form-hint {
@@ -957,9 +1012,13 @@ backdrop-filter: blur(12px);
     margin: 0;
 }
 
+.form-hint a {
+    color: var(--text-primary);
+}
+
 .cta__badge {
     justify-self: center;
-    align-self: stretch;
+    align-self: start;
     border-radius: var(--radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.12);
     background: linear-gradient(180deg, rgba(124, 92, 255, 0.16), rgba(8, 12, 24, 0.8));
@@ -967,7 +1026,7 @@ backdrop-filter: blur(12px);
     place-items: center;
     padding: 3rem 2rem;
     text-align: center;
-    gap: 0.6rem;
+    gap: 0.7rem;
     min-height: 320px;
 }
 
@@ -975,6 +1034,45 @@ backdrop-filter: blur(12px);
     font-size: 3.2rem;
     font-weight: 800;
     color: var(--success);
+    letter-spacing: -0.02em;
+}
+
+.cta__badge-promise {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--text-primary);
+}
+
+.cta__badge-steps {
+    display: block;
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.cta__badge-chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.45rem;
+    margin-top: 0.2rem;
+}
+
+.cta__badge-chips span {
+    padding: 0.32rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+}
+
+.cta__badge-cta {
+    font-size: 0.75rem;
+    color: rgba(198, 200, 220, 0.7);
+    margin-top: 0.3rem;
 }
 
 .cta__badge-pill {
@@ -1003,10 +1101,18 @@ backdrop-filter: blur(12px);
 }
 
 .site-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-size: 1rem;
+}
+
+.site-footer__logo img {
+    width: 28px;
+    height: 28px;
 }
 
 .site-footer__links {
@@ -1083,6 +1189,65 @@ backdrop-filter: blur(12px);
     gap: 1rem;
     color: var(--text-muted);
     font-size: 0.85rem;
+}
+
+.site-footer__legal-links {
+    display: inline-flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.site-footer__legal-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.site-footer__legal-links a:hover,
+.site-footer__legal-links a:focus-visible {
+    color: var(--text-primary);
+}
+
+.cookie-banner {
+    position: fixed;
+    left: clamp(1rem, 4vw, 2.5rem);
+    right: clamp(1rem, 4vw, 2.5rem);
+    bottom: clamp(1rem, 3vw, 2.5rem);
+    padding: 1.2rem 1.4rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(7, 10, 20, 0.92);
+    box-shadow: 0 24px 60px -30px rgba(0, 0, 0, 0.7);
+    display: grid;
+    gap: 1rem;
+    z-index: 40;
+}
+
+.cookie-banner__content strong {
+    display: block;
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.cookie-banner__content p {
+    margin: 0.4rem 0 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.cookie-banner__content a {
+    color: var(--text-primary);
+}
+
+.cookie-banner__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.cookie-banner--hidden {
+    display: none;
 }
 
 .site-footer__socials {
