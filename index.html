@@ -5,6 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Autoviseo | Dijital Otomasyon Ajansı</title>
   <meta name="description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://autoviseo.com/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Autoviseo | Dijital Otomasyon Ajansı" />
+  <meta property="og:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <meta property="og:url" content="https://autoviseo.com/" />
+  <meta property="og:image" content="https://autoviseo.com/assets/images/og-image.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Autoviseo | Dijital Otomasyon Ajansı" />
+  <meta name="twitter:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <meta name="twitter:image" content="https://autoviseo.com/assets/images/og-image.svg" />
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/assets/images/logo-mark.svg" sizes="any" type="image/svg+xml" />
+  <link rel="sitemap" type="application/xml" href="https://autoviseo.com/sitemap.xml" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://n8n.srv1021253.hstgr.cloud https://www.google-analytics.com https://www.googletagmanager.com" />
+  <script type="application/ld+json" src="assets/seo/organization.json"></script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5D6FMVNHRD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-5D6FMVNHRD');
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -36,7 +63,10 @@
 
   <div class="page-frame">
     <header class="site-header" data-animate>
-      <a class="site-header__logo" href="#top" aria-label="Autoviseo">Autoviseo</a>
+      <a class="site-header__logo" href="#top" aria-label="Autoviseo">
+        <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
+        <span>Autoviseo</span>
+      </a>
 
       <nav class="site-header__nav">
         <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
@@ -186,6 +216,36 @@
               <li>Bilgi tabanı / SOP üretimi</li>
             </ul>
           </article>
+
+          <article class="capability-card" data-animate>
+            <h3>Sosyal Medya İçerik Otomasyonu</h3>
+            <p>Kampanya, ürün/hizmet ve duyuru içeriklerini tek akışta üretip yayın planına bağlarız.</p>
+            <ul>
+              <li>Haftalık/aylık içerik planı + otomatik taslak üretim</li>
+              <li>Ürün/hizmet bilgisinden post/story metni, brief ve hashtag seti</li>
+              <li>Onay akışı (WhatsApp/Telegram) + yayınlama hatırlatmaları</li>
+            </ul>
+          </article>
+
+          <article class="capability-card" data-animate>
+            <h3>WhatsApp Chatbot</h3>
+            <p>Sık soruları yanıtlayan, talep toplayan ve doğru ekibe yönlendiren botu kurarız.</p>
+            <ul>
+              <li>SSS + fiyatlandırma + süreç bilgilendirme otomasyonu</li>
+              <li>Form / teklif talebi → Sheets/CRM’e kayıt</li>
+              <li>Canlı destek devri + etiketleme/segmentasyon</li>
+            </ul>
+          </article>
+
+          <article class="capability-card" data-animate>
+            <h3>Sesli Asistan & Çağrı Otomasyonu</h3>
+            <p>Telefonla gelen talepleri karşılayan, özetleyen ve sisteme düşüren sesli asistan kurarız.</p>
+            <ul>
+              <li>Gelen çağrı → ihtiyaç alma → otomatik özet + kayıt</li>
+              <li>Randevu/geri arama yönlendirme ve teyit mesajı</li>
+              <li>CRM/Sheets/Slack/Telegram entegrasyonu + takip görevi</li>
+            </ul>
+          </article>
         </div>
       </section>
 
@@ -198,17 +258,22 @@
           <form class="cta__form" novalidate>
             <div class="form-field">
               <label for="name">İsim</label>
-              <input type="text" id="name" name="name" placeholder="Mustafa" required />
+              <input type="text" id="name" name="name" placeholder="Mustafa" maxlength="80" autocomplete="name" required />
             </div>
 
             <div class="form-field">
               <label for="email">E-posta</label>
-              <input type="email" id="email" name="email" placeholder="you@company.com" required />
+              <input type="email" id="email" name="email" placeholder="you@company.com" maxlength="254" autocomplete="email" required />
             </div>
 
             <div class="form-field">
               <label for="message">Kısaca hedef</label>
-              <input type="text" id="message" name="message" placeholder="Örn: CRM → Telegram bildirimleri, teklif/fatura akışı..." required />
+              <input type="text" id="message" name="message" placeholder="Örn: CRM → Telegram bildirimleri, teklif/fatura akışı..." maxlength="280" autocomplete="off" required />
+            </div>
+
+            <div class="form-field form-field--hp" aria-hidden="true">
+              <label for="website">Website</label>
+              <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
             </div>
 
             <button class="button" type="submit">Gönder</button>
@@ -220,14 +285,26 @@
         <div class="cta__badge" data-animate>
           <span class="cta__badge-pill">Hızlı Başlangıç</span>
           <strong>7 gün</strong>
-          <span>İlk otomasyonu canlıya alma hedefi</span>
+          <span class="cta__badge-promise">İlk çalışan otomasyonu canlıya alırız.</span>
+          <div class="cta__badge-steps" aria-label="Hızlı başlangıç adımları">
+            <span>Keşif → Akış Tasarımı → Canlıya Alma</span>
+          </div>
+          <div class="cta__badge-chips" aria-label="Hızlı başlangıç detayları">
+            <span>1–2 görüşme</span>
+            <span>Net kapsam</span>
+            <span>Demo + dokümantasyon</span>
+          </div>
+          <span class="cta__badge-cta">Formu doldur, 24 saat içinde yol haritasıyla döneyim.</span>
         </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="site-footer__brand" data-animate>
-        <span class="site-footer__logo">Autoviseo</span>
+        <span class="site-footer__logo">
+          <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
+          <span>Autoviseo</span>
+        </span>
         <p>Otomasyon. Entegrasyon. Operasyonel sadeleşme.</p>
       </div>
       <div class="site-footer__legal">
