@@ -1,0 +1,9 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Autoviseo",
+  "url": "https://autoviseo.com/",
+  "logo": "https://autoviseo.com/assets/images/logo-mark.svg",
+  "description": "Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları.",
+  "sameAs": []
+}

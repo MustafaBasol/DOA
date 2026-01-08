@@ -69,11 +69,59 @@
     update();
   };
 
+  const setupAnalyticsConsent = () => {
+    const banner = document.querySelector('.cookie-banner');
+    if (!banner) return;
+
+    const acceptBtn = banner.querySelector('.cookie-banner__accept');
+    const rejectBtn = banner.querySelector('.cookie-banner__reject');
+    const stored = localStorage.getItem('cookieConsent');
+
+    const loadAnalytics = () => {
+      if (window.__gaLoaded) return;
+      window.__gaLoaded = true;
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.googletagmanager.com/gtag/js?id=G-5D6FMVNHRD';
+      document.head.appendChild(script);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', 'G-5D6FMVNHRD');
+    };
+
+    const setConsent = (value) => {
+      localStorage.setItem('cookieConsent', value);
+      banner.classList.add('cookie-banner--hidden');
+      if (value === 'accepted') loadAnalytics();
+    };
+
+    if (stored === 'accepted') {
+      banner.classList.add('cookie-banner--hidden');
+      loadAnalytics();
+      return;
+    }
+
+    if (stored === 'rejected') {
+      banner.classList.add('cookie-banner--hidden');
+      return;
+    }
+
+    acceptBtn?.addEventListener('click', () => setConsent('accepted'));
+    rejectBtn?.addEventListener('click', () => setConsent('rejected'));
+  };
+
 const setupForm = () => {
   const form = document.querySelector('.cta__form');
   if (!form) return;
 
   const button = form.querySelector('.button');
+  const honeypot = form.querySelector('#website');
+
+  const normalizeValue = (value, maxLength) => {
+    if (!value) return '';
+    return value.replace(/\s+/g, ' ').trim().slice(0, maxLength);
+  };
 
   const showToast = (msg, type = 'info') => {
     const toast = document.createElement('div');
@@ -90,10 +138,15 @@ const setupForm = () => {
       return;
     }
 
+    if (honeypot && honeypot.value.trim()) {
+      form.reset();
+      return;
+    }
+
     const payload = {
-      name: form.querySelector('#name')?.value?.trim(),
-      email: form.querySelector('#email')?.value?.trim(),
-      message: form.querySelector('#message')?.value?.trim(),
+      name: normalizeValue(form.querySelector('#name')?.value, 80),
+      email: normalizeValue(form.querySelector('#email')?.value, 254),
+      message: normalizeValue(form.querySelector('#message')?.value, 280),
       page: location.href,
       ts: new Date().toISOString()
     };
@@ -130,5 +183,6 @@ const setupForm = () => {
   setupHeader();
   setupRevealObserver();
   setupParallax();
+  setupAnalyticsConsent();
   setupForm();
 })();

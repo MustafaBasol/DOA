@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0b0d1f"/>
+      <stop offset="100%" stop-color="#111b2f"/>
+    </linearGradient>
+    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7b5cff"/>
+      <stop offset="100%" stop-color="#38e0ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+  <g transform="translate(140,135)" fill="url(#logoGradient)" stroke="#e7efff" stroke-opacity="0.9" stroke-width="6">
+    <rect x="0" y="80" width="110" height="110" rx="24"/>
+    <rect x="140" y="80" width="110" height="110" rx="24"/>
+    <rect x="0" y="220" width="110" height="110" rx="24"/>
+    <rect x="140" y="220" width="110" height="110" rx="24"/>
+    <rect x="280" y="220" width="110" height="110" rx="24"/>
+    <rect x="0" y="360" width="110" height="110" rx="24"/>
+    <rect x="140" y="360" width="110" height="110" rx="24"/>
+    <rect x="280" y="360" width="110" height="110" rx="24"/>
+    <rect x="320" y="0" width="110" height="110" rx="24"/>
+  </g>
+  <circle cx="520" cy="255" r="7" fill="#38e0ff"/>
+  <text x="640" y="310" font-size="96" font-weight="700" font-family="Manrope, Arial, sans-serif" fill="url(#logoGradient)" letter-spacing="8">
+    AUTOVISEO
+  </text>
+  <text x="645" y="380" font-size="32" font-weight="500" font-family="Manrope, Arial, sans-serif" fill="#c6c8dc">
+    Dijital Otomasyon Ajansı
+  </text>
+</svg>
