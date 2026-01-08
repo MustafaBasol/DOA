@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Autoviseo favicon">
+  <defs>
+    <linearGradient id="logoGradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7b5cff"/>
+      <stop offset="100%" stop-color="#38e0ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="none"/>
+  <g fill="url(#logoGradient)" stroke="#e7efff" stroke-opacity="0.9" stroke-width="6">
+    <rect x="96" y="116" width="88" height="88" rx="18"/>
+    <rect x="204" y="116" width="88" height="88" rx="18"/>
+    <rect x="96" y="224" width="88" height="88" rx="18"/>
+    <rect x="204" y="224" width="88" height="88" rx="18"/>
+    <rect x="312" y="224" width="88" height="88" rx="18"/>
+    <rect x="96" y="332" width="88" height="88" rx="18"/>
+    <rect x="204" y="332" width="88" height="88" rx="18"/>
+    <rect x="312" y="332" width="88" height="88" rx="18"/>
+    <rect x="340" y="44" width="88" height="88" rx="18"/>
+  </g>
+  <circle cx="384" cy="168" r="6" fill="#38e0ff"/>
+</svg>
