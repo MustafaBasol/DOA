@@ -128,10 +128,22 @@ backdrop-filter: blur(12px);
 
 
 .site-header__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-size: 1rem;
+}
+
+.site-header__logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.site-header__logo span {
+    display: inline-block;
 }
 
 .site-header__nav {
@@ -1059,39 +1071,6 @@ backdrop-filter: blur(12px);
     margin-top: 0.3rem;
 }
 
-.cta__badge-promise {
-    font-size: 0.95rem;
-    color: var(--text-primary);
-}
-
-.cta__badge-steps {
-    display: grid;
-    gap: 0.25rem;
-    font-size: 0.82rem;
-    color: var(--text-secondary);
-}
-
-.cta__badge-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.4rem;
-}
-
-.cta__badge-chips span {
-    padding: 0.3rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.08);
-    font-size: 0.7rem;
-    color: var(--text-secondary);
-}
-
-.cta__badge-cta {
-    font-size: 0.78rem;
-    color: var(--text-muted);
-}
-
 .cta__badge-pill {
     display: inline-flex;
     align-items: center;
@@ -1118,10 +1097,18 @@ backdrop-filter: blur(12px);
 }
 
 .site-footer__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
     font-weight: 800;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     font-size: 1rem;
+}
+
+.site-footer__logo img {
+    width: 28px;
+    height: 28px;
 }
 
 .site-footer__links {

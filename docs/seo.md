@@ -15,8 +15,8 @@ Güncel eklenen alanlar:
 - CSP (Content-Security-Policy)
 
 **Yapmanız gerekenler:**
-- `https://example.com/` değerlerini gerçek domain ile değiştirin.
-- `https://example.com/assets/og-image.png` ve `logo.png` dosyalarını gerçek görsellerle güncelleyin.
+- `https://autoviseo.com/` değerlerini doğrulayın.
+- `https://autoviseo.com/assets/images/og-image.svg` ve `logo-mark.svg` dosyalarını gerçek görsellerle güncelleyin.
 
 ## 2) Yapılandırılmış Veri (Schema.org)
 
@@ -28,31 +28,28 @@ JSON-LD içerik harici dosyada tutulur ve `index.html` içinde şu satırla yük
 ```
 
 **Yapmanız gerekenler:**
-- `url`, `logo`, `description` alanlarını gerçek değerlerle değiştirin.
+- `url`, `logo`, `description` alanlarının güncel olduğundan emin olun.
 - `sameAs` listesine sosyal medya profillerini ekleyin.
 
 ## 3) Google Analytics / Tag Manager Yerleşimi
 
-**Konum:** `index.html` içinde, `<head>` bölümünde yorumlu bir placeholder bulunur:
+**Konum:** `index.html` içinde, `<head>` bölümünde Google tag aktif halde bulunur:
 ```html
-<!--
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5D6FMVNHRD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
+  gtag('config', 'G-5D6FMVNHRD');
 </script>
--->
 ```
 
 **Yapmanız gerekenler:**
-- `G-XXXXXXXXXX` değerini kendi GA4 ölçüm kimliğinizle değiştirin.
-- Scriptleri yorumdan çıkarın.
+- Farklı bir GA4 ölçüm kimliği kullanacaksanız `G-5D6FMVNHRD` değerini güncelleyin.
 
 ## 4) CSP (Content-Security-Policy) Güncelleme
 
-Şu an CSP `script-src` ve `connect-src` üzerinde sınırlıdır.
+Şu an CSP `script-src` ve `connect-src` içinde Google izinleri aktiftir.
 
 Google etiketi eklediğinizde CSP'yi genişletmeniz gerekir. Örnek:
 
@@ -62,7 +59,7 @@ connect-src 'self' https://www.google-analytics.com https://www.googletagmanager
 img-src 'self' data: https://www.google-analytics.com;
 ```
 
-`index.html` içinde `<meta http-equiv="Content-Security-Policy">` satırını bu izinlerle güncelleyin.
+`index.html` içinde `<meta http-equiv="Content-Security-Policy">` satırını domain değişirse güncelleyin.
 
 ## 5) robots.txt ve sitemap.xml
 
@@ -70,7 +67,7 @@ img-src 'self' data: https://www.google-analytics.com;
 - `sitemap.xml` site URL’ini bildirir.
 
 **Yapmanız gerekenler:**
-- `robots.txt` ve `sitemap.xml` içindeki `https://example.com/` değerlerini gerçek domain ile değiştirin.
+- `robots.txt` ve `sitemap.xml` içinde domain günceldir. Değişirse düzenleyin.
 
 ## 6) Kontrol Listesi
 
