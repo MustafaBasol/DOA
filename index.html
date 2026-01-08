@@ -23,15 +23,6 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://n8n.srv1021253.hstgr.cloud https://www.google-analytics.com https://www.googletagmanager.com" />
   <script type="application/ld+json" src="assets/seo/organization.json"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5D6FMVNHRD"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-5D6FMVNHRD');
-  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -278,6 +269,7 @@
 
             <button class="button" type="submit">Gönder</button>
             <p class="form-hint">İstersen doğrudan: <a href="mailto:info@autoviseo.com">info@autoviseo.com</a></p>
+            <p class="form-hint">Göndererek <a href="privacy.html">Gizlilik Politikası</a>'nı kabul etmiş olursun.</p>
           </form>
         </div>
 
@@ -309,8 +301,27 @@
       </div>
       <div class="site-footer__legal">
         <span>&copy; <span data-year></span> Autoviseo.</span>
+        <div class="site-footer__legal-links">
+          <a href="privacy.html">Gizlilik Politikası</a>
+          <a href="cookies.html">Çerez Politikası</a>
+          <a href="legal.html">Yasal Bilgiler</a>
+        </div>
       </div>
     </footer>
+  </div>
+
+  <div class="cookie-banner" role="dialog" aria-live="polite" aria-label="Çerez bildirimi">
+    <div class="cookie-banner__content">
+      <strong>Çerez tercihleri</strong>
+      <p>
+        Zorunlu çerezler dışında analiz amaçlı çerezleri yalnızca onay verildiğinde kullanırız.
+        Detaylar için <a href="cookies.html">Çerez Politikası</a>'na göz atabilirsin.
+      </p>
+    </div>
+    <div class="cookie-banner__actions">
+      <button class="button button--ghost cookie-banner__reject" type="button">Reddet</button>
+      <button class="button cookie-banner__accept" type="button">Kabul et</button>
+    </div>
   </div>
 
   <script src="assets/js/main.js" defer></script>
