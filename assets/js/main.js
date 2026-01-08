@@ -74,6 +74,12 @@ const setupForm = () => {
   if (!form) return;
 
   const button = form.querySelector('.button');
+  const honeypot = form.querySelector('#website');
+
+  const normalizeValue = (value, maxLength) => {
+    if (!value) return '';
+    return value.replace(/\s+/g, ' ').trim().slice(0, maxLength);
+  };
 
   const showToast = (msg, type = 'info') => {
     const toast = document.createElement('div');
@@ -90,10 +96,15 @@ const setupForm = () => {
       return;
     }
 
+    if (honeypot && honeypot.value.trim()) {
+      form.reset();
+      return;
+    }
+
     const payload = {
-      name: form.querySelector('#name')?.value?.trim(),
-      email: form.querySelector('#email')?.value?.trim(),
-      message: form.querySelector('#message')?.value?.trim(),
+      name: normalizeValue(form.querySelector('#name')?.value, 80),
+      email: normalizeValue(form.querySelector('#email')?.value, 254),
+      message: normalizeValue(form.querySelector('#message')?.value, 280),
       page: location.href,
       ts: new Date().toISOString()
     };
