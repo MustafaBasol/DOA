@@ -450,6 +450,11 @@
     applyTranslations(next);
     const select = qs('#language-select');
     if (select) select.value = next;
+    qsa('.language-switcher__btn').forEach((button) => {
+      const isActive = button.dataset.lang === next;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
     if (persist) {
       localStorage.setItem('siteLang', next);
     }
@@ -461,10 +466,20 @@
     setLanguage(initialLang, false);
 
     const select = qs('#language-select');
-    if (!select) return;
+    if (select) {
+      select.addEventListener('change', (event) => {
+        setLanguage(event.target.value);
+      });
+    }
 
-    select.addEventListener('change', (event) => {
-      setLanguage(event.target.value);
+    qsa('.language-switcher').forEach((switcher) => {
+      switcher.addEventListener('click', (event) => {
+        const button = event.target.closest('.language-switcher__btn');
+        if (!button || !switcher.contains(button)) return;
+        const lang = button.dataset.lang || button.getAttribute('data-lang');
+        if (!lang) return;
+        setLanguage(lang);
+      });
     });
   };
 

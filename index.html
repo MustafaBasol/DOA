@@ -21,7 +21,7 @@
   <link rel="icon" href="/assets/images/logo-mark.svg" sizes="any" type="image/svg+xml" />
   <link rel="sitemap" type="application/xml" href="https://autoviseo.com/sitemap.xml" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://n8n.srv1021253.hstgr.cloud https://www.google-analytics.com https://www.googletagmanager.com" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://n8n.srv1021253.hstgr.cloud https://www.google-analytics.com https://region1.google-analytics.com https://www.googletagmanager.com" />
   <script type="application/ld+json" src="assets/seo/organization.json"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,13 +71,11 @@
       </nav>
 
       <div class="site-header__actions">
-        <div class="language-switcher">
-          <label class="sr-only" for="language-select" data-i18n="lang.label">Dil</label>
-          <select id="language-select" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
-            <option value="tr">TR</option>
-            <option value="en">EN</option>
-            <option value="fr">FR</option>
-          </select>
+        <div class="language-switcher" role="group" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+          <span class="sr-only" data-i18n="lang.label">Dil</span>
+          <button class="language-switcher__btn is-active" type="button" data-lang="tr" aria-pressed="true">TR</button>
+          <button class="language-switcher__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+          <button class="language-switcher__btn" type="button" data-lang="fr" aria-pressed="false">FR</button>
         </div>
         <a class="button button--sm" href="#contact" data-i18n="header.cta">Ücretsiz Ön Analiz</a>
       </div>
