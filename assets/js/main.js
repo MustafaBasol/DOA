@@ -422,7 +422,12 @@
     qsa('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
       const value = dict[key];
-      if (value !== undefined) {
+      if (value === undefined) return;
+      const attr = el.dataset.i18nAttr;
+      const tagName = el.tagName;
+      const isFormControl = ['INPUT', 'SELECT', 'TEXTAREA', 'OPTION'].includes(tagName);
+      const attrOnly = Boolean(attr);
+      if (!isFormControl && !attrOnly) {
         el.textContent = value;
       }
     });
