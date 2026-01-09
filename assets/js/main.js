@@ -472,9 +472,13 @@
       });
     }
 
-    qsa('.language-switcher__btn').forEach((button) => {
-      button.addEventListener('click', () => {
-        setLanguage(button.dataset.lang);
+    qsa('.language-switcher').forEach((switcher) => {
+      switcher.addEventListener('click', (event) => {
+        const button = event.target.closest('.language-switcher__btn');
+        if (!button || !switcher.contains(button)) return;
+        const lang = button.dataset.lang || button.getAttribute('data-lang');
+        if (!lang) return;
+        setLanguage(lang);
       });
     });
   };
