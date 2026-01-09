@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Yasal Bilgiler | Autoviseo</title>
-  <meta name="description" content="Autoviseo yasal bilgiler ve yayıncı/hosting detayları." />
+  <title data-i18n="legal.meta.title">Yasal Bilgiler | Autoviseo</title>
+  <meta name="description" content="Autoviseo yasal bilgiler ve yayıncı/hosting detayları." data-i18n="legal.meta.desc" data-i18n-attr="content" />
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
   <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/assets/images/logo-mark.svg" sizes="any" type="image/svg+xml" />
@@ -17,27 +17,41 @@
         <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
         <span>Autoviseo</span>
       </a>
-      <a class="button button--sm" href="index.html#contact">İletişim</a>
+      <div class="site-header__actions">
+        <div class="language-switcher">
+          <label class="sr-only" for="language-select" data-i18n="lang.label">Dil</label>
+          <select id="language-select" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+            <option value="tr">TR</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+          </select>
+        </div>
+        <a class="button button--sm" href="index.html#contact" data-i18n="header.contact">İletişim</a>
+      </div>
     </header>
 
     <main>
       <section class="capabilities" data-theme="dark">
         <header class="section-heading">
-          <span class="section-heading__eyebrow">Yasal</span>
-          <h2>Yasal Bilgiler</h2>
+          <span class="section-heading__eyebrow" data-i18n="legal.eyebrow">Yasal</span>
+          <h2 data-i18n="legal.title">Yasal Bilgiler</h2>
         </header>
 
         <div class="capability-card">
-          <p>Bu sayfa Fransa'da “Mentions légales” kapsamındaki temel bilgileri sunar.</p>
+          <p data-i18n="legal.p1">Bu sayfa Fransa'da “Mentions légales” kapsamındaki temel bilgileri sunar.</p>
           <ul>
-            <li>Yayıncı: Mustafa Basol - Peaknova.</li>
-            <li>Adres: Albertville, Fransa.</li>
-            <li>İletişim: <a href="mailto:info@autoviseo.com">info@autoviseo.com</a></li>
-            <li>Hosting sağlayıcısı: Hostinger.</li>
+            <li data-i18n="legal.li1">Yayıncı: Mustafa Basol - Peaknova.</li>
+            <li data-i18n="legal.li2">Adres: Albertville, Fransa.</li>
+            <li>
+              <span data-i18n="legal.li3.prefix">İletişim:</span>
+              <a href="mailto:info@autoviseo.com">info@autoviseo.com</a>
+            </li>
+            <li data-i18n="legal.li4">Hosting sağlayıcısı: Hostinger.</li>
           </ul>
         </div>
       </section>
     </main>
   </div>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>

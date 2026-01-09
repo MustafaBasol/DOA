@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gizlilik Politikası | Autoviseo</title>
-  <meta name="description" content="Autoviseo gizlilik politikası ve kişisel veri işleme bilgileri." />
+  <title data-i18n="privacy.meta.title">Gizlilik Politikası | Autoviseo</title>
+  <meta name="description" content="Autoviseo gizlilik politikası ve kişisel veri işleme bilgileri." data-i18n="privacy.meta.desc" data-i18n-attr="content" />
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
   <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/assets/images/logo-mark.svg" sizes="any" type="image/svg+xml" />
@@ -17,34 +17,46 @@
         <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
         <span>Autoviseo</span>
       </a>
-      <a class="button button--sm" href="index.html#contact">İletişim</a>
+      <div class="site-header__actions">
+        <div class="language-switcher">
+          <label class="sr-only" for="language-select" data-i18n="lang.label">Dil</label>
+          <select id="language-select" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+            <option value="tr">TR</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+          </select>
+        </div>
+        <a class="button button--sm" href="index.html#contact" data-i18n="header.contact">İletişim</a>
+      </div>
     </header>
 
     <main>
       <section class="capabilities" data-theme="dark">
         <header class="section-heading">
-          <span class="section-heading__eyebrow">Gizlilik</span>
-          <h2>Gizlilik Politikası</h2>
+          <span class="section-heading__eyebrow" data-i18n="privacy.eyebrow">Gizlilik</span>
+          <h2 data-i18n="privacy.title">Gizlilik Politikası</h2>
         </header>
 
         <div class="capability-card">
-          <p>
+          <p data-i18n="privacy.p1">
             Autoviseo olarak kişisel verilerinizi yalnızca size geri dönüş yapmak ve hizmet talebinizi değerlendirmek
             amacıyla işleriz. İsim, e-posta ve otomasyon ihtiyacı bilgilerini iletişim formu üzerinden toplarız.
           </p>
           <ul>
-            <li>İşlenen veriler: isim, e-posta, mesaj/otomasyon ihtiyacı, sayfa adresi ve zaman damgası.</li>
-            <li>Hukuki dayanak: açık rıza ve talep üzerine sözleşme öncesi adımlar.</li>
-            <li>Saklama süresi: talebiniz sonuçlanana kadar ve yasal yükümlülükler kapsamında.</li>
-            <li>Paylaşım: yalnızca zorunlu hizmet sağlayıcılar (ör. n8n webhook altyapısı).</li>
-            <li>Haklarınız: erişim, düzeltme, silme, itiraz ve veri taşınabilirliği.</li>
+            <li data-i18n="privacy.li1">İşlenen veriler: isim, e-posta, mesaj/otomasyon ihtiyacı, sayfa adresi ve zaman damgası.</li>
+            <li data-i18n="privacy.li2">Hukuki dayanak: açık rıza ve talep üzerine sözleşme öncesi adımlar.</li>
+            <li data-i18n="privacy.li3">Saklama süresi: talebiniz sonuçlanana kadar ve yasal yükümlülükler kapsamında.</li>
+            <li data-i18n="privacy.li4">Paylaşım: yalnızca zorunlu hizmet sağlayıcılar (ör. n8n webhook altyapısı).</li>
+            <li data-i18n="privacy.li5">Haklarınız: erişim, düzeltme, silme, itiraz ve veri taşınabilirliği.</li>
           </ul>
           <p>
-            Herhangi bir talep için <a href="mailto:info@autoviseo.com">info@autoviseo.com</a> adresine yazabilirsiniz.
+            <span data-i18n="privacy.p2">Herhangi bir talep için</span>
+            <a href="mailto:info@autoviseo.com">info@autoviseo.com</a><span data-i18n="privacy.p2.after">adresine yazabilirsiniz.</span>
           </p>
         </div>
       </section>
     </main>
   </div>
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
