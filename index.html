@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Autoviseo | Dijital Otomasyon Ajansı</title>
-  <meta name="description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <title data-i18n="home.meta.title">Autoviseo | Dijital Otomasyon Ajansı</title>
+  <meta name="description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." data-i18n="home.meta.desc" data-i18n-attr="content" />
   <meta name="robots" content="index, follow" />
   <link rel="canonical" href="https://autoviseo.com/" />
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Autoviseo | Dijital Otomasyon Ajansı" />
-  <meta property="og:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <meta property="og:title" content="Autoviseo | Dijital Otomasyon Ajansı" data-i18n="home.meta.title" data-i18n-attr="content" />
+  <meta property="og:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." data-i18n="home.meta.desc" data-i18n-attr="content" />
   <meta property="og:url" content="https://autoviseo.com/" />
   <meta property="og:image" content="https://autoviseo.com/assets/images/og-image.svg" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Autoviseo | Dijital Otomasyon Ajansı" />
-  <meta name="twitter:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." />
+  <meta name="twitter:title" content="Autoviseo | Dijital Otomasyon Ajansı" data-i18n="home.meta.title" data-i18n-attr="content" />
+  <meta name="twitter:description" content="Autoviseo, iş süreçlerinizi otomasyonla hızlandırır: entegrasyonlar, CRM akışları, raporlama ve AI destekli iş akışları." data-i18n="home.meta.desc" data-i18n-attr="content" />
   <meta name="twitter:image" content="https://autoviseo.com/assets/images/og-image.svg" />
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
   <link rel="shortcut icon" href="/favicon.svg" type="image/svg+xml" />
@@ -60,34 +60,44 @@
       </a>
 
       <nav class="site-header__nav">
-        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
+        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false" data-i18n="header.toggle" data-i18n-attr="aria-label">
           <span></span><span></span><span></span>
         </button>
 
         <ul class="site-header__links">
-          <li><a href="#services">Hizmetler</a></li>
-          <li><a href="#contact">İletişim</a></li>
+          <li><a href="#services" data-i18n="nav.services">Hizmetler</a></li>
+          <li><a href="#contact" data-i18n="nav.contact">İletişim</a></li>
         </ul>
       </nav>
 
-      <a class="button button--sm" href="#contact">Ücretsiz Ön Analiz</a>
+      <div class="site-header__actions">
+        <div class="language-switcher">
+          <label class="sr-only" for="language-select" data-i18n="lang.label">Dil</label>
+          <select id="language-select" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+            <option value="tr">TR</option>
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+          </select>
+        </div>
+        <a class="button button--sm" href="#contact" data-i18n="header.cta">Ücretsiz Ön Analiz</a>
+      </div>
     </header>
 
     <main>
       <section class="hero" id="top" data-theme="dark">
         <div class="hero__content" data-animate>
-          <span class="hero__eyebrow">Dijital Otomasyon Ajansı</span>
+          <span class="hero__eyebrow" data-i18n="hero.eyebrow">Dijital Otomasyon Ajansı</span>
 
-          <h1>İşini otomasyonla hızlandır.</h1>
+          <h1 data-i18n="hero.title">İşini otomasyonla hızlandır.</h1>
 
-          <p>
+          <p data-i18n="hero.desc">
             Autoviseo; entegrasyonlar, CRM akışları, raporlama ve AI destekli otomasyonlarla
             operasyonlarını sadeleştirir. Az eforla daha çok çıktı.
           </p>
 
           <div class="hero__actions">
-            <a class="button" href="#contact">Görüşme planla</a>
-            <a class="button button--ghost" href="#services">Ne yapıyoruz?</a>
+            <a class="button" href="#contact" data-i18n="hero.primary">Görüşme planla</a>
+            <a class="button button--ghost" href="#services" data-i18n="hero.secondary">Ne yapıyoruz?</a>
           </div>
 
           <div class="hero__mini">
@@ -102,57 +112,57 @@
   <!-- Anlamlı içerik: örnek otomasyon akışı -->
   <div class="flow-card" data-parallax>
     <div class="flow-card__top">
-      <span class="flow-card__tag">Örnek Otomasyon</span>
-      <span class="flow-card__pill">3–7 gün</span>
+      <span class="flow-card__tag" data-i18n="flow.tag">Örnek Otomasyon</span>
+      <span class="flow-card__pill" data-i18n="flow.duration">3–7 gün</span>
     </div>
 
-    <h3 class="flow-card__title">Lead → CRM → Teklif → Bildirim</h3>
-    <p class="flow-card__subtitle">Teknik olmayan biri için bile anlaşılır bir akış.</p>
+    <h3 class="flow-card__title" data-i18n="flow.title">Lead → CRM → Teklif → Bildirim</h3>
+    <p class="flow-card__subtitle" data-i18n="flow.subtitle">Teknik olmayan biri için bile anlaşılır bir akış.</p>
 
-    <ol class="flow-steps" aria-label="Otomasyon adımları">
+    <ol class="flow-steps" aria-label="Otomasyon adımları" data-i18n="flow.steps.aria" data-i18n-attr="aria-label">
       <li>
         <span class="flow-dot"></span>
         <div>
-          <strong>Form / Mail gelir</strong>
-          <span>Web formu veya e-posta</span>
+          <strong data-i18n="flow.step1.title">Form / Mail gelir</strong>
+          <span data-i18n="flow.step1.desc">Web formu veya e-posta</span>
         </div>
       </li>
       <li>
         <span class="flow-dot"></span>
         <div>
-          <strong>CRM kaydı açılır</strong>
-          <span>Salesforce / HubSpot</span>
+          <strong data-i18n="flow.step2.title">CRM kaydı açılır</strong>
+          <span data-i18n="flow.step2.desc">Salesforce / HubSpot</span>
         </div>
       </li>
       <li>
         <span class="flow-dot"></span>
         <div>
-          <strong>Otomatik teklif/yanıt</strong>
-          <span>Şablon + AI destekli taslak</span>
+          <strong data-i18n="flow.step3.title">Otomatik teklif/yanıt</strong>
+          <span data-i18n="flow.step3.desc">Şablon + AI destekli taslak</span>
         </div>
       </li>
       <li>
         <span class="flow-dot"></span>
         <div>
-          <strong>Telegram bildirim</strong>
-          <span>Ekip anında haberdar</span>
+          <strong data-i18n="flow.step4.title">Telegram bildirim</strong>
+          <span data-i18n="flow.step4.desc">Ekip anında haberdar</span>
         </div>
       </li>
       <li>
         <span class="flow-dot"></span>
         <div>
-          <strong>Haftalık rapor</strong>
-          <span>Sheets / Airtable / DB</span>
+          <strong data-i18n="flow.step5.title">Haftalık rapor</strong>
+          <span data-i18n="flow.step5.desc">Sheets / Airtable / DB</span>
         </div>
       </li>
     </ol>
 
     <div class="flow-card__bottom">
       <div class="flow-mini">
-        <span class="flow-mini__k">Araçlar</span>
-        <span class="flow-mini__v">n8n · Webhooks · Sheets · Telegram</span>
+        <span class="flow-mini__k" data-i18n="flow.tools.label">Araçlar</span>
+        <span class="flow-mini__v" data-i18n="flow.tools.value">n8n · Webhooks · Sheets · Telegram</span>
       </div>
-      <a class="flow-card__link" href="#services">Diğer akışlar →</a>
+      <a class="flow-card__link" href="#services" data-i18n="flow.more">Diğer akışlar →</a>
     </div>
   </div>
 
@@ -173,68 +183,68 @@
 
       <section class="capabilities" id="services">
         <header class="section-heading" data-animate>
-          <span class="section-heading__eyebrow">Hizmetler</span>
-          <h2>Net, ölçülebilir otomasyonlar.</h2>
+          <span class="section-heading__eyebrow" data-i18n="services.eyebrow">Hizmetler</span>
+          <h2 data-i18n="services.title">Net, ölçülebilir otomasyonlar.</h2>
         </header>
 
         <div class="capabilities__grid">
           <article class="capability-card" data-animate>
-            <h3>Entegrasyon & İş Akışı</h3>
-            <p>Sistemlerini birbirine bağlar, manuel işleri otomatikleştiririz.</p>
+            <h3 data-i18n="services.card1.title">Entegrasyon & İş Akışı</h3>
+            <p data-i18n="services.card1.desc">Sistemlerini birbirine bağlar, manuel işleri otomatikleştiririz.</p>
             <ul>
-              <li>Webhook / API entegrasyonları</li>
-              <li>Google Sheets / Airtable veri akışları</li>
-              <li>Telegram / e-posta bildirimleri</li>
+              <li data-i18n="services.card1.item1">Webhook / API entegrasyonları</li>
+              <li data-i18n="services.card1.item2">Google Sheets / Airtable veri akışları</li>
+              <li data-i18n="services.card1.item3">Telegram / e-posta bildirimleri</li>
             </ul>
           </article>
 
           <article class="capability-card" data-animate>
-            <h3>CRM & RevOps</h3>
-            <p>Lead → fırsat → teklif → fatura akışlarını hızlandırırız.</p>
+            <h3 data-i18n="services.card2.title">CRM & RevOps</h3>
+            <p data-i18n="services.card2.desc">Lead → fırsat → teklif → fatura akışlarını hızlandırırız.</p>
             <ul>
-              <li>Salesforce akışları ve otomasyonlar</li>
-              <li>Pipeline hijyeni, görev otomasyonu</li>
-              <li>Raporlama ve dashboard</li>
+              <li data-i18n="services.card2.item1">Salesforce akışları ve otomasyonlar</li>
+              <li data-i18n="services.card2.item2">Pipeline hijyeni, görev otomasyonu</li>
+              <li data-i18n="services.card2.item3">Raporlama ve dashboard</li>
             </ul>
           </article>
 
           <article class="capability-card" data-animate>
-            <h3>AI Destekli Otomasyon</h3>
-            <p>İçerik, sınıflandırma ve özetleme işlerini AI ile ölçekleriz.</p>
+            <h3 data-i18n="services.card3.title">AI Destekli Otomasyon</h3>
+            <p data-i18n="services.card3.desc">İçerik, sınıflandırma ve özetleme işlerini AI ile ölçekleriz.</p>
             <ul>
-              <li>Otomatik e-posta/mesaj taslakları</li>
-              <li>Ticket/lead sınıflandırma</li>
-              <li>Bilgi tabanı / SOP üretimi</li>
+              <li data-i18n="services.card3.item1">Otomatik e-posta/mesaj taslakları</li>
+              <li data-i18n="services.card3.item2">Ticket/lead sınıflandırma</li>
+              <li data-i18n="services.card3.item3">Bilgi tabanı / SOP üretimi</li>
             </ul>
           </article>
 
           <article class="capability-card" data-animate>
-            <h3>Sosyal Medya İçerik Otomasyonu</h3>
-            <p>Kampanya, ürün/hizmet ve duyuru içeriklerini tek akışta üretip yayın planına bağlarız.</p>
+            <h3 data-i18n="services.card4.title">Sosyal Medya İçerik Otomasyonu</h3>
+            <p data-i18n="services.card4.desc">Kampanya, ürün/hizmet ve duyuru içeriklerini tek akışta üretip yayın planına bağlarız.</p>
             <ul>
-              <li>Haftalık/aylık içerik planı + otomatik taslak üretim</li>
-              <li>Ürün/hizmet bilgisinden post/story metni, brief ve hashtag seti</li>
-              <li>Onay akışı (WhatsApp/Telegram) + yayınlama hatırlatmaları</li>
+              <li data-i18n="services.card4.item1">Haftalık/aylık içerik planı + otomatik taslak üretim</li>
+              <li data-i18n="services.card4.item2">Ürün/hizmet bilgisinden post/story metni, brief ve hashtag seti</li>
+              <li data-i18n="services.card4.item3">Onay akışı (WhatsApp/Telegram) + yayınlama hatırlatmaları</li>
             </ul>
           </article>
 
           <article class="capability-card" data-animate>
-            <h3>WhatsApp Chatbot</h3>
-            <p>Sık soruları yanıtlayan, talep toplayan ve doğru ekibe yönlendiren botu kurarız.</p>
+            <h3 data-i18n="services.card5.title">WhatsApp Chatbot</h3>
+            <p data-i18n="services.card5.desc">Sık soruları yanıtlayan, talep toplayan ve doğru ekibe yönlendiren botu kurarız.</p>
             <ul>
-              <li>SSS + fiyatlandırma + süreç bilgilendirme otomasyonu</li>
-              <li>Form / teklif talebi → Sheets/CRM’e kayıt</li>
-              <li>Canlı destek devri + etiketleme/segmentasyon</li>
+              <li data-i18n="services.card5.item1">SSS + fiyatlandırma + süreç bilgilendirme otomasyonu</li>
+              <li data-i18n="services.card5.item2">Form / teklif talebi → Sheets/CRM’e kayıt</li>
+              <li data-i18n="services.card5.item3">Canlı destek devri + etiketleme/segmentasyon</li>
             </ul>
           </article>
 
           <article class="capability-card" data-animate>
-            <h3>Sesli Asistan & Çağrı Otomasyonu</h3>
-            <p>Telefonla gelen talepleri karşılayan, özetleyen ve sisteme düşüren sesli asistan kurarız.</p>
+            <h3 data-i18n="services.card6.title">Sesli Asistan & Çağrı Otomasyonu</h3>
+            <p data-i18n="services.card6.desc">Telefonla gelen talepleri karşılayan, özetleyen ve sisteme düşüren sesli asistan kurarız.</p>
             <ul>
-              <li>Gelen çağrı → ihtiyaç alma → otomatik özet + kayıt</li>
-              <li>Randevu/geri arama yönlendirme ve teyit mesajı</li>
-              <li>CRM/Sheets/Slack/Telegram entegrasyonu + takip görevi</li>
+              <li data-i18n="services.card6.item1">Gelen çağrı → ihtiyaç alma → otomatik özet + kayıt</li>
+              <li data-i18n="services.card6.item2">Randevu/geri arama yönlendirme ve teyit mesajı</li>
+              <li data-i18n="services.card6.item3">CRM/Sheets/Slack/Telegram entegrasyonu + takip görevi</li>
             </ul>
           </article>
         </div>
@@ -242,24 +252,24 @@
 
       <section class="cta" id="contact" data-theme="dark">
         <div class="cta__content" data-animate>
-          <span class="cta__eyebrow">İletişim</span>
-          <h2>Ne otomatikleştirmek istiyorsun?</h2>
-          <p>1–2 cümle yaz. Sana uygun bir yol haritasıyla geri döneyim.</p>
+          <span class="cta__eyebrow" data-i18n="cta.eyebrow">İletişim</span>
+          <h2 data-i18n="cta.title">Ne otomatikleştirmek istiyorsun?</h2>
+          <p data-i18n="cta.desc">1–2 cümle yaz. Sana uygun bir yol haritasıyla geri döneyim.</p>
 
           <form class="cta__form" novalidate>
             <div class="form-field">
-              <label for="name">İsim</label>
-              <input type="text" id="name" name="name" placeholder="Mustafa" maxlength="80" autocomplete="name" required />
+              <label for="name" data-i18n="form.name.label">İsim</label>
+              <input type="text" id="name" name="name" placeholder="Mustafa" maxlength="80" autocomplete="name" required data-i18n="form.name.placeholder" data-i18n-attr="placeholder" />
             </div>
 
             <div class="form-field">
-              <label for="email">E-posta</label>
-              <input type="email" id="email" name="email" placeholder="you@company.com" maxlength="254" autocomplete="email" required />
+              <label for="email" data-i18n="form.email.label">E-posta</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" maxlength="254" autocomplete="email" required data-i18n="form.email.placeholder" data-i18n-attr="placeholder" />
             </div>
 
             <div class="form-field">
-              <label for="message">Kısaca hedef</label>
-              <input type="text" id="message" name="message" placeholder="Örn: CRM → Telegram bildirimleri, teklif/fatura akışı..." maxlength="280" autocomplete="off" required />
+              <label for="message" data-i18n="form.message.label">Kısaca hedef</label>
+              <input type="text" id="message" name="message" placeholder="Örn: CRM → Telegram bildirimleri, teklif/fatura akışı..." maxlength="280" autocomplete="off" required data-i18n="form.message.placeholder" data-i18n-attr="placeholder" />
             </div>
 
             <div class="form-field form-field--hp" aria-hidden="true">
@@ -267,26 +277,32 @@
               <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
             </div>
 
-            <button class="button" type="submit">Gönder</button>
-            <p class="form-hint">İstersen doğrudan: <a href="mailto:info@autoviseo.com">info@autoviseo.com</a></p>
-            <p class="form-hint">Göndererek <a href="privacy.html">Gizlilik Politikası</a>'nı kabul etmiş olursun.</p>
+            <button class="button" type="submit" data-i18n="form.submit">Gönder</button>
+            <p class="form-hint">
+              <span data-i18n="form.hint.email.prefix">İstersen doğrudan:</span>
+              <a href="mailto:info@autoviseo.com">info@autoviseo.com</a>
+            </p>
+            <p class="form-hint">
+              <span data-i18n="form.hint.privacy.prefix">Göndererek</span>
+              <a href="privacy.html" data-i18n="form.hint.privacy.link">Gizlilik Politikası</a><span data-i18n="form.hint.privacy.suffix">'nı kabul etmiş olursun.</span>
+            </p>
           </form>
         </div>
 
         <!-- Sağ rozet: abartısız tut -->
         <div class="cta__badge" data-animate>
-          <span class="cta__badge-pill">Hızlı Başlangıç</span>
-          <strong>7 gün</strong>
-          <span class="cta__badge-promise">İlk çalışan otomasyonu canlıya alırız.</span>
-          <div class="cta__badge-steps" aria-label="Hızlı başlangıç adımları">
-            <span>Keşif → Akış Tasarımı → Canlıya Alma</span>
+          <span class="cta__badge-pill" data-i18n="badge.pill">Hızlı Başlangıç</span>
+          <strong data-i18n="badge.days">7 gün</strong>
+          <span class="cta__badge-promise" data-i18n="badge.promise">İlk çalışan otomasyonu canlıya alırız.</span>
+          <div class="cta__badge-steps" aria-label="Hızlı başlangıç adımları" data-i18n="badge.steps.aria" data-i18n-attr="aria-label">
+            <span data-i18n="badge.steps">Keşif → Akış Tasarımı → Canlıya Alma</span>
           </div>
-          <div class="cta__badge-chips" aria-label="Hızlı başlangıç detayları">
-            <span>1–2 görüşme</span>
-            <span>Net kapsam</span>
-            <span>Demo + dokümantasyon</span>
+          <div class="cta__badge-chips" aria-label="Hızlı başlangıç detayları" data-i18n="badge.chips.aria" data-i18n-attr="aria-label">
+            <span data-i18n="badge.chip1">1–2 görüşme</span>
+            <span data-i18n="badge.chip2">Net kapsam</span>
+            <span data-i18n="badge.chip3">Demo + dokümantasyon</span>
           </div>
-          <span class="cta__badge-cta">Formu doldur, 24 saat içinde yol haritasıyla döneyim.</span>
+          <span class="cta__badge-cta" data-i18n="badge.cta">Formu doldur, 24 saat içinde yol haritasıyla döneyim.</span>
         </div>
       </section>
     </main>
@@ -297,30 +313,30 @@
           <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
           <span>Autoviseo</span>
         </span>
-        <p>Otomasyon. Entegrasyon. Operasyonel sadeleşme.</p>
+        <p data-i18n="footer.tagline">Otomasyon. Entegrasyon. Operasyonel sadeleşme.</p>
       </div>
       <div class="site-footer__legal">
         <span>&copy; <span data-year></span> Autoviseo.</span>
         <div class="site-footer__legal-links">
-          <a href="privacy.html">Gizlilik Politikası</a>
-          <a href="cookies.html">Çerez Politikası</a>
-          <a href="legal.html">Yasal Bilgiler</a>
+          <a href="privacy.html" data-i18n="footer.privacy">Gizlilik Politikası</a>
+          <a href="cookies.html" data-i18n="footer.cookies">Çerez Politikası</a>
+          <a href="legal.html" data-i18n="footer.legal">Yasal Bilgiler</a>
         </div>
       </div>
     </footer>
   </div>
 
-  <div class="cookie-banner" role="dialog" aria-live="polite" aria-label="Çerez bildirimi">
+  <div class="cookie-banner" role="dialog" aria-live="polite" aria-label="Çerez bildirimi" data-i18n="cookie.aria" data-i18n-attr="aria-label">
     <div class="cookie-banner__content">
-      <strong>Çerez tercihleri</strong>
+      <strong data-i18n="cookie.title">Çerez tercihleri</strong>
       <p>
-        Zorunlu çerezler dışında analiz amaçlı çerezleri yalnızca onay verildiğinde kullanırız.
-        Detaylar için <a href="cookies.html">Çerez Politikası</a>'na göz atabilirsin.
+        <span data-i18n="cookie.desc">Zorunlu çerezler dışında analiz amaçlı çerezleri yalnızca onay verildiğinde kullanırız.</span>
+        <a href="cookies.html" data-i18n="cookie.link">Çerez Politikası</a><span data-i18n="cookie.after">'na göz atabilirsin.</span>
       </p>
     </div>
     <div class="cookie-banner__actions">
-      <button class="button button--ghost cookie-banner__reject" type="button">Reddet</button>
-      <button class="button cookie-banner__accept" type="button">Kabul et</button>
+      <button class="button button--ghost cookie-banner__reject" type="button" data-i18n="cookie.reject">Reddet</button>
+      <button class="button cookie-banner__accept" type="button" data-i18n="cookie.accept">Kabul et</button>
     </div>
   </div>
 

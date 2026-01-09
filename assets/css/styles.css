@@ -153,6 +153,29 @@ backdrop-filter: blur(12px);
     gap: 24px;
 }
 
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.language-switcher select {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0.55rem 1rem;
+    cursor: pointer;
+}
+
+.language-switcher select:focus-visible {
+    outline: 2px solid rgba(124, 92, 255, 0.7);
+    outline-offset: 2px;
+}
+
 .site-header__links {
     display: flex;
     gap: 24px;
