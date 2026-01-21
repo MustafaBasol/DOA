@@ -129,7 +129,7 @@ export class WebhooksController {
     }
   }
 
-  async healthCheck(req: Request, res: Response) {
+  async healthCheck(_req: Request, res: Response) {
     res.json({
       status: 'ok',
       service: 'n8n-webhook',

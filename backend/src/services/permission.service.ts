@@ -1,5 +1,6 @@
 import { prisma } from '../config/database';
-import { Role } from '@prisma/client';
+
+type Role = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
 
 interface PermissionCheck {
   resource: string;
@@ -33,7 +34,7 @@ class PermissionService {
     });
 
     const permissions = rolePermissions.map(
-      rp => `${rp.permission.resource}:${rp.permission.action}`
+      (rp: any) => `${rp.permission.resource}:${rp.permission.action}`
     );
 
     // Update cache
@@ -81,7 +82,7 @@ class PermissionService {
     const permissions = await this.getAllPermissions();
     
     const grouped: Record<string, typeof permissions> = {};
-    permissions.forEach(perm => {
+    permissions.forEach((perm: any) => {
       if (!grouped[perm.resource]) {
         grouped[perm.resource] = [];
       }
@@ -105,7 +106,7 @@ class PermissionService {
       }
     });
 
-    return rolePermissions.map(rp => ({
+    return rolePermissions.map((rp: any) => ({
       id: rp.id,
       resource: rp.permission.resource,
       action: rp.permission.action,

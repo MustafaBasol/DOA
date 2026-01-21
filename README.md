@@ -4,11 +4,16 @@
 
 WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, müşterilerin WhatsApp konuşmalarını görüntüleyebildiği, abonelik ve ödeme bilgilerini yönetebildiği tam kapsamlı bir yönetim sistemi.
 
+**Durum:** v1.5 - Production'a hazır (UI polishing devam ediyor)  
+**Son Güncelleme:** 21 Ocak 2026
+
 ## 🚀 Özellikler
 
 ### Güvenlik ve Kimlik Doğrulama
 - ✅ JWT tabanlı kimlik doğrulama (Access + Refresh tokens)
 - ✅ Rol tabanlı yetkilendirme (ADMIN/CLIENT)
+- ✅ **Permission sistemi (RBAC) - Detaylı yetki kontrolü**
+- ✅ **Audit logging - Tüm işlemler loglanıyor**
 - ✅ Şifre güvenliği (bcrypt, 12 rounds)
 - ✅ Rate limiting (IP bazlı)
 - ✅ CORS ve Helmet güvenlik başlıkları
@@ -19,6 +24,8 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ Şifre değiştirme
 - ✅ Arama ve filtreleme
 - ✅ Sayfalama desteği
+- ✅ **Permission-based access control**
+- ✅ **Audit trail tracking**
 
 ### WhatsApp Mesaj Yönetimi
 - ✅ n8n webhook entegrasyonu (tek yönlü: n8n → Panel)
@@ -27,7 +34,8 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ Gelen mesaj bildirimleri
 - ✅ Okundu işaretleme
 - ✅ Mesaj istatistikleri ve filtreleme
-- ✅ Real-time mesaj güncellemeleri (Socket.IO)
+- ✅ **Real-time mesaj güncellemeleri (Socket.IO)**
+- ✅ **Email notification (yeni mesaj geldiğinde)**
 
 **Not:** Panel'den WhatsApp mesaj gönderimi YOKTUR. Tüm mesajlaşma n8n workflow'unda yönetilir.
 
@@ -38,13 +46,55 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ Faturalama dönemleri (Aylık/3 Aylık/Yıllık)
 - ✅ Mesaj ve kullanıcı limitleri
 - ✅ İstatistikler ve raporlar
+- ✅ **Abonelik sona erme bildirimleri (email)**
 
 ### Dashboard ve Raporlama
 - ✅ Admin dashboard (genel istatistikler)
 - ✅ Client dashboard (kişisel istatistikler)
-- ✅ Grafik ve progress barlar
+- ✅ **Gelişmiş Analytics API**
+  - Mesaj trend analizi
+  - Müşteri büyüme grafiği
+  - Gelir analizi
+  - En aktif müşteriler
+  - Peak hours analizi
+- ✅ **Advanced Reports (Excel & PDF export)**
+- ✅ Grafik ve progress barlar (Chart.js)
 - ✅ Real-time güncellemeler
-- ✅ Hızlı erişim linkleri
+
+### Advanced Search
+- ✅ **Gelişmiş arama API**
+- ✅ **Kayıtlı aramalar**
+- ✅ **Kompleks filtreleme**
+- ✅ **Multi-entity search (mesajlar, müşteriler, ödemeler, abonelikler)**
+- ✅ Frontend search UI
+
+### Email Notification System
+- ✅ **Nodemailer email servisi**
+- ✅ **HTML email template'leri**
+  - Hoş geldin mesajı
+  - Yeni mesaj bildirimi
+  - Abonelik sona erme uyarısı
+  - Ödeme başarılı/başarısız
+  - Şifre sıfırlama
+- ✅ **Webhook entegrasyonu (otomatik email)**
+- ✅ **Subscription notification service**
+
+### Real-time Features
+- ✅ **Socket.IO server**
+- ✅ **WebSocket authentication**
+- ✅ **User-specific rooms**
+- ✅ **Admin broadcast**
+- ✅ **Typing indicators**
+- ✅ **Reconnection logic**
+- ✅ **Frontend socket client**
+
+### Permission & Audit System
+- ✅ **Permission middleware**
+- ✅ **Audit log middleware**
+- ✅ **Permission CRUD API**
+- ✅ **Audit log API (listeleme, filtreleme)**
+- ✅ **Critical route entegrasyonları**
+- 🟡 **UI (backend tamam, frontend geliştiriliyor)**
 
 ### Çok Dilli Destek
 - ✅ Türkçe (TR)
@@ -62,9 +112,15 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - **Authentication:** JWT (jsonwebtoken)
 - **Validation:** Joi v17.x
 - **Security:** Helmet, CORS, express-rate-limit
+- **Real-time:** Socket.IO v4.7.2
+- **Email:** Nodemailer
+- **Template Engine:** Handlebars (email templates)
+- **Reports:** ExcelJS, PDFKit
 
 ### Frontend
 - **Vanilla JavaScript** (ES6+)
+- **Socket.IO Client** v4.7.2
+- **Chart.js** (analytics graphs)
 - **HTML5 & CSS3**
 - **Fetch API** (async/await)
 - **LocalStorage** (token management)
@@ -81,23 +137,52 @@ DOA/
 │   ├── src/
 │   │   ├── config/            # Configuration
 │   │   ├── middleware/        # Express middleware
+│   │   │   ├── auth.ts        # JWT authentication
+│   │   │   ├── permission.ts  # Permission checks ✨
+│   │   │   ├── auditLog.ts    # Audit logging ✨
+│   │   │   └── ...
 │   │   ├── modules/           # Feature modules
 │   │   │   ├── auth/          # Authentication
 │   │   │   ├── users/         # User management
 │   │   │   ├── messages/      # WhatsApp messages
 │   │   │   ├── subscriptions/ # Subscriptions
 │   │   │   ├── payments/      # Payments
+│   │   │   ├── analytics/     # Advanced analytics ✨
+│   │   │   ├── reports/       # Report generation ✨
+│   │   │   ├── search/        # Advanced search ✨
+│   │   │   ├── notifications/ # Email service ✨
 │   │   │   └── webhooks/      # n8n webhooks
+│   │   ├── socket/            # Socket.IO server ✨
+│   │   ├── services/          # Business logic
+│   │   │   ├── permission.service.ts ✨
+│   │   │   └── audit.service.ts ✨
+│   │   ├── routes/            # Additional routes
 │   │   ├── utils/             # Utilities
 │   │   ├── app.ts             # Express app
 │   │   └── server.ts          # Server entry
 │   └── package.json
 ├── assets/
 │   ├── css/                   # Stylesheets
-│   ├── js/panel/              # Panel JavaScript
+│   ├── js/
+│   │   ├── socket-client.js   # Socket.IO client ✨
+│   │   └── panel/             # Panel JavaScript
+│   │       ├── analytics.js   # Analytics UI ✨
+│   │       ├── search.js      # Advanced search UI ✨
+│   │       ├── reports.js     # Reports UI ✨
+│   │       └── ...
 │   └── images/
 ├── docs/
-│   └── architecture-roadmap.md
+│   ├── architecture-roadmap.md
+│   ├── v2-roadmap.md
+│   ├── IMPLEMENTATION_STATUS.md ✨
+│   ├── advanced-search.md
+│   ├── analytics-dashboard.md
+│   ├── email-notifications.md
+│   ├── permissions-system.md
+│   ├── websocket.md
+│   └── ...
+├── *.html                     # HTML pages
+└── README.md
 ├── index.html                 # Landing page
 ├── login.html                 # Login page
 ├── dashboard.html             # Admin dashboard
@@ -233,9 +318,57 @@ GET    /payments             # Liste
 GET    /payments/stats       # İstatistikler
 GET    /payments/:id         # Detay
 GET    /payments/user/:userId/summary
-POST   /payments             # Oluştur (admin)
-PATCH  /payments/:id         # Güncelle (admin)
-DELETE /payments/:id         # Sil (admin)
+POST   /payments             # Oluştur (admin, permission required)
+PATCH  /payments/:id         # Güncelle (admin, permission required)
+DELETE /payments/:id         # Sil (admin, permission required)
+```
+
+### Analytics (`/api/analytics`) ✨
+```bash
+GET    /analytics/overview   # Genel bakış
+GET    /analytics/message-trends # Mesaj trend analizi
+GET    /analytics/customer-growth # Müşteri büyümesi
+GET    /analytics/revenue    # Gelir analizi
+GET    /analytics/top-customers # En aktif müşteriler
+GET    /analytics/peak-hours # Yoğun saatler
+```
+
+### Reports (`/api/reports`) ✨
+```bash
+POST   /reports/messages/export # Mesaj raporu (Excel/PDF)
+POST   /reports/customers/export # Müşteri raporu
+POST   /reports/payments/export # Ödeme raporu
+POST   /reports/subscriptions/export # Abonelik raporu
+GET    /reports/messages     # Mesaj istatistikleri
+GET    /reports/customers    # Müşteri istatistikleri
+GET    /reports/revenue      # Gelir raporu
+```
+
+### Search (`/api/search`) ✨
+```bash
+POST   /search               # Gelişmiş arama
+GET    /search/fields/:entity # Alan bilgileri
+GET    /search/saved         # Kayıtlı aramalar
+POST   /search/saved         # Arama kaydet
+PATCH  /search/saved/:id     # Arama güncelle
+DELETE /search/saved/:id     # Arama sil
+```
+
+### Permissions (`/api/permissions`) ✨
+```bash
+GET    /permissions          # Tüm izinler
+GET    /permissions/role/:role # Role göre izinler
+POST   /permissions          # İzin oluştur (admin)
+PATCH  /permissions/:id      # İzin güncelle (admin)
+DELETE /permissions/:id      # İzin sil (admin)
+```
+
+### Audit (`/api/audit`) ✨
+```bash
+GET    /audit                # Audit log listesi
+GET    /audit/:id            # Log detayı
+GET    /audit/user/:userId   # Kullanıcı logları
+GET    /audit/resource/:resource # Kaynak logları
 ```
 
 ## 🔧 n8n Webhook Entegrasyonu

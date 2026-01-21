@@ -56,7 +56,7 @@ export class SubscriptionController {
    */
   static async getSubscriptionById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const subscription = await SubscriptionService.getSubscriptionById(id);
 
       res.json({
@@ -78,7 +78,7 @@ export class SubscriptionController {
    */
   static async getActiveSubscription(req: Request, res: Response) {
     try {
-      const userId = parseInt(req.params.userId);
+      const userId = req.params.userId;
       const subscription = await SubscriptionService.getActiveSubscription(userId);
 
       res.json({
@@ -124,7 +124,7 @@ export class SubscriptionController {
    */
   static async updateSubscription(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const data = { ...req.body };
 
       // Convert date strings to Date objects
@@ -152,7 +152,7 @@ export class SubscriptionController {
    */
   static async cancelSubscription(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const subscription = await SubscriptionService.cancelSubscription(id);
 
       res.json({
@@ -174,7 +174,7 @@ export class SubscriptionController {
    */
   static async deleteSubscription(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       await SubscriptionService.deleteSubscription(id);
 
       res.json({

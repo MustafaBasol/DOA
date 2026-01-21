@@ -1,9 +1,12 @@
-import { PrismaClient, Subscription, SubscriptionStatus, BillingCycle } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+type BillingCycle = 'MONTHLY' | 'YEARLY';
+type SubscriptionStatus = 'ACTIVE' | 'CANCELED' | 'EXPIRED' | 'PAUSED';
+
 interface CreateSubscriptionDto {
-  userId: number;
+  userId: string;
   planName: string;
   planPrice: number;
   billingCycle: BillingCycle;
@@ -83,7 +86,7 @@ export class SubscriptionService {
   /**
    * Get subscription by ID
    */
-  static async getSubscriptionById(id: number) {
+  static async getSubscriptionById(id: string) {
     const subscription = await prisma.subscription.findUnique({
       where: { id },
       include: {
@@ -108,7 +111,7 @@ export class SubscriptionService {
   /**
    * Get active subscription for a user
    */
-  static async getActiveSubscription(userId: number) {
+  static async getActiveSubscription(userId: string) {
     const subscription = await prisma.subscription.findFirst({
       where: {
         userId,
@@ -167,7 +170,7 @@ export class SubscriptionService {
   /**
    * Update subscription
    */
-  static async updateSubscription(id: number, data: UpdateSubscriptionDto) {
+  static async updateSubscription(id: string, data: UpdateSubscriptionDto) {
     // Check if subscription exists
     await this.getSubscriptionById(id);
 
@@ -192,9 +195,9 @@ export class SubscriptionService {
   /**
    * Cancel subscription
    */
-  static async cancelSubscription(id: number) {
+  static async cancelSubscription(id: string) {
     const subscription = await this.updateSubscription(id, {
-      status: 'CANCELLED',
+      status: 'CANCELED',
       autoRenew: false,
     });
 
@@ -204,7 +207,7 @@ export class SubscriptionService {
   /**
    * Delete subscription (hard delete)
    */
-  static async deleteSubscription(id: number) {
+  static async deleteSubscription(id: string) {
     // Check if subscription exists
     await this.getSubscriptionById(id);
 
@@ -243,7 +246,7 @@ export class SubscriptionService {
 
     const [active, cancelled, expired, suspended] = await Promise.all([
       prisma.subscription.count({ where: { ...where, status: 'ACTIVE' } }),
-      prisma.subscription.count({ where: { ...where, status: 'CANCELLED' } }),
+      prisma.subscription.count({ where: { ...where, status: 'CANCELED' } }),
       prisma.subscription.count({ where: { ...where, status: 'EXPIRED' } }),
       prisma.subscription.count({ where: { ...where, status: 'SUSPENDED' } }),
     ]);

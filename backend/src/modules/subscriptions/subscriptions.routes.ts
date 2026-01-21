@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { SubscriptionController } from './subscriptions.controller';
 import { authenticate } from '../../middleware/auth';
+import { checkPermission } from '../../middleware/permission';
+import { auditLog } from '../../middleware/auditLog';
 import { validate } from '../../middleware/validation';
 import {
   createSubscriptionSchema,
@@ -32,6 +34,8 @@ router.get('/:id', SubscriptionController.getSubscriptionById);
 // Create subscription (admin only)
 router.post(
   '/',
+  checkPermission('subscriptions', 'create'),
+  auditLog('create_subscription', 'subscriptions'),
   validate(createSubscriptionSchema),
   SubscriptionController.createSubscription
 );
@@ -39,14 +43,25 @@ router.post(
 // Update subscription (admin only)
 router.patch(
   '/:id',
+  checkPermission('subscriptions', 'update'),
+  auditLog('update_subscription', 'subscriptions'),
   validate(updateSubscriptionSchema),
   SubscriptionController.updateSubscription
 );
 
 // Cancel subscription
-router.post('/:id/cancel', SubscriptionController.cancelSubscription);
+router.post(
+  '/:id/cancel',
+  auditLog('cancel_subscription', 'subscriptions'),
+  SubscriptionController.cancelSubscription
+);
 
 // Delete subscription (admin only)
-router.delete('/:id', SubscriptionController.deleteSubscription);
+router.delete(
+  '/:id',
+  checkPermission('subscriptions', 'delete'),
+  auditLog('delete_subscription', 'subscriptions'),
+  SubscriptionController.deleteSubscription
+);
 
 export default router;

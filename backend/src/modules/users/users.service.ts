@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { hashPassword, comparePassword, validatePasswordStrength } from '../../utils/password';
 import { AppError } from '../../middleware/errorHandler';
 import { emailService } from '../notifications/email.service';
@@ -31,7 +31,7 @@ export class UsersService {
       data: {
         email: data.email,
         passwordHash,
-        role: Role.CLIENT,
+        role: 'CLIENT',
         fullName: data.fullName,
         companyName: data.companyName,
         phone: data.phone,
@@ -72,14 +72,14 @@ export class UsersService {
 
     const where = search
       ? {
-          role: Role.CLIENT,
+          role: 'CLIENT',
           OR: [
             { email: { contains: search, mode: 'insensitive' as const } },
             { fullName: { contains: search, mode: 'insensitive' as const } },
             { companyName: { contains: search, mode: 'insensitive' as const } },
           ],
         }
-      : { role: Role.CLIENT };
+      : { role: 'CLIENT' };
 
     const [users, total] = await Promise.all([
       prisma.user.findMany({

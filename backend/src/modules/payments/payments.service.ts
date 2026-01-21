@@ -1,10 +1,13 @@
-import { PrismaClient, Payment, PaymentStatus, PaymentMethod } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+type PaymentStatus = 'PENDING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
+type PaymentMethod = 'CREDIT_CARD' | 'BANK_TRANSFER' | 'PAYPAL' | 'CASH' | 'OTHER';
+
 interface CreatePaymentDto {
-  userId: number;
-  subscriptionId?: number;
+  userId: string;
+  subscriptionId?: string;
   amount: number;
   currency?: string;
   paymentMethod: PaymentMethod;
@@ -69,8 +72,6 @@ export class PaymentService {
             select: {
               id: true,
               planName: true,
-              planPrice: true,
-              billingCycle: true,
             },
           },
         },
@@ -95,7 +96,7 @@ export class PaymentService {
   /**
    * Get payment by ID
    */
-  static async getPaymentById(id: number) {
+  static async getPaymentById(id: string) {
     const payment = await prisma.payment.findUnique({
       where: { id },
       include: {
@@ -111,8 +112,6 @@ export class PaymentService {
           select: {
             id: true,
             planName: true,
-            planPrice: true,
-            billingCycle: true,
           },
         },
       },
@@ -159,7 +158,7 @@ export class PaymentService {
         ...data,
         currency: data.currency || 'TRY',
         status: 'PENDING',
-      },
+      } as any,
       include: {
         user: {
           select: {
@@ -173,8 +172,6 @@ export class PaymentService {
           select: {
             id: true,
             planName: true,
-            planPrice: true,
-            billingCycle: true,
           },
         },
       },
@@ -186,7 +183,7 @@ export class PaymentService {
   /**
    * Update payment
    */
-  static async updatePayment(id: number, data: UpdatePaymentDto) {
+  static async updatePayment(id: string, data: UpdatePaymentDto) {
     // Check if payment exists
     await this.getPaymentById(id);
 
@@ -206,8 +203,6 @@ export class PaymentService {
           select: {
             id: true,
             planName: true,
-            planPrice: true,
-            billingCycle: true,
           },
         },
       },
@@ -219,7 +214,7 @@ export class PaymentService {
   /**
    * Delete payment (hard delete)
    */
-  static async deletePayment(id: number) {
+  static async deletePayment(id: string) {
     // Check if payment exists
     await this.getPaymentById(id);
 
@@ -258,7 +253,7 @@ export class PaymentService {
   /**
    * Get payment summary for a user (for client dashboard)
    */
-  static async getUserPaymentSummary(userId: number) {
+  static async getUserPaymentSummary(userId: string) {
     const [lastPayment, stats, recentPayments] = await Promise.all([
       prisma.payment.findFirst({
         where: { userId, status: 'COMPLETED' },

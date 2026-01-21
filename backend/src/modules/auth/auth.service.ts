@@ -80,7 +80,7 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string) {
     // Verify refresh token
-    const decoded = verifyToken(refreshToken);
+    verifyToken(refreshToken);
 
     // Check if token exists in database
     const tokenRecord = await prisma.refreshToken.findUnique({

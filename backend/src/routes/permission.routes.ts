@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { permissionController } from '../controllers/permission.controller';
-import { authMiddleware } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 import { checkPermission, requireAdmin } from '../middleware/permission';
 
 const router = Router();
 
 // All routes require authentication and role management permission
-router.use(authMiddleware);
+router.use(authenticate);
 
 // Get all permissions
 router.get(

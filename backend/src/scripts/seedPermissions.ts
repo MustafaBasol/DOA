@@ -1,6 +1,8 @@
-import { PrismaClient, Role } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
+
+type Role = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
 
 const permissions = [
   // User permissions
@@ -140,7 +142,7 @@ async function seedPermissions() {
   
   const allPermissions = await prisma.permission.findMany();
   const permissionMap = new Map(
-    allPermissions.map(p => [`${p.resource}:${p.action}`, p.id])
+    allPermissions.map((p: any) => [`${p.resource}:${p.action}`, p.id])
   );
   
   for (const [role, permKeys] of Object.entries(rolePermissions)) {
@@ -174,7 +176,7 @@ async function seedPermissions() {
     _count: true,
   });
   
-  summary.forEach(({ role, _count }) => {
+  summary.forEach(({ role, _count }: any) => {
     console.log(`  ${role}: ${_count} permissions`);
   });
 }

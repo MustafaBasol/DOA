@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { auditController } from '../controllers/audit.controller';
-import { authMiddleware } from '../middleware/auth';
+import { authenticate } from '../middleware/auth';
 import { checkPermission } from '../middleware/permission';
 
 const router = Router();
 
 // All routes require authentication and audit read permission
-router.use(authMiddleware);
+router.use(authenticate);
 
 // Get audit logs with filters
 router.get(

@@ -1,5 +1,6 @@
 import { prisma } from '../../config/database';
-import { Role, SearchEntity } from '@prisma/client';
+
+type SearchEntity = 'MESSAGES' | 'CUSTOMERS' | 'PAYMENTS' | 'SUBSCRIPTIONS';
 
 // Search filter interfaces
 export interface SearchFilter {
@@ -168,7 +169,7 @@ class SearchService {
 
     // Enrich with user data
     const data = await Promise.all(
-      paginatedCustomers.map(async (customer) => {
+      paginatedCustomers.map(async (customer: any) => {
         const user = await prisma.user.findUnique({
           where: { id: customer.userId },
           select: {
@@ -451,7 +452,7 @@ class SearchService {
 
     const searchParams: SearchParams = {
       entity: savedSearch.entity,
-      filters: savedSearch.filters as SearchFilter[],
+        filters: (savedSearch.filters as unknown) as SearchFilter[],
       userId,
       ...additionalParams
     };

@@ -1,7 +1,13 @@
-import { PrismaClient, MessageDirection } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { AppError } from '../../middleware/errorHandler';
 
 const prisma = new PrismaClient();
+
+// MessageDirection as const for runtime usage
+const MessageDirection = {
+  INBOUND: 'INBOUND',
+  OUTBOUND: 'OUTBOUND'
+} as const;
 
 export class MessagesService {
   async createMessage(data: any) {
@@ -130,7 +136,7 @@ export class MessagesService {
 
     // Get unread count for each conversation
     const conversationsWithUnread = await Promise.all(
-      conversations.map(async (conv) => {
+      conversations.map(async (conv: any) => {
         const unreadCount = await prisma.whatsappMessage.count({
           where: {
             userId,

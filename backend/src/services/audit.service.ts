@@ -158,7 +158,7 @@ class AuditService {
     const resourceCounts: Record<string, number> = {};
     const userCounts: Record<string, number> = {};
 
-    logs.forEach(log => {
+    logs.forEach((log: any) => {
       actionCounts[log.action] = (actionCounts[log.action] || 0) + 1;
       resourceCounts[log.resource] = (resourceCounts[log.resource] || 0) + 1;
       if (log.userId) {

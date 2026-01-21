@@ -65,14 +65,15 @@ export class AuditController {
   }
 
   // Get activity statistics
-  async getActivityStats(req: Request, res: Response) {
+  async getActivityStats(req: Request, res: Response): Promise<void> {
     try {
       const { startDate, endDate } = req.query;
 
       if (!startDate || !endDate) {
-        return res.status(400).json({
+        res.status(400).json({
           error: 'startDate and endDate are required'
         });
+        return;
       }
 
       const stats = await auditService.getActivityStats(

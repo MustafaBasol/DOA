@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import { permissionService } from '../services/permission.service';
 import { auditService } from '../services/audit.service';
-import { Role } from '@prisma/client';
+
+type Role = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
 
 export class PermissionController {
   // Get all permissions
-  async getAllPermissions(req: Request, res: Response) {
+  async getAllPermissions(_req: Request, res: Response): Promise<void> {
     try {
       const permissions = await permissionService.getAllPermissions();
       res.json(permissions);
@@ -15,7 +16,7 @@ export class PermissionController {
   }
 
   // Get permissions grouped by resource
-  async getPermissionsByResource(req: Request, res: Response) {
+  async getPermissionsByResource(_req: Request, res: Response): Promise<void> {
     try {
       const grouped = await permissionService.getPermissionsByResource();
       res.json(grouped);
@@ -25,7 +26,7 @@ export class PermissionController {
   }
 
   // Get all roles with their permissions
-  async getAllRoles(req: Request, res: Response) {
+  async getAllRoles(_req: Request, res: Response): Promise<void> {
     try {
       const roles: Role[] = ['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'CLIENT'];
       
@@ -47,12 +48,13 @@ export class PermissionController {
   }
 
   // Get permissions for specific role
-  async getRolePermissions(req: Request, res: Response) {
+  async getRolePermissions(req: Request, res: Response): Promise<void> {
     try {
       const { role } = req.params;
 
       if (!['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'CLIENT'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role' });
+        res.status(400).json({ error: 'Invalid role' });
+        return;
       }
 
       const permissions = await permissionService.getRolePermissionsDetailed(role as Role);
@@ -68,17 +70,19 @@ export class PermissionController {
   }
 
   // Assign permission to role
-  async assignPermission(req: Request, res: Response) {
+  async assignPermission(req: Request, res: Response): Promise<void> {
     try {
       const { role } = req.params;
       const { permissionId } = req.body;
 
       if (!['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'CLIENT'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role' });
+        res.status(400).json({ error: 'Invalid role' });
+        return;
       }
 
       if (!permissionId) {
-        return res.status(400).json({ error: 'Permission ID is required' });
+        res.status(400).json({ error: 'Permission ID is required' });
+        return;
       }
 
       const rolePermission = await permissionService.assignPermissionToRole(
@@ -103,12 +107,13 @@ export class PermissionController {
   }
 
   // Remove permission from role
-  async removePermission(req: Request, res: Response) {
+  async removePermission(req: Request, res: Response): Promise<void> {
     try {
       const { role, permissionId } = req.params;
 
       if (!['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'CLIENT'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role' });
+        res.status(400).json({ error: 'Invalid role' });
+        return;
       }
 
       const result = await permissionService.removePermissionFromRole(
@@ -135,17 +140,19 @@ export class PermissionController {
   }
 
   // Sync role permissions (replace all)
-  async syncRolePermissions(req: Request, res: Response) {
+  async syncRolePermissions(req: Request, res: Response): Promise<void> {
     try {
       const { role } = req.params;
       const { permissionIds } = req.body;
 
       if (!['SUPER_ADMIN', 'ADMIN', 'MANAGER', 'CLIENT'].includes(role)) {
-        return res.status(400).json({ error: 'Invalid role' });
+        res.status(400).json({ error: 'Invalid role' });
+        return;
       }
 
       if (!Array.isArray(permissionIds)) {
-        return res.status(400).json({ error: 'permissionIds must be an array' });
+        res.status(400).json({ error: 'permissionIds must be an array' });
+        return;
       }
 
       const permissions = await permissionService.syncRolePermissions(
@@ -177,7 +184,7 @@ export class PermissionController {
   }
 
   // Get user's effective permissions
-  async getUserPermissions(req: Request, res: Response) {
+  async getUserPermissions(req: Request, res: Response): Promise<void> {
     try {
       const { userId } = req.params;
 
@@ -188,7 +195,8 @@ export class PermissionController {
       });
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'User not found' });
+        return;
       }
 
       const permissions = await permissionService.getRolePermissionsDetailed(user.role);
@@ -206,15 +214,16 @@ export class PermissionController {
   }
 
   // Check if user has permission
-  async checkUserPermission(req: Request, res: Response) {
+  async checkUserPermission(req: Request, res: Response): Promise<void> {
     try {
       const { userId } = req.params;
       const { resource, action } = req.body;
 
       if (!resource || !action) {
-        return res.status(400).json({ 
+        res.status(400).json({ 
           error: 'resource and action are required' 
         });
+        return;
       }
 
       // Get user to find their role
@@ -224,7 +233,8 @@ export class PermissionController {
       });
 
       if (!user) {
-        return res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: 'User not found' });
+        return;
       }
 
       const hasPermission = await permissionService.hasPermission(
@@ -246,7 +256,7 @@ export class PermissionController {
   }
 
   // Clear permission cache
-  async clearCache(req: Request, res: Response) {
+  async clearCache(req: Request, res: Response): Promise<void> {
     try {
       const { role } = req.query;
 

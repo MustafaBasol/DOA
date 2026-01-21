@@ -60,7 +60,7 @@ export class PaymentController {
    */
   static async getUserPaymentSummary(req: Request, res: Response) {
     try {
-      const userId = parseInt(req.params.userId);
+      const userId = req.params.userId;
       const summary = await PaymentService.getUserPaymentSummary(userId);
 
       res.json({
@@ -81,7 +81,7 @@ export class PaymentController {
    */
   static async getPaymentById(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const payment = await PaymentService.getPaymentById(id);
 
       res.json({
@@ -124,7 +124,7 @@ export class PaymentController {
    */
   static async updatePayment(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       const payment = await PaymentService.updatePayment(id, req.body);
 
       res.json({
@@ -146,7 +146,7 @@ export class PaymentController {
    */
   static async deletePayment(req: Request, res: Response) {
     try {
-      const id = parseInt(req.params.id);
+      const id = req.params.id;
       await PaymentService.deletePayment(id);
 
       res.json({

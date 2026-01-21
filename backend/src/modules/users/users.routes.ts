@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { UsersController } from './users.controller';
-import { authenticate, authorize } from '../../middleware/auth';
+import { authenticate } from '../../middleware/auth';
 import { checkPermission } from '../../middleware/permission';
 import { auditLog } from '../../middleware/auditLog';
 import { validate } from '../../middleware/validation';
@@ -44,10 +44,12 @@ router.patch(
   (req, res, next) => usersController.updateUser(req, res, next)
 );
 
-router.delete('/:id', authenticate, checkPermission('users', 'delete'), auditLog('delete_user', 'users
-
-router.delete('/:id', authenticate, authorize('ADMIN'), (req, res, next) =>
-  usersController.deleteUser(req, res, next)
+router.delete(
+  '/:id', 
+  authenticate, 
+  checkPermission('users', 'delete'), 
+  auditLog('delete_user', 'users'),
+  (req, res, next) => usersController.deleteUser(req, res, next)
 );
 
 // Profile routes (both admin and client)

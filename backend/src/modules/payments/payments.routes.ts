@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { PaymentController } from './payments.controller';
 import { authenticate } from '../../middleware/auth';
+import { checkPermission } from '../../middleware/permission';
+import { auditLog } from '../../middleware/auditLog';
 import { validate } from '../../middleware/validation';
 import {
   createPaymentSchema,
@@ -32,6 +34,8 @@ router.get('/:id', PaymentController.getPaymentById);
 // Create payment (admin only)
 router.post(
   '/',
+  checkPermission('payments', 'create'),
+  auditLog('create_payment', 'payments'),
   validate(createPaymentSchema),
   PaymentController.createPayment
 );
@@ -39,11 +43,18 @@ router.post(
 // Update payment (admin only)
 router.patch(
   '/:id',
+  checkPermission('payments', 'update'),
+  auditLog('update_payment', 'payments'),
   validate(updatePaymentSchema),
   PaymentController.updatePayment
 );
 
 // Delete payment (admin only)
-router.delete('/:id', PaymentController.deletePayment);
+router.delete(
+  '/:id', 
+  checkPermission('payments', 'delete'),
+  auditLog('delete_payment', 'payments'),
+  PaymentController.deletePayment
+);
 
 export default router;

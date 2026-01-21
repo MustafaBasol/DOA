@@ -275,7 +275,7 @@ export class AnalyticsService {
       outboundMessages,
       uniqueCustomers,
       totalRevenue,
-      averageResponseTime,
+      // averageResponseTime,
     ] = await Promise.all([
       // Toplam mesaj
       prisma.whatsappMessage.count({ where }),

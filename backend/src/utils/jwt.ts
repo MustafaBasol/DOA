@@ -9,12 +9,13 @@ export function generateAccessToken(payload: {
 }): string {
   const jwtPayload: JwtPayload = {
     sub: payload.id,
+    id: payload.id,
     email: payload.email,
     role: payload.role,
   };
 
   return jwt.sign(jwtPayload, jwtConfig.secret, {
-    expiresIn: jwtConfig.accessExpiry,
+    expiresIn: jwtConfig.accessExpiry as any,
   });
 }
 
@@ -25,12 +26,13 @@ export function generateRefreshToken(payload: {
 }): string {
   const jwtPayload: JwtPayload = {
     sub: payload.id,
+    id: payload.id,
     email: payload.email,
     role: payload.role,
   };
 
   return jwt.sign(jwtPayload, jwtConfig.secret, {
-    expiresIn: jwtConfig.refreshExpiry,
+    expiresIn: jwtConfig.refreshExpiry as any,
   });
 }
 

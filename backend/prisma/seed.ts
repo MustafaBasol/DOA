@@ -1,7 +1,13 @@
-import { PrismaClient, Role, Language } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
+// Node.js process tanımı
+declare const process: NodeJS.Process;
+
 const prisma = new PrismaClient();
+
+type Role = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
+type Language = 'TR' | 'EN' | 'FR';
 
 async function main() {
   console.log('🌱 Starting database seed...');
@@ -15,10 +21,10 @@ async function main() {
     create: {
       email: 'admin@autoviseo.com',
       passwordHash: adminPasswordHash,
-      role: Role.ADMIN,
+      role: 'ADMIN' as Role,
       fullName: 'System Administrator',
       companyName: 'Autoviseo',
-      language: Language.TR,
+      language: 'TR' as Language,
       isActive: true,
     },
   });
@@ -26,7 +32,7 @@ async function main() {
   console.log('✅ Admin user created:', admin.email);
 
   // Örnek test müşterisi (development için)
-  if (process.env.NODE_ENV === 'development') {
+  if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'development') {
     const clientPasswordHash = await bcrypt.hash('Client123!', 12);
     
     const client = await prisma.user.upsert({
@@ -35,12 +41,12 @@ async function main() {
       create: {
         email: 'test@example.com',
         passwordHash: clientPasswordHash,
-        role: Role.CLIENT,
+        role: 'CLIENT' as Role,
         fullName: 'Test Client',
         companyName: 'Test Company',
         phone: '+905551234567',
         whatsappNumber: '+905551234567',
-        language: Language.TR,
+        language: 'TR' as Language,
         isActive: true,
         createdByUserId: admin.id,
       },
@@ -83,7 +89,7 @@ async function main() {
 main()
   .catch((e) => {
     console.error('❌ Seed error:', e);
-    process.exit(1);
+    if (typeof process !== 'undefined') process.exit(1);
   })
   .finally(async () => {
     await prisma.$disconnect();

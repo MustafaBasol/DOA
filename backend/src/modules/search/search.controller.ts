@@ -1,7 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { searchService, SearchParams, SavedSearchInput } from './search.service';
 import { AppError } from '../../middleware/errorHandler';
-import { SearchEntity } from '@prisma/client';
+
+type SearchEntity = 'MESSAGES' | 'CUSTOMERS' | 'PAYMENTS' | 'SUBSCRIPTIONS';
+const VALID_ENTITIES: SearchEntity[] = ['MESSAGES', 'CUSTOMERS', 'PAYMENTS', 'SUBSCRIPTIONS'];
 
 class SearchController {
   // Perform search
@@ -10,12 +12,12 @@ class SearchController {
       const { entity, filters, sortBy, sortOrder, page, limit } = req.body;
 
       if (!entity || !filters) {
-        throw new AppError('Entity and filters are required', 400);
+        throw new AppError(400, 'Entity and filters are required');
       }
 
       // Validate entity
-      if (!Object.values(SearchEntity).includes(entity)) {
-        throw new AppError('Invalid entity type', 400);
+      if (!VALID_ENTITIES.includes(entity)) {
+        throw new AppError(400, 'Invalid entity type');
       }
 
       const searchParams: SearchParams = {
@@ -46,7 +48,7 @@ class SearchController {
       const { entity, q, field = 'all', page = '1', limit = '20' } = req.query;
 
       if (!entity || !q) {
-        throw new AppError('Entity and search query (q) are required', 400);
+        throw new AppError(400, 'Entity and search query (q) are required');
       }
 
       // Build filters based on entity and field
@@ -128,7 +130,7 @@ class SearchController {
       const input: SavedSearchInput = req.body;
 
       if (!input.name || !input.entity || !input.filters) {
-        throw new AppError('Name, entity, and filters are required', 400);
+        throw new AppError(400, 'Name, entity, and filters are required');
       }
 
       const savedSearch = await searchService.createSavedSearch(req.user!.id, input);
@@ -163,7 +165,7 @@ class SearchController {
       const savedSearch = await searchService.getSavedSearchById(id, req.user!.id);
 
       if (!savedSearch) {
-        throw new AppError('Saved search not found', 404);
+        throw new AppError(404, 'Saved search not found');
       }
 
       res.json(savedSearch);
@@ -181,7 +183,7 @@ class SearchController {
       const result = await searchService.updateSavedSearch(id, req.user!.id, input);
 
       if (result.count === 0) {
-        throw new AppError('Saved search not found', 404);
+        throw new AppError(404, 'Saved search not found');
       }
 
       res.json({ message: 'Saved search updated successfully' });
@@ -198,7 +200,7 @@ class SearchController {
       const result = await searchService.deleteSavedSearch(id, req.user!.id);
 
       if (result.count === 0) {
-        throw new AppError('Saved search not found', 404);
+        throw new AppError(404, 'Saved search not found');
       }
 
       res.json({ message: 'Saved search deleted successfully' });

@@ -1,29 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
-import { Role } from '@prisma/client';
 import { permissionService } from '../services/permission.service';
 import { AppError } from './errorHandler';
 
-// Extend Express Request type
-declare global {
-  namespace Express {
-    interface Request {
-      user?: {
-        id: string;
-        email: string;
-        role: Role;
-      };
-    }
-  }
-}
+type Role = 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
+
 
 // Check if user has specific permission
 export const checkPermission = (resource: string, action: string) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, ___res: Response, next: NextFunction) => {
     try {
       const user = req.user;
 
       if (!user) {
-        throw new AppError('Authentication required', 401);
+        throw new AppError(401, 'Authentication required');
       }
 
       // SUPER_ADMIN has all permissions
@@ -32,15 +21,15 @@ export const checkPermission = (resource: string, action: string) => {
       }
 
       const hasPermission = await permissionService.hasPermission(
-        user.role,
+        user.role as Role,
         resource,
         action
       );
 
       if (!hasPermission) {
         throw new AppError(
-          `Permission denied: ${resource}:${action}`,
-          403
+          403,
+          `Permission denied: ${resource}:${action}`
         );
       }
 
@@ -53,12 +42,12 @@ export const checkPermission = (resource: string, action: string) => {
 
 // Check if user has ANY of the specified permissions (OR logic)
 export const checkAnyPermission = (...permissions: Array<[string, string]>) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, __res: Response, next: NextFunction) => {
     try {
       const user = req.user;
 
       if (!user) {
-        throw new AppError('Authentication required', 401);
+        throw new AppError(401, 'Authentication required');
       }
 
       // SUPER_ADMIN has all permissions
@@ -72,14 +61,14 @@ export const checkAnyPermission = (...permissions: Array<[string, string]>) => {
       }));
 
       const hasAnyPermission = await permissionService.hasAnyPermission(
-        user.role,
+        user.role as Role,
         checks
       );
 
       if (!hasAnyPermission) {
         throw new AppError(
-          'Permission denied: insufficient privileges',
-          403
+          403,
+          'Permission denied: insufficient privileges'
         );
       }
 
@@ -92,12 +81,12 @@ export const checkAnyPermission = (...permissions: Array<[string, string]>) => {
 
 // Check if user has ALL of the specified permissions (AND logic)
 export const checkAllPermissions = (...permissions: Array<[string, string]>) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (req: Request, __res: Response, next: NextFunction) => {
     try {
       const user = req.user;
 
       if (!user) {
-        throw new AppError('Authentication required', 401);
+        throw new AppError(401, 'Authentication required');
       }
 
       // SUPER_ADMIN has all permissions
@@ -111,14 +100,14 @@ export const checkAllPermissions = (...permissions: Array<[string, string]>) => 
       }));
 
       const hasAllPermissions = await permissionService.hasAllPermissions(
-        user.role,
+        user.role as Role,
         checks
       );
 
       if (!hasAllPermissions) {
         throw new AppError(
-          'Permission denied: insufficient privileges',
-          403
+          403,
+          'Permission denied: insufficient privileges'
         );
       }
 
@@ -131,15 +120,15 @@ export const checkAllPermissions = (...permissions: Array<[string, string]>) => 
 
 // Check if user has specific role
 export const checkRole = (...roles: Role[]) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, __res: Response, next: NextFunction) => {
     try {
       const user = req.user;
 
       if (!user) {
-        throw new AppError('Authentication required', 401);
+        throw new AppError(401, 'Authentication required');
       }
 
-      if (!roles.includes(user.role)) {
+      if (!roles.includes(user.role as Role)) {
         throw new AppError(
           `Access denied: requires one of ${roles.join(', ')} role`,
           403
