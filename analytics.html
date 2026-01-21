@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analitik Dashboard - DOA CRM</title>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>DOA CRM</h1>
+            </div>
+            <nav class="nav-menu">
+                <a href="/client.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/messages.html" class="nav-item">
+                    <span class="icon">💬</span>
+                    <span>Mesajlar</span>
+                </a>
+                <a href="/customers.html" class="nav-item">
+                    <span class="icon">👥</span>
+                    <span>Müşteriler</span>
+                </a>
+                <a href="/payments.html" class="nav-item">
+                    <span class="icon">💳</span>
+                    <span>Ödemeler</span>
+                </a>
+                <a href="/analytics.html" class="nav-item active">
+                    <span class="icon">📈</span>
+                    <span>Analitik</span>
+                </a>
+                <a href="/reports.html" class="nav-item">
+                    <span class="icon">📄</span>
+                    <span>Raporlar</span>
+                </a>
+                <a href="/settings.html" class="nav-item">
+                    <span class="icon">⚙️</span>
+                    <span>Ayarlar</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn-logout">
+                    <span class="icon">🚪</span>
+                    <span>Çıkış</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="page-header">
+                <div class="header-left">
+                    <h1 class="page-title">Analitik Dashboard</h1>
+                    <p class="page-subtitle">İş performansınızı takip edin</p>
+                </div>
+                <div class="header-right">
+                    <button id="refreshAnalytics" class="btn btn-secondary">
+                        <span class="icon">🔄</span>
+                        Yenile
+                    </button>
+                </div>
+            </header>
+
+            <!-- Loading State -->
+            <div id="analyticsLoading" class="loading-overlay hidden">
+                <div class="spinner"></div>
+                <p>Veriler yükleniyor...</p>
+            </div>
+
+            <!-- Analytics Container -->
+            <div id="analyticsContainer" class="analytics-container">
+                <!-- Period Selector -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Zaman Aralığı</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="period-selector">
+                            <select id="periodSelector" class="form-select">
+                                <option value="today">Bugün</option>
+                                <option value="yesterday">Dün</option>
+                                <option value="last7days" selected>Son 7 Gün</option>
+                                <option value="last30days">Son 30 Gün</option>
+                                <option value="thisMonth">Bu Ay</option>
+                                <option value="lastMonth">Geçen Ay</option>
+                                <option value="thisYear">Bu Yıl</option>
+                                <option value="custom">Özel Tarih</option>
+                            </select>
+                            <div id="customDateRange" class="custom-date-range hidden">
+                                <input type="date" id="startDate" class="form-input">
+                                <span>-</span>
+                                <input type="date" id="endDate" class="form-input">
+                                <button id="applyDateRange" class="btn btn-primary">Uygula</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overview Stats -->
+                <div class="stats-grid">
+                    <!-- Message Stats -->
+                    <div class="card stat-card">
+                        <div class="stat-icon blue">💬</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Toplam Mesaj</h4>
+                            <p id="totalMessages" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon green">📥</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Gelen Mesajlar</h4>
+                            <p id="inboundMessages" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon purple">📤</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Giden Mesajlar</h4>
+                            <p id="outboundMessages" class="stat-value">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Customer Stats -->
+                    <div class="card stat-card">
+                        <div class="stat-icon orange">👥</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Toplam Müşteri</h4>
+                            <p id="totalCustomers" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon cyan">✨</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Yeni Müşteriler</h4>
+                            <p id="newCustomers" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon pink">🔥</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Aktif Müşteriler</h4>
+                            <p id="activeCustomers" class="stat-value">0</p>
+                        </div>
+                    </div>
+
+                    <!-- Revenue Stats -->
+                    <div class="card stat-card">
+                        <div class="stat-icon green">💰</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Toplam Gelir</h4>
+                            <p id="totalRevenue" class="stat-value">0 ₺</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon blue">💳</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Ödeme Sayısı</h4>
+                            <p id="totalPayments" class="stat-value">0</p>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon purple">📊</div>
+                        <div class="stat-content">
+                            <h4 class="stat-label">Ortalama Ödeme</h4>
+                            <p id="averagePayment" class="stat-value">0 ₺</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 1 -->
+                <div class="charts-grid">
+                    <!-- Message Trends -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Mesaj Trendleri</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="messageTrendsChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Customer Growth -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Müşteri Büyümesi</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="customerGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 2 -->
+                <div class="charts-grid">
+                    <!-- Revenue Analysis -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title">Gelir Analizi</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="revenueChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Top Customers -->
+                    <div class="card chart-card">
+                        <div class="card-header">
+                            <h3 class="card-title">En Çok Mesaj Gönderen Müşteriler</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="topCustomersChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row 3 -->
+                <div class="charts-grid">
+                    <!-- Peak Hours -->
+                    <div class="card chart-card full-width">
+                        <div class="card-header">
+                            <h3 class="card-title">Yoğun Mesajlaşma Saatleri</h3>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="peakHoursChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="/assets/js/panel/analytics.js"></script>
+    <script>
+        // Period selector change handler
+        document.getElementById('periodSelector')?.addEventListener('change', (e) => {
+            const customRange = document.getElementById('customDateRange');
+            if (e.target.value === 'custom') {
+                customRange.classList.remove('hidden');
+            } else {
+                customRange.classList.add('hidden');
+            }
+        });
+
+        // Logout handler
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/index.html';
+        });
+    </script>
+
+    <style>
+        .analytics-container {
+            padding: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .stat-icon.blue { background: rgba(59, 130, 246, 0.1); }
+        .stat-icon.green { background: rgba(16, 185, 129, 0.1); }
+        .stat-icon.purple { background: rgba(139, 92, 246, 0.1); }
+        .stat-icon.orange { background: rgba(245, 158, 11, 0.1); }
+        .stat-icon.cyan { background: rgba(6, 182, 212, 0.1); }
+        .stat-icon.pink { background: rgba(236, 72, 153, 0.1); }
+
+        .stat-content {
+            flex: 1;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: bold;
+            margin: 0;
+            color: #111827;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            min-height: 400px;
+        }
+
+        .chart-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .chart-card .card-body {
+            height: 350px;
+            padding: 1.5rem;
+        }
+
+        .period-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-select, .form-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-select {
+            min-width: 200px;
+        }
+
+        .custom-date-range {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .loading-overlay.hidden {
+            display: none;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #f3f4f6;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -13,6 +13,8 @@ import webhooksRoutes from './modules/webhooks/webhooks.routes';
 import subscriptionsRoutes from './modules/subscriptions/subscriptions.routes';
 import paymentsRoutes from './modules/payments/payments.routes';
 import reportsRoutes from './modules/reports/reports.routes';
+import analyticsRoutes from './modules/analytics/analytics.routes';
+import searchRoutes from './modules/search/search.routes';
 
 const app: Application = express();
 
@@ -47,6 +49,8 @@ app.use('/api/webhooks', webhooksRoutes);
 app.use('/api/subscriptions', subscriptionsRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/reports', reportsRoutes);
+app.use('/api/analytics', analyticsRoutes);
+app.use('/api/search', searchRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

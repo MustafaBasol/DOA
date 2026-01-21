@@ -66,9 +66,27 @@ httpServer.listen(PORT, () => {
   console.log('  GET  /api/reports/subscriptions/excel');
   console.log('  GET  /api/reports/messages/pdf');
   console.log('  GET  /api/reports/payments/pdf');
+  console.log('  GET  /api/analytics/message-trends');
+  console.log('  GET  /api/analytics/customer-growth');
+  console.log('  GET  /api/analytics/revenue');
+  console.log('  GET  /api/analytics/top-customers');
+  console.log('  GET  /api/analytics/peak-hours');
+  console.log('  GET  /api/analytics/overview');
+  console.log('  GET  /api/analytics/comparative');
+  console.log('  POST /api/search');
+  console.log('  GET  /api/search/quick');
+  console.log('  GET  /api/search/fields/:entity');
+  console.log('  POST /api/search/saved');
+  console.log('  GET  /api/search/saved');
+  console.log('  GET  /api/search/saved/:id');
+  console.log('  PATCH /api/search/saved/:id');
+  console.log('  DELETE /api/search/saved/:id');
+  console.log('  POST /api/search/saved/:id/execute');
   console.log('');
   console.log('🔌 WebSocket: Enabled (Socket.IO)');
   console.log('📊 Reports: Excel & PDF export enabled');
+  console.log('📈 Analytics: Real-time metrics & charts');
+  console.log('🔍 Search: Advanced filters & saved searches');
   console.log('');
   console.log('✅ Ready to accept connections!');
   
