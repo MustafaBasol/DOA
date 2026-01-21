@@ -65,8 +65,29 @@ const mockPrismaClient = {
     create: jest.fn(),
     findUnique: jest.fn(),
     findMany: jest.fn(),
+    findFirst: jest.fn(),
+    update: jest.fn(),
+    updateMany: jest.fn(),
+    delete: jest.fn(),
+    deleteMany: jest.fn(),
+  },
+  customer: {
+    create: jest.fn(),
+    findUnique: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
+    count: jest.fn(),
+  },
+  refreshToken: {
+    create: jest.fn(),
+    findUnique: jest.fn(),
+    findMany: jest.fn(),
+    findFirst: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+    deleteMany: jest.fn(),
   },
   $disconnect: jest.fn(),
 };
@@ -85,11 +106,6 @@ process.env.NODE_ENV = 'test';
 process.env.JWT_SECRET = 'test-jwt-secret';
 process.env.JWT_REFRESH_SECRET = 'test-jwt-refresh-secret';
 process.env.DATABASE_URL = 'postgresql://test:test@localhost:5432/test_db';
-
-// Clear all mocks after each test
-afterEach(() => {
-  jest.clearAllMocks();
-});
 
 // Clear all mocks after each test
 afterEach(() => {
