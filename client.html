@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Müşteri Paneli | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1 data-i18n="client.dashboard">Kontrol Paneli</h1>
+      <p id="welcomeMessage"></p>
+    </div>
+    <div>
+      <button onclick="logout()" class="btn-primary" data-i18n="nav.logout">
+        Çıkış Yap
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <h2>🎉 Müşteri Paneli Hazır!</h2>
+    <p>WhatsApp chatbot yönetim sisteminize hoş geldiniz.</p>
+    
+    <div style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 0.5rem;">
+      <h3>✅ Aktif Özellikler:</h3>
+      <ul style="line-height: 1.8;">
+        <li>✅ Güvenli giriş sistemi</li>
+        <li>✅ Profil yönetimi</li>
+        <li>✅ Çok dilli arayüz</li>
+      </ul>
+
+      <h3 style="margin-top: 2rem;">🔜 Yakında:</h3>
+      <ul style="line-height: 1.8;">
+        <li>WhatsApp mesajlarınızı görüntüleme</li>
+        <li>Müşterilerinizle yazışmalar</li>
+        <li>Ödeme geçmişi ve faturalar</li>
+        <li>Profil düzenleme</li>
+      </ul>
+
+      <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-radius: 0.5rem;">
+        <strong>💡 İpucu:</strong> Sisteminiz hazır! n8n webhook'ları aktif hale geldiğinde WhatsApp mesajlarınız bu panelde görünecek.
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/auth.js"></script>
+  <script>
+    // Display welcome message
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getUser();
+      if (user) {
+        document.getElementById('welcomeMessage').textContent = 
+          `Hoş geldiniz, ${user.fullName || user.companyName || user.email}`;
+      }
+    });
+  </script>
+</body>
+</html>

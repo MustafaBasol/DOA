@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1 data-i18n="admin.dashboard">Yönetim Paneli</h1>
+      <p id="welcomeMessage"></p>
+    </div>
+    <div>
+      <button onclick="logout()" class="btn-primary" data-i18n="nav.logout">
+        Çıkış Yap
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <h2>🎉 Admin Panel Hazır!</h2>
+    <p>Backend API başarıyla çalışıyor ve kimlik doğrulama sistemi aktif.</p>
+    
+    <div style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 0.5rem;">
+      <h3>✅ Tamamlanan İşlemler:</h3>
+      <ul style="line-height: 1.8;">
+        <li>✅ Backend API kurulumu (Node.js + Express + TypeScript)</li>
+        <li>✅ PostgreSQL veritabanı ve Prisma ORM</li>
+        <li>✅ JWT kimlik doğrulama sistemi</li>
+        <li>✅ User CRUD endpoint'leri</li>
+        <li>✅ Admin ve Client rolleri</li>
+        <li>✅ Login sayfası ve frontend</li>
+        <li>✅ Çok dilli destek (TR/EN/FR)</li>
+      </ul>
+
+      <h3 style="margin-top: 2rem;">📋 Sıradaki Adımlar:</h3>
+      <ul style="line-height: 1.8;">
+        <li>Müşteri listesi ve yönetim arayüzü</li>
+        <li>Mesajlaşma modülü</li>
+        <li>Ödeme takip sistemi</li>
+        <li>n8n webhook entegrasyonu</li>
+        <li>Dashboard istatistikleri</li>
+      </ul>
+
+      <div style="margin-top: 2rem; padding: 1rem; background: #f0f9ff; border-radius: 0.5rem;">
+        <strong>🔐 Test Hesapları:</strong><br/>
+        Admin: admin@autoviseo.com / Admin123!<br/>
+        Client: test@example.com / Client123!
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/auth.js"></script>
+  <script>
+    // Display welcome message
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getUser();
+      if (user) {
+        document.getElementById('welcomeMessage').textContent = 
+          `Hoş geldiniz, ${user.fullName || user.email}`;
+      }
+    });
+  </script>
+</body>
+</html>
