@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="stylesheet" href="/assets/css/panel.css" />
   <link rel="stylesheet" href="/assets/css/client.css" />
+  <link rel="stylesheet" href="/assets/css/dashboard.css" />
 </head>
 <body class="dashboard">
   <div class="dashboard-header">
@@ -23,8 +24,13 @@
   </div>
 
   <div class="dashboard-content" style="padding: 0; max-width: 100%; height: calc(100vh - 120px); overflow-y: auto;">
+    <!-- Dashboard Stats -->
+    <div id="clientDashboardStats" style="padding: 1.5rem;">
+      <!-- Stats will be loaded here -->
+    </div>
+
     <!-- Stats Row -->
-    <div class="stats-row" style="padding: 1.5rem; padding-bottom: 0;">
+    <div class="stats-row" style="padding: 0 1.5rem 1.5rem;">
       <div class="stat-card-small">
         <div class="stat-label">Toplam Mesaj</div>
         <div class="stat-value" id="statTotal">0</div>
@@ -92,6 +98,7 @@
   <script src="/assets/js/panel/auth.js"></script>
   <script src="/assets/js/panel/client.js"></script>
   <script src="/assets/js/panel/payments.js"></script>
+  <script src="/assets/js/panel/dashboard.js"></script>
   <script>
     // Display welcome message
     document.addEventListener('DOMContentLoaded', () => {
@@ -101,9 +108,17 @@
           `Hoş geldiniz, ${user.fullName || user.companyName || user.email}`;
       }
       
+      // Load dashboard stats
+      loadClientDashboard();
+      
       // Load subscription and payment info
       loadActiveSubscription();
       loadPaymentSummary();
+      
+      // Refresh dashboard every 60 seconds
+      setInterval(() => {
+        loadClientDashboard();
+      }, 60000);
     });
   </script>
 </body>

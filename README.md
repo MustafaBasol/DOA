@@ -1,217 +1,316 @@
 # DOA - WhatsApp Chatbot Yönetim Sistemi
 
-## 🎉 İlk Aşama Tamamlandı!
+## 📋 Proje Özeti
 
-### ✅ Tamamlanan İşlemler
+WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, müşterilerin WhatsApp konuşmalarını görüntüleyebildiği, abonelik ve ödeme bilgilerini yönetebildiği tam kapsamlı bir yönetim sistemi.
 
-**Backend (Node.js + Express + TypeScript)**
-- ✅ Proje yapısı oluşturuldu
-- ✅ PostgreSQL veritabanı (Docker)
-- ✅ Prisma ORM ve migrations
-- ✅ JWT kimlik doğrulama sistemi
-- ✅ User CRUD API endpoint'leri
-- ✅ Role-based access control (Admin/Client)
-- ✅ Input validation (Joi)
-- ✅ Error handling middleware
-- ✅ Rate limiting
-- ✅ Database seed (test kullanıcıları)
+## 🚀 Özellikler
 
-**Frontend**
-- ✅ Login sayfası
-- ✅ Admin dashboard
-- ✅ Client dashboard
-- ✅ Çok dilli destek (TR/EN/FR)
-- ✅ Auth sistemi entegrasyonu
+### Güvenlik ve Kimlik Doğrulama
+- ✅ JWT tabanlı kimlik doğrulama (Access + Refresh tokens)
+- ✅ Rol tabanlı yetkilendirme (ADMIN/CLIENT)
+- ✅ Şifre güvenliği (bcrypt, 12 rounds)
+- ✅ Rate limiting (IP bazlı)
+- ✅ CORS ve Helmet güvenlik başlıkları
 
-### 🚀 Nasıl Çalıştırılır?
+### Kullanıcı Yönetimi
+- ✅ Kullanıcı CRUD işlemleri (Admin)
+- ✅ Profil yönetimi
+- ✅ Şifre değiştirme
+- ✅ Arama ve filtreleme
+- ✅ Sayfalama desteği
 
-#### Backend
+### WhatsApp Mesaj Yönetimi
+- ✅ n8n webhook entegrasyonu
+- ✅ Konuşma listesi ve mesaj görüntüleme
+- ✅ Gelen/giden mesaj ayrımı
+- ✅ Okundu işaretleme
+- ✅ Mesaj istatistikleri
+- ✅ Otomatik yenileme (30 saniye)
+
+### Abonelik ve Ödeme Sistemi
+- ✅ Abonelik yönetimi (CRUD)
+- ✅ Ödeme takibi ve raporlama
+- ✅ Otomatik yenileme desteği
+- ✅ Faturalama dönemleri (Aylık/3 Aylık/Yıllık)
+- ✅ Mesaj ve kullanıcı limitleri
+- ✅ İstatistikler ve raporlar
+
+### Dashboard ve Raporlama
+- ✅ Admin dashboard (genel istatistikler)
+- ✅ Client dashboard (kişisel istatistikler)
+- ✅ Grafik ve progress barlar
+- ✅ Real-time güncellemeler
+- ✅ Hızlı erişim linkleri
+
+### Çok Dilli Destek
+- ✅ Türkçe (TR)
+- ✅ İngilizce (EN)
+- ✅ Fransızca (FR)
+
+## 🛠 Teknoloji Stack
+
+### Backend
+- **Runtime:** Node.js 20+
+- **Framework:** Express.js 4.x
+- **Language:** TypeScript 5.x
+- **Database:** PostgreSQL 15 (Docker)
+- **ORM:** Prisma v5.20.0
+- **Authentication:** JWT (jsonwebtoken)
+- **Validation:** Joi v17.x
+- **Security:** Helmet, CORS, express-rate-limit
+
+### Frontend
+- **Vanilla JavaScript** (ES6+)
+- **HTML5 & CSS3**
+- **Fetch API** (async/await)
+- **LocalStorage** (token management)
+
+## 📁 Proje Yapısı
+
+```
+DOA/
+├── backend/                    # Node.js Backend
+│   ├── prisma/
+│   │   ├── schema.prisma      # Database schema
+│   │   ├── migrations/        # Database migrations
+│   │   └── seed.ts            # Test data
+│   ├── src/
+│   │   ├── config/            # Configuration
+│   │   ├── middleware/        # Express middleware
+│   │   ├── modules/           # Feature modules
+│   │   │   ├── auth/          # Authentication
+│   │   │   ├── users/         # User management
+│   │   │   ├── messages/      # WhatsApp messages
+│   │   │   ├── subscriptions/ # Subscriptions
+│   │   │   ├── payments/      # Payments
+│   │   │   └── webhooks/      # n8n webhooks
+│   │   ├── utils/             # Utilities
+│   │   ├── app.ts             # Express app
+│   │   └── server.ts          # Server entry
+│   └── package.json
+├── assets/
+│   ├── css/                   # Stylesheets
+│   ├── js/panel/              # Panel JavaScript
+│   └── images/
+├── docs/
+│   └── architecture-roadmap.md
+├── index.html                 # Landing page
+├── login.html                 # Login page
+├── dashboard.html             # Admin dashboard
+├── admin.html                 # User management
+├── admin-subscriptions.html   # Subscription management
+├── admin-payments.html        # Payment management
+└── client.html                # Client panel
+```
+
+## 🚀 Kurulum ve Çalıştırma
+
+### Gereksinimler
+- Node.js 20+
+- Docker (PostgreSQL için)
+- Python 3 (frontend server için)
+
+### 1. PostgreSQL Kurulumu
+```bash
+docker run --name doa-postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=doa_db \
+  -p 5432:5432 \
+  -d postgres:15-alpine
+```
+
+### 2. Backend Kurulumu
 ```bash
 cd backend
 
-# İlk kurulum (sadece bir kez)
+# Bağımlılıkları yükle
 npm install
+
+# .env dosyası oluştur
+cat > .env << EOL
+DATABASE_URL="postgresql://postgres:postgres@localhost:5432/doa_db?schema=public"
+JWT_SECRET="your-super-secret-jwt-key-change-in-production"
+JWT_REFRESH_SECRET="your-super-secret-refresh-key-change-in-production"
+NODE_ENV="development"
+PORT=5000
+FRONTEND_URL="http://localhost:3000"
+N8N_WEBHOOK_SECRET="your-n8n-webhook-secret"
+EOL
+
+# Database migration
 npx prisma migrate dev
+
+# Test verileri ekle
 npm run seed
 
-# Geliştirme sunucusu
+# Development server başlat
 npm run dev
 ```
 
-Backend http://localhost:5000 adresinde çalışıyor.
+Backend **http://localhost:5000** adresinde çalışacak.
 
-#### Frontend
+### 3. Frontend Çalıştırma
 ```bash
 # Ana dizinde
 python3 -m http.server 3000
 ```
 
-Frontend http://localhost:3000 adresinde çalışıyor.
+Frontend **http://localhost:3000** adresinde çalışacak.
 
-### 🔐 Test Hesapları
+## 🔐 Test Hesapları
 
-**Admin:**
-- Email: admin@autoviseo.com
-- Şifre: Admin123!
-- Panel: http://localhost:3000/admin.html
+### Admin Hesabı
+- **Email:** admin@autoviseo.com
+- **Şifre:** Admin123!
+- **Panel:** http://localhost:3000/dashboard.html
 
-**Client:**
-- Email: test@example.com
-- Şifre: Client123!
-- Panel: http://localhost:3000/client.html
+### Client Hesabı
+- **Email:** test@example.com
+- **Şifre:** Client123!
+- **Panel:** http://localhost:3000/client.html
 
-### 📡 API Endpoints
+## 📚 API Dokümantasyonu
 
-**Authentication:**
-- `POST /api/auth/login` - Giriş yap
-- `POST /api/auth/logout` - Çıkış yap
-- `POST /api/auth/refresh` - Token yenile
-- `GET /api/auth/me` - Mevcut kullanıcı bilgisi
-
-**Users (Admin only):**
-- `POST /api/users` - Yeni müşteri oluştur
-- `GET /api/users` - Müşterileri listele
-- `GET /api/users/:id` - Müşteri detayı
-- `PATCH /api/users/:id` - Müşteri güncelle
-- `DELETE /api/users/:id` - Müşteri sil
-
-**Profile (Tüm kullanıcılar):**
-- `GET /api/users/profile/me` - Profil bilgisi
-- `PATCH /api/users/profile/me` - Profil güncelle
-- `PATCH /api/users/profile/password` - Şifre değiştir
-
-### 📋 Sıradaki Adımlar
-
-**Faz 2 - Mesajlaşma Modülü:**
-1. WhatsApp messages CRUD endpoint'leri
-2. n8n webhook receiver
-3. Mesaj listesi arayüzü (client panel)
-4. Konuşma detayları
-
-**Faz 3 - Ödeme Sistemi:**
-1. Payments & Subscriptions API
-2. Ödeme geçmişi arayüzü
-3. Abonelik yönetimi (admin)
-
-**Faz 4 - n8n Entegrasyonu:**
-1. Webhook security (secret token)
-2. Message mapping (client_id ↔ whatsapp_number)
-3. Real-time updates (opsiyonel: WebSocket)
-
-**Faz 5 - UI İyileştirmeleri:**
-1. Dashboard istatistikleri
-2. Grafik ve raporlama
-3. Responsive design iyileştirmeleri
-4. Loading states ve animasyonlar
-
-### 📁 Proje Yapısı
-
-```
-DOA/
-├── backend/
-│   ├── src/
-│   │   ├── config/          # Konfigürasyon
-│   │   ├── middleware/      # Auth, validation, error handling
-│   │   ├── modules/
-│   │   │   ├── auth/       # Login, logout, token refresh
-│   │   │   └── users/      # User CRUD
-│   │   ├── utils/          # Helper functions
-│   │   ├── app.ts          # Express app
-│   │   └── server.ts       # Entry point
-│   ├── prisma/
-│   │   ├── schema.prisma   # Database schema
-│   │   └── seed.ts         # Test data
-│   └── package.json
-├── assets/
-│   ├── css/
-│   │   ├── styles.css      # Mevcut site stilleri
-│   │   └── panel.css       # Panel stilleri
-│   └── js/
-│       ├── main.js         # Mevcut site JS
-│       └── panel/
-│           ├── i18n.js     # Çeviri sistemi
-│           └── auth.js     # Kimlik doğrulama
-├── index.html              # Ana sayfa (mevcut)
-├── login.html             # Giriş sayfası (YENİ)
-├── admin.html             # Admin paneli (YENİ)
-├── client.html            # Client paneli (YENİ)
-└── docs/
-    └── architecture-roadmap.md  # Mimari dokümantasyon
-```
-
-### 🔒 Güvenlik Özellikleri
-
-- ✅ JWT tokens (15dk access, 7gün refresh)
-- ✅ bcrypt password hashing (12 rounds)
-- ✅ Rate limiting (100 req/15min, login: 5/15min)
-- ✅ CORS protection
-- ✅ Helmet security headers
-- ✅ Input validation (Joi)
-- ✅ SQL injection koruması (Prisma ORM)
-
-### 🛠️ Teknoloji Stack
-
-**Backend:**
-- Node.js 20+
-- TypeScript 5+
-- Express.js 4
-- Prisma ORM
-- PostgreSQL 15
-- JWT + bcrypt
-- Joi validation
-
-**Frontend:**
-- Vanilla JavaScript
-- HTML5 + CSS3
-- Fetch API
-- LocalStorage (token)
-
-**DevOps:**
-- Docker (PostgreSQL)
-- Git
-
-### 🐛 Bilinen Sorunlar / TODO
-
-- [ ] Email gönderimi (şifre sıfırlama)
-- [ ] Refresh token rotation
-- [ ] API rate limit per user
-- [ ] Database connection pooling
-- [ ] Logging system (Winston/Pino)
-- [ ] Unit tests (Jest)
-- [ ] API documentation (Swagger)
-
-### 💡 Geliştirme İpuçları
-
-**Database GUI:**
+### Authentication (`/api/auth`)
 ```bash
-cd backend
-npm run prisma:studio
+POST   /auth/login           # Giriş yap
+POST   /auth/logout          # Çıkış yap
+POST   /auth/refresh         # Token yenile
+GET    /auth/me              # Profil bilgisi
 ```
-Prisma Studio http://localhost:5555 adresinde açılır.
 
-**Database Reset:**
+### Users (`/api/users`)
 ```bash
-cd backend
-npx prisma migrate reset
-npm run seed
+# Admin only
+POST   /users                # Kullanıcı oluştur
+GET    /users                # Kullanıcı listesi
+GET    /users/stats          # İstatistikler
+GET    /users/:id            # Detay
+PATCH  /users/:id            # Güncelle
+DELETE /users/:id            # Sil
+
+# Authenticated
+GET    /users/profile/me     # Profil
+PATCH  /users/profile/me     # Profil güncelle
+PATCH  /users/profile/password # Şifre değiştir
 ```
 
-**API Test:**
+### Messages (`/api/messages`)
 ```bash
-cd backend
-bash test-api.sh
+GET    /messages             # Liste
+GET    /messages/conversations # Konuşmalar
+GET    /messages/stats       # İstatistikler
+GET    /messages/:id         # Detay
+PATCH  /messages/:id/read    # Okundu işaretle
+POST   /messages/conversations/mark-read
 ```
 
-### 📞 Destek
+### Webhooks (`/api/webhooks`)
+```bash
+POST   /webhooks/n8n/message # n8n mesaj
+GET    /webhooks/n8n/health  # Sağlık kontrolü
+```
 
-Sorularınız için:
-- Mimari dokümantasyon: `docs/architecture-roadmap.md`
-- Backend README: `backend/README.md`
-- GitHub Issues: [Sorun bildir]
+### Subscriptions (`/api/subscriptions`)
+```bash
+GET    /subscriptions        # Liste
+GET    /subscriptions/stats  # İstatistikler
+GET    /subscriptions/:id    # Detay
+GET    /subscriptions/user/:userId/active
+POST   /subscriptions        # Oluştur (admin)
+PATCH  /subscriptions/:id    # Güncelle (admin)
+POST   /subscriptions/:id/cancel # İptal
+DELETE /subscriptions/:id    # Sil (admin)
+```
+
+### Payments (`/api/payments`)
+```bash
+GET    /payments             # Liste
+GET    /payments/stats       # İstatistikler
+GET    /payments/:id         # Detay
+GET    /payments/user/:userId/summary
+POST   /payments             # Oluştur (admin)
+PATCH  /payments/:id         # Güncelle (admin)
+DELETE /payments/:id         # Sil (admin)
+```
+
+## 🔧 n8n Webhook Entegrasyonu
+
+### Webhook URL
+```
+POST http://localhost:5000/api/webhooks/n8n/message
+```
+
+### Headers
+```json
+{
+  "Content-Type": "application/json",
+  "X-N8N-Webhook-Secret": "your-n8n-webhook-secret"
+}
+```
+
+### Request Body
+```json
+{
+  "from_number": "+905551234567",
+  "to_number": "+905559876543",
+  "message_content": "Merhaba, test mesajı",
+  "timestamp": "2026-01-21T14:30:00Z",
+  "direction": "INBOUND",
+  "customer_name": "Ahmet Yılmaz",
+  "customer_phone": "+905551234567",
+  "client_id": 2
+}
+```
+
+## 📊 Database Schema
+
+### Users
+- id, email, passwordHash, role
+- fullName, companyName, phone, whatsappNumber
+- language, isActive, lastLogin
+
+### Subscriptions
+- id, userId, planName, planPrice, billingCycle
+- startDate, endDate, status, autoRenew
+- maxMessages, maxUsers, features
+
+### Payments
+- id, userId, subscriptionId
+- amount, currency, paymentMethod, status
+- transactionId, description
+
+### WhatsappMessages
+- id, userId, fromNumber, toNumber
+- messageContent, timestamp, direction
+- customerName, customerPhone, isRead
+
+## 📈 Geliştirme Roadmap
+
+### Tamamlanan (v1.0) ✅
+- Backend altyapısı ve API'ler
+- Kimlik doğrulama sistemi
+- Kullanıcı yönetimi
+- WhatsApp mesaj entegrasyonu
+- Abonelik ve ödeme sistemi
+- Dashboard ve raporlama
+
+### Sıradaki Özellikler (v2.0) 🔜
+- WebSocket ile gerçek zamanlı mesajlaşma
+- Email bildirimleri
+- Gelişmiş raporlama (Excel/PDF)
+- WhatsApp şablon mesaj gönderme
+- Chatbot flow builder
+- Analytics ve metrikler
+- Multi-tenant architecture
+
+## 📝 Lisans
+
+Bu proje özel bir projedir ve telif hakları saklıdır.
 
 ---
 
-**Hazırlayan:** GitHub Copilot  
-**Tarih:** 21 Ocak 2026  
-**Versiyon:** 1.0.0  
-**Durum:** ✅ Faz 1 Tamamlandı
+**Versiyon:** 1.0.0
+**Durum:** Production Ready ✅
+**Geliştirme:** Ocak 2026

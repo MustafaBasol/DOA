@@ -12,6 +12,11 @@ import {
 const router = Router();
 const usersController = new UsersController();
 
+// Stats route
+router.get('/stats', authenticate, (req, res, next) =>
+  usersController.getStats(req, res, next)
+);
+
 // Admin routes
 router.post(
   '/',

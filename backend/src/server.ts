@@ -17,6 +17,7 @@ app.listen(PORT, () => {
   console.log('  GET  /api/auth/me');
   console.log('  POST /api/users (admin)');
   console.log('  GET  /api/users (admin)');
+  console.log('  GET  /api/users/stats');
   console.log('  GET  /api/users/:id (admin)');
   console.log('  PATCH /api/users/:id (admin)');
   console.log('  DELETE /api/users/:id (admin)');

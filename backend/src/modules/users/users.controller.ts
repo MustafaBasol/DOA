@@ -85,4 +85,13 @@ export class UsersController {
       next(error);
     }
   }
+
+  async getStats(req: Request, res: Response, next: NextFunction) {
+    try {
+      const stats = await usersService.getStats();
+      res.json({ success: true, stats });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

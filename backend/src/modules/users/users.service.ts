@@ -215,4 +215,18 @@ export class UsersService {
 
     return { message: 'Password changed successfully' };
   }
+
+  async getStats() {
+    const [total, clients, admins] = await Promise.all([
+      prisma.user.count(),
+      prisma.user.count({ where: { role: 'CLIENT' } }),
+      prisma.user.count({ where: { role: 'ADMIN' } }),
+    ]);
+
+    return {
+      total,
+      clients,
+      admins,
+    };
+  }
 }

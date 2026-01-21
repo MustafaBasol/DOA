@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard | Autoviseo Admin</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/dashboard.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>📊 Dashboard</h1>
+      <p>Sistem genel durumu ve istatistikler</p>
+    </div>
+    <div style="display: flex; gap: 1rem;">
+      <a href="/admin.html" class="btn-secondary">👥 Kullanıcılar</a>
+      <a href="/admin-subscriptions.html" class="btn-secondary">💼 Abonelikler</a>
+      <a href="/admin-payments.html" class="btn-secondary">💳 Ödemeler</a>
+      <button onclick="logout()" class="btn-primary">Çıkış Yap</button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <div id="dashboardStats">
+      <div style="text-align: center; padding: 3rem;">
+        <div class="spinner"></div>
+        <p style="margin-top: 1rem; color: var(--color-text-muted);">İstatistikler yükleniyor...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/auth.js"></script>
+  <script src="/assets/js/panel/dashboard.js"></script>
+  <script>
+    checkAuth(['ADMIN']);
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAdminDashboard();
+      
+      // Refresh every 60 seconds
+      setInterval(() => {
+        loadAdminDashboard();
+      }, 60000);
+    });
+  </script>
+</body>
+</html>
