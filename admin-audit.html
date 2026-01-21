@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Denetim Günlüğü | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1 data-i18n="audit.title">Denetim Günlüğü</h1>
+      <p data-i18n="audit.subtitle">Sistem aktiviteleri ve kullanıcı işlemleri</p>
+    </div>
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <button onclick="exportAuditLogs()" class="btn-secondary">
+        📥 <span data-i18n="audit.export">Dışa Aktar</span>
+      </button>
+      <button onclick="window.location.href='/dashboard.html'" class="btn-secondary">
+        ← <span data-i18n="nav.back">Geri</span>
+      </button>
+      <button onclick="logout()" class="btn-primary" data-i18n="nav.logout">
+        Çıkış Yap
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #dbeafe;">
+          <svg width="24" height="24" fill="none" stroke="#3b82f6" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label" data-i18n="audit.stats.total">Toplam Kayıt</p>
+          <h3 class="stat-value" id="totalLogs">0</h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #dcfce7;">
+          <svg width="24" height="24" fill="none" stroke="#10b981" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label" data-i18n="audit.stats.today">Bugün</p>
+          <h3 class="stat-value" id="todayLogs">0</h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #fef3c7;">
+          <svg width="24" height="24" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label" data-i18n="audit.stats.users">Aktif Kullanıcı</p>
+          <h3 class="stat-value" id="activeUsers">0</h3>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon" style="background: #fee2e2;">
+          <svg width="24" height="24" fill="none" stroke="#ef4444" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <div>
+          <p class="stat-label" data-i18n="audit.stats.errors">Hata Sayısı</p>
+          <h3 class="stat-value" id="errorCount">0</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <h3 data-i18n="audit.filters.title">Filtreler</h3>
+      </div>
+      <div class="card-body">
+        <div class="filters-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div class="form-group">
+            <label data-i18n="audit.filters.user">Kullanıcı</label>
+            <select id="filterUser" class="form-control" onchange="applyFilters()">
+              <option value="">Tümü</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="audit.filters.action">İşlem</label>
+            <select id="filterAction" class="form-control" onchange="applyFilters()">
+              <option value="">Tümü</option>
+              <option value="create">Oluşturma</option>
+              <option value="update">Güncelleme</option>
+              <option value="delete">Silme</option>
+              <option value="login">Giriş</option>
+              <option value="logout">Çıkış</option>
+              <option value="export">Dışa Aktarma</option>
+              <option value="import">İçe Aktarma</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="audit.filters.resource">Kaynak</label>
+            <select id="filterResource" class="form-control" onchange="applyFilters()">
+              <option value="">Tümü</option>
+              <option value="users">Kullanıcılar</option>
+              <option value="clients">Müşteriler</option>
+              <option value="messages">Mesajlar</option>
+              <option value="subscriptions">Abonelikler</option>
+              <option value="payments">Ödemeler</option>
+              <option value="reports">Raporlar</option>
+              <option value="permissions">Yetkiler</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label data-i18n="audit.filters.date">Tarih Aralığı</label>
+            <select id="filterDate" class="form-control" onchange="applyFilters()">
+              <option value="">Tümü</option>
+              <option value="today">Bugün</option>
+              <option value="week">Son 7 Gün</option>
+              <option value="month">Son 30 Gün</option>
+              <option value="custom">Özel Tarih</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Custom Date Range (hidden by default) -->
+        <div id="customDateRange" style="display: none; margin-top: 1rem; display: grid; grid-template-columns: 1fr 1fr auto; gap: 1rem; align-items: end;">
+          <div class="form-group" style="margin: 0;">
+            <label>Başlangıç</label>
+            <input type="date" id="startDate" class="form-control" />
+          </div>
+          <div class="form-group" style="margin: 0;">
+            <label>Bitiş</label>
+            <input type="date" id="endDate" class="form-control" />
+          </div>
+          <button onclick="applyCustomDateRange()" class="btn-primary">Uygula</button>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; gap: 0.75rem;">
+          <button onclick="applyFilters()" class="btn-primary">
+            <span data-i18n="audit.filters.apply">Filtrele</span>
+          </button>
+          <button onclick="clearFilters()" class="btn-secondary">
+            <span data-i18n="audit.filters.clear">Temizle</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit Logs Table -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <h3 data-i18n="audit.logs.title">Denetim Kayıtları</h3>
+          <div style="display: flex; gap: 0.5rem;">
+            <button onclick="toggleView('table')" class="btn-icon" id="viewTable" title="Tablo Görünümü">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+              </svg>
+            </button>
+            <button onclick="toggleView('timeline')" class="btn-icon" id="viewTimeline" title="Zaman Çizelgesi">
+              <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
+        <!-- Loading State -->
+        <div id="logsLoading" class="text-center" style="padding: 2rem;">
+          <div class="spinner"></div>
+          <p>Kayıtlar yükleniyor...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="logsError" class="alert alert-danger" style="display: none;">
+          <p id="errorMessage"></p>
+          <button onclick="loadAuditLogs()" class="btn-secondary btn-sm">Tekrar Dene</button>
+        </div>
+
+        <!-- Table View -->
+        <div id="tableView" style="display: none;">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Zaman</th>
+                  <th>Kullanıcı</th>
+                  <th>İşlem</th>
+                  <th>Kaynak</th>
+                  <th>Detaylar</th>
+                  <th>IP Adresi</th>
+                </tr>
+              </thead>
+              <tbody id="logsTableBody">
+                <!-- Logs will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div id="pagination" class="pagination" style="margin-top: 1rem; display: none;">
+            <!-- Pagination buttons will be added here -->
+          </div>
+        </div>
+
+        <!-- Timeline View -->
+        <div id="timelineView" style="display: none;">
+          <div id="timelineContainer" class="timeline">
+            <!-- Timeline items will be loaded here -->
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="logsEmpty" class="empty-state" style="display: none;">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <h3>Kayıt Bulunamadı</h3>
+          <p>Seçili filtrelere uygun denetim kaydı bulunamadı.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/audit.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>İzin Yönetimi | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1 data-i18n="permissions.title">İzin Yönetimi</h1>
+      <p data-i18n="permissions.subtitle">Rol bazlı yetki kontrolü</p>
+    </div>
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <button onclick="window.location.href='/dashboard.html'" class="btn-secondary">
+        ← <span data-i18n="nav.back">Geri</span>
+      </button>
+      <button onclick="logout()" class="btn-primary" data-i18n="nav.logout">
+        Çıkış Yap
+      </button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Role Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-role="ADMIN" onclick="switchRole('ADMIN')">
+        Admin
+      </button>
+      <button class="tab-btn" data-role="MANAGER" onclick="switchRole('MANAGER')">
+        Manager
+      </button>
+      <button class="tab-btn" data-role="CLIENT" onclick="switchRole('CLIENT')">
+        Client
+      </button>
+      <button class="tab-btn" data-role="SUPER_ADMIN" onclick="switchRole('SUPER_ADMIN')">
+        Super Admin
+      </button>
+    </div>
+
+    <!-- Role Summary -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h3 id="roleTitle">Admin Yetkileri</h3>
+          <p id="roleDescription" style="margin: 0.5rem 0 0 0; color: #6b7280;">
+            Admin rolü için tanımlı yetkiler
+          </p>
+        </div>
+        <div id="rolePermissionCount" class="badge badge-primary">
+          0 yetki
+        </div>
+      </div>
+    </div>
+
+    <!-- Permission Matrix -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <h3 data-i18n="permissions.matrix">Yetki Matrisi</h3>
+        <p style="margin: 0.5rem 0 0 0; color: #6b7280;">
+          Kaynak bazlı yetki kontrolü
+        </p>
+      </div>
+      <div class="card-body">
+        <!-- Loading State -->
+        <div id="permissionsLoading" class="text-center" style="padding: 2rem;">
+          <div class="spinner"></div>
+          <p>Yetkiler yükleniyor...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="permissionsError" class="alert alert-danger" style="display: none;">
+          <p id="errorMessage"></p>
+          <button onclick="loadPermissions()" class="btn-secondary btn-sm">
+            Tekrar Dene
+          </button>
+        </div>
+
+        <!-- Permission Table -->
+        <div id="permissionsTable" style="display: none;">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Kaynak</th>
+                  <th>İşlem</th>
+                  <th>Açıklama</th>
+                  <th>Durum</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="permissionsTableBody">
+                <!-- Permissions will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div id="permissionsPagination" class="pagination" style="margin-top: 1rem; display: none;">
+            <!-- Pagination buttons will be added here -->
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="permissionsEmpty" class="empty-state" style="display: none;">
+          <svg width="64" height="64" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+          </svg>
+          <h3>Yetki Bulunamadı</h3>
+          <p>Bu rol için henüz yetki tanımlanmamış.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Permission Groups (Alternative View) -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <div class="card-header">
+        <h3>Kaynak Grupları</h3>
+        <div class="form-group" style="margin: 0;">
+          <input 
+            type="search" 
+            id="searchPermissions" 
+            placeholder="Kaynak veya işlem ara..." 
+            class="form-control"
+            style="max-width: 300px;"
+          />
+        </div>
+      </div>
+      <div class="card-body">
+        <div id="permissionGroups">
+          <!-- Permission groups will be loaded here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Permission Toggle Modal -->
+  <div id="permissionModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Yetki Değiştir</h3>
+        <button class="close-btn" onclick="closePermissionModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="modalMessage"></p>
+        <div id="modalPermissionDetails" style="background: #f9fafb; padding: 1rem; border-radius: 4px; margin: 1rem 0;">
+          <strong id="permissionResource"></strong> - <span id="permissionAction"></span>
+          <p id="permissionDescription" style="margin: 0.5rem 0 0 0; color: #6b7280; font-size: 0.875rem;"></p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closePermissionModal()" class="btn-secondary">İptal</button>
+        <button onclick="confirmPermissionToggle()" class="btn-primary" id="confirmButton">Onayla</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/assets/js/main.js"></script>
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/permissions.js"></script>
+</body>
+</html>
