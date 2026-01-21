@@ -22,7 +22,7 @@
     </div>
   </div>
 
-  <div class="dashboard-content" style="padding: 0; max-width: 100%; height: calc(100vh - 120px);">
+  <div class="dashboard-content" style="padding: 0; max-width: 100%; height: calc(100vh - 120px); overflow-y: auto;">
     <!-- Stats Row -->
     <div class="stats-row" style="padding: 1.5rem; padding-bottom: 0;">
       <div class="stat-card-small">
@@ -43,8 +43,14 @@
       </div>
     </div>
 
+    <!-- Subscription & Payment Cards -->
+    <div style="padding: 0 1.5rem 1.5rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 1.5rem;">
+      <div id="subscriptionCard"></div>
+      <div id="paymentSummary"></div>
+    </div>
+
     <!-- Messages Layout -->
-    <div class="client-layout">
+    <div class="client-layout" style="height: calc(100vh - 480px); min-height: 500px;">
       <!-- Conversations Sidebar -->
       <div class="conversations-sidebar">
         <div class="conversations-header">
@@ -85,6 +91,7 @@
   <script src="/assets/js/panel/i18n.js"></script>
   <script src="/assets/js/panel/auth.js"></script>
   <script src="/assets/js/panel/client.js"></script>
+  <script src="/assets/js/panel/payments.js"></script>
   <script>
     // Display welcome message
     document.addEventListener('DOMContentLoaded', () => {
@@ -93,6 +100,10 @@
         document.getElementById('welcomeMessage').textContent = 
           `Hoş geldiniz, ${user.fullName || user.companyName || user.email}`;
       }
+      
+      // Load subscription and payment info
+      loadActiveSubscription();
+      loadPaymentSummary();
     });
   </script>
 </body>

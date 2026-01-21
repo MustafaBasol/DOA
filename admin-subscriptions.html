@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Abonelik Yönetimi | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>💼 Abonelik Yönetimi</h1>
+      <p>Müşteri aboneliklerini görüntüleyin ve yönetin</p>
+    </div>
+    <div style="display: flex; gap: 1rem;">
+      <a href="/admin.html" class="btn-secondary">← Kullanıcılar</a>
+      <a href="/admin-payments.html" class="btn-secondary">Ödemeler →</a>
+      <button onclick="logout()" class="btn-primary">Çıkış Yap</button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Stats Cards -->
+    <div class="stats-grid" style="margin-bottom: 2rem;">
+      <div class="stat-card">
+        <div class="stat-label">Aktif</div>
+        <div class="stat-value" id="statActive">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">İptal Edildi</div>
+        <div class="stat-value" id="statCancelled">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Süresi Doldu</div>
+        <div class="stat-value" id="statExpired">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Toplam</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+    </div>
+
+    <!-- Filters & Actions -->
+    <div class="table-controls">
+      <div class="search-filters">
+        <input type="text" id="searchInput" placeholder="🔍 Kullanıcı ara..." class="search-input">
+        <select id="statusFilter" class="filter-select">
+          <option value="">Tüm Durumlar</option>
+          <option value="ACTIVE">Aktif</option>
+          <option value="CANCELLED">İptal Edildi</option>
+          <option value="EXPIRED">Süresi Doldu</option>
+          <option value="SUSPENDED">Askıda</option>
+        </select>
+      </div>
+      <button onclick="openCreateModal()" class="btn-primary">+ Yeni Abonelik</button>
+    </div>
+
+    <!-- Subscriptions Table -->
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Kullanıcı</th>
+            <th>Plan</th>
+            <th>Ücret</th>
+            <th>Dönem</th>
+            <th>Durum</th>
+            <th>Başlangıç</th>
+            <th>Bitiş</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody id="subscriptionsTableBody">
+          <tr>
+            <td colspan="8" class="loading-cell">Yükleniyor...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="pagination"></div>
+  </div>
+
+  <!-- Create/Edit Modal -->
+  <div id="subscriptionModal" class="modal">
+    <div class="modal-content modal-large">
+      <div class="modal-header">
+        <h3 id="modalTitle">Yeni Abonelik</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="subscriptionForm">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Kullanıcı *</label>
+              <select id="userId" name="userId" required>
+                <option value="">Seçiniz...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Plan Adı *</label>
+              <input type="text" id="planName" name="planName" required placeholder="Örn: Standart Plan">
+            </div>
+            <div class="form-group">
+              <label>Ücret (TRY) *</label>
+              <input type="number" id="planPrice" name="planPrice" required min="0" step="0.01">
+            </div>
+            <div class="form-group">
+              <label>Faturalama Dönemi *</label>
+              <select id="billingCycle" name="billingCycle" required>
+                <option value="MONTHLY">Aylık</option>
+                <option value="QUARTERLY">3 Aylık</option>
+                <option value="YEARLY">Yıllık</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Başlangıç Tarihi *</label>
+              <input type="date" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-group">
+              <label>Bitiş Tarihi *</label>
+              <input type="date" id="endDate" name="endDate" required>
+            </div>
+            <div class="form-group">
+              <label>Maksimum Mesaj/Ay</label>
+              <input type="number" id="maxMessages" name="maxMessages" min="0">
+            </div>
+            <div class="form-group">
+              <label>Maksimum Kullanıcı</label>
+              <input type="number" id="maxUsers" name="maxUsers" min="1">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="autoRenew" name="autoRenew" checked>
+              Otomatik yenileme
+            </label>
+          </div>
+          <div class="form-group" id="statusGroup" style="display: none;">
+            <label>Durum</label>
+            <select id="status" name="status">
+              <option value="ACTIVE">Aktif</option>
+              <option value="CANCELLED">İptal Edildi</option>
+              <option value="EXPIRED">Süresi Doldu</option>
+              <option value="SUSPENDED">Askıda</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal()">İptal</button>
+          <button type="submit" class="btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/auth.js"></script>
+  <script src="/assets/js/panel/subscriptions.js"></script>
+</body>
+</html>

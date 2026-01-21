@@ -1,9 +1,117 @@
 /* Client Panel Styles */
 
+.card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.card-header {
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-header h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.subscription-info .info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.subscription-info .info-row:last-child {
+  border-bottom: none;
+}
+
+.subscription-info .label {
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+}
+
+.subscription-info .value {
+  font-weight: 600;
+}
+
+.features-list {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.features-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.features-list li {
+  padding: 0.25rem 0;
+  color: var(--color-text);
+}
+
+.mini-stat {
+  text-align: center;
+  padding: 0.75rem;
+  background: var(--color-bg);
+  border-radius: 0.5rem;
+}
+
+.mini-stat-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.mini-stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 999px;
+}
+
+.badge-success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge-warning {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.badge-danger {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-secondary {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+}
+
 .client-layout {
   display: grid;
   grid-template-columns: 350px 1fr;
-  height: calc(100vh - 80px);
   gap: 0;
   overflow: hidden;
 }

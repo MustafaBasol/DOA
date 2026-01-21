@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ödeme Yönetimi | Autoviseo</title>
+  <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="stylesheet" href="/assets/css/styles.css" />
+  <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
+</head>
+<body class="dashboard">
+  <div class="dashboard-header">
+    <div>
+      <h1>💳 Ödeme Yönetimi</h1>
+      <p>Ödeme kayıtlarını görüntüleyin ve yönetin</p>
+    </div>
+    <div style="display: flex; gap: 1rem;">
+      <a href="/admin-subscriptions.html" class="btn-secondary">← Abonelikler</a>
+      <a href="/admin.html" class="btn-secondary">Kullanıcılar</a>
+      <button onclick="logout()" class="btn-primary">Çıkış Yap</button>
+    </div>
+  </div>
+
+  <div class="dashboard-content">
+    <!-- Stats Cards -->
+    <div class="stats-grid" style="margin-bottom: 2rem;">
+      <div class="stat-card">
+        <div class="stat-label">Tamamlandı</div>
+        <div class="stat-value" id="statCompleted">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Bekliyor</div>
+        <div class="stat-value" id="statPending">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Toplam Tutar</div>
+        <div class="stat-value" id="statTotalAmount">0 ₺</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Toplam</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+    </div>
+
+    <!-- Filters & Actions -->
+    <div class="table-controls">
+      <div class="search-filters">
+        <input type="text" id="searchInput" placeholder="🔍 Kullanıcı ara..." class="search-input">
+        <select id="statusFilter" class="filter-select">
+          <option value="">Tüm Durumlar</option>
+          <option value="COMPLETED">Tamamlandı</option>
+          <option value="PENDING">Bekliyor</option>
+          <option value="FAILED">Başarısız</option>
+          <option value="REFUNDED">İade Edildi</option>
+        </select>
+      </div>
+      <button onclick="openCreateModal()" class="btn-primary">+ Yeni Ödeme</button>
+    </div>
+
+    <!-- Payments Table -->
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Kullanıcı</th>
+            <th>Tutar</th>
+            <th>Yöntem</th>
+            <th>Durum</th>
+            <th>Açıklama</th>
+            <th>Tarih</th>
+            <th>İşlemler</th>
+          </tr>
+        </thead>
+        <tbody id="paymentsTableBody">
+          <tr>
+            <td colspan="7" class="loading-cell">Yükleniyor...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="pagination"></div>
+  </div>
+
+  <!-- Create/Edit Modal -->
+  <div id="paymentModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Yeni Ödeme</h3>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <form id="paymentForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label>Kullanıcı *</label>
+            <select id="userId" name="userId" required>
+              <option value="">Seçiniz...</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tutar *</label>
+            <input type="number" id="amount" name="amount" required min="0" step="0.01">
+          </div>
+          <div class="form-group">
+            <label>Para Birimi</label>
+            <input type="text" id="currency" name="currency" value="TRY" maxlength="3">
+          </div>
+          <div class="form-group">
+            <label>Ödeme Yöntemi *</label>
+            <select id="paymentMethod" name="paymentMethod" required>
+              <option value="CREDIT_CARD">Kredi Kartı</option>
+              <option value="BANK_TRANSFER">Banka Transferi</option>
+              <option value="PAYPAL">PayPal</option>
+              <option value="OTHER">Diğer</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>İşlem No</label>
+            <input type="text" id="transactionId" name="transactionId">
+          </div>
+          <div class="form-group">
+            <label>Açıklama</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+          </div>
+          <div class="form-group" id="statusGroup" style="display: none;">
+            <label>Durum</label>
+            <select id="status" name="status">
+              <option value="PENDING">Bekliyor</option>
+              <option value="COMPLETED">Tamamlandı</option>
+              <option value="FAILED">Başarısız</option>
+              <option value="REFUNDED">İade Edildi</option>
+            </select>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" onclick="closeModal()">İptal</button>
+          <button type="submit" class="btn-primary">Kaydet</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+  <script src="/assets/js/panel/i18n.js"></script>
+  <script src="/assets/js/panel/auth.js"></script>
+  <script src="/assets/js/panel/admin-payments.js"></script>
+</body>
+</html>
