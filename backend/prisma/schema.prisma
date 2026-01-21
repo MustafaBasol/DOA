@@ -31,6 +31,8 @@ model User {
   messages        WhatsappMessage[]
   refreshTokens   RefreshToken[]
   savedSearches   SavedSearch[]
+  rolePermissions RolePermission[]
+  auditLogs       AuditLog[]
 
   @@index([email])
   @@index([role])
@@ -142,8 +144,63 @@ model SavedSearch {
   @@map("saved_searches")
 }
 
+model Permission {
+  id          String   @id @default(uuid())
+  resource    String   // e.g., "messages", "users", "payments"
+  action      String   // e.g., "create", "read", "update", "delete"
+  description String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  rolePermissions RolePermission[]
+
+  @@unique([resource, action])
+  @@index([resource])
+  @@map("permissions")
+}
+
+model RolePermission {
+  id           String   @id @default(uuid())
+  role         Role
+  permissionId String   @map("permission_id")
+  grantedById  String?  @map("granted_by_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+  grantedBy    User?      @relation(fields: [grantedById], references: [id])
+
+  @@unique([role, permissionId])
+  @@index([role])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?  @map("user_id")
+  action     String   // e.g., "user.create", "payment.update", "message.delete"
+  resource   String   // Resource type: "User", "Payment", "Message", etc.
+  resourceId String?  @map("resource_id") // ID of the affected resource
+  changes    Json?    // Before/after values
+  ipAddress  String?  @map("ip_address")
+  userAgent  String?  @map("user_agent")
+  createdAt  DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([resource])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
 enum Role {
+  SUPER_ADMIN
   ADMIN
+  MANAGER
   CLIENT
 }
 

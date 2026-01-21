@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rol ve Yetki Yönetimi - DOA Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <style>
+        .permission-card {
+            border-left: 4px solid #0d6efd;
+        }
+        .permission-badge {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+        }
+        .permission-matrix {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        .role-header {
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 10;
+            border-bottom: 2px solid #dee2e6;
+        }
+        .resource-row:hover {
+            background-color: #f8f9fa;
+        }
+        .permission-checkbox {
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+        .stats-card {
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .stats-card:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <nav class="col-md-2 d-md-block bg-light sidebar">
+                <div class="position-sticky pt-3">
+                    <h5 class="px-3 mb-3">DOA Panel</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="panel.html">
+                                <i class="bi bi-speedometer2"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="messages.html">
+                                <i class="bi bi-chat-dots"></i> Mesajlar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="users.html">
+                                <i class="bi bi-people"></i> Kullanıcılar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="subscriptions.html">
+                                <i class="bi bi-calendar-check"></i> Abonelikler
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="payments.html">
+                                <i class="bi bi-credit-card"></i> Ödemeler
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="reports.html">
+                                <i class="bi bi-file-earmark-text"></i> Raporlar
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="analytics.html">
+                                <i class="bi bi-graph-up"></i> Analitik
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="search.html">
+                                <i class="bi bi-search"></i> Gelişmiş Arama
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="permissions.html">
+                                <i class="bi bi-shield-lock"></i> Yetki Yönetimi
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="audit.html">
+                                <i class="bi bi-journal-text"></i> Denetim Kayıtları
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="profile.html">
+                                <i class="bi bi-person"></i> Profil
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="#" id="logoutBtn">
+                                <i class="bi bi-box-arrow-right"></i> Çıkış
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main content -->
+            <main class="col-md-10 ms-sm-auto px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2"><i class="bi bi-shield-lock"></i> Rol ve Yetki Yönetimi</h1>
+                    <div class="btn-toolbar mb-2 mb-md-0">
+                        <button type="button" class="btn btn-sm btn-outline-secondary" id="refreshBtn">
+                            <i class="bi bi-arrow-clockwise"></i> Yenile
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Role Statistics -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card stats-card border-primary">
+                            <div class="card-body text-center">
+                                <i class="bi bi-people-fill text-primary" style="font-size: 2rem;"></i>
+                                <h3 class="mt-2" id="totalRoles">4</h3>
+                                <p class="text-muted mb-0">Toplam Rol</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card border-success">
+                            <div class="card-body text-center">
+                                <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
+                                <h3 class="mt-2" id="totalPermissions">0</h3>
+                                <p class="text-muted mb-0">Toplam Yetki</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card border-info">
+                            <div class="card-body text-center">
+                                <i class="bi bi-folder text-info" style="font-size: 2rem;"></i>
+                                <h3 class="mt-2" id="totalResources">0</h3>
+                                <p class="text-muted mb-0">Kaynak Tipi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card stats-card border-warning">
+                            <div class="card-body text-center">
+                                <i class="bi bi-lightning-charge text-warning" style="font-size: 2rem;"></i>
+                                <h3 class="mt-2" id="avgPermissions">0</h3>
+                                <p class="text-muted mb-0">Ort. Yetki/Rol</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabs -->
+                <ul class="nav nav-tabs mb-3" id="permissionTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="roles-tab" data-bs-toggle="tab" data-bs-target="#roles" type="button" role="tab">
+                            <i class="bi bi-people"></i> Roller ve Yetkiler
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="matrix-tab" data-bs-toggle="tab" data-bs-target="#matrix" type="button" role="tab">
+                            <i class="bi bi-grid-3x3"></i> Yetki Matrisi
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="permissions-tab" data-bs-toggle="tab" data-bs-target="#permissions" type="button" role="tab">
+                            <i class="bi bi-shield"></i> Tüm Yetkiler
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="permissionTabContent">
+                    <!-- Roles Tab -->
+                    <div class="tab-pane fade show active" id="roles" role="tabpanel">
+                        <div class="row" id="rolesContainer">
+                            <!-- Roles will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Matrix Tab -->
+                    <div class="tab-pane fade" id="matrix" role="tabpanel">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive permission-matrix">
+                                    <table class="table table-sm table-bordered" id="permissionMatrix">
+                                        <thead class="role-header">
+                                            <tr>
+                                                <th>Kaynak</th>
+                                                <th>Eylem</th>
+                                                <th class="text-center">SUPER_ADMIN</th>
+                                                <th class="text-center">ADMIN</th>
+                                                <th class="text-center">MANAGER</th>
+                                                <th class="text-center">CLIENT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="matrixBody">
+                                            <!-- Matrix will be loaded here -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- All Permissions Tab -->
+                    <div class="tab-pane fade" id="permissions" role="tabpanel">
+                        <div class="row" id="permissionsContainer">
+                            <!-- Permissions will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Role Details Modal -->
+    <div class="modal fade" id="roleModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="roleModalTitle">Rol Detayları</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="roleDetailsContent">
+                        <!-- Role details will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/panel/permissions.js"></script>
+</body>
+</html>

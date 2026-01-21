@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { UsersController } from './users.controller';
 import { authenticate, authorize } from '../../middleware/auth';
+import { checkPermission } from '../../middleware/permission';
+import { auditLog } from '../../middleware/auditLog';
 import { validate } from '../../middleware/validation';
 import {
   createUserSchema,
@@ -19,28 +21,30 @@ router.get('/stats', authenticate, (req, res, next) =>
 
 // Admin routes
 router.post(
-  '/',
-  authenticate,
-  authorize('ADMIN'),
+  checkPermission('users', 'create'),
+  auditLog('create_user', 'users'),
   validate(createUserSchema),
   (req, res, next) => usersController.createUser(req, res, next)
 );
 
-router.get('/', authenticate, authorize('ADMIN'), (req, res, next) =>
+router.get('/', authenticate, checkPermission('users', 'list'), (req, res, next) =>
   usersController.getUsers(req, res, next)
 );
 
-router.get('/:id', authenticate, authorize('ADMIN'), (req, res, next) =>
+router.get('/:id', authenticate, checkPermission('users', 'read'), (req, res, next) =>
   usersController.getUserById(req, res, next)
 );
 
 router.patch(
   '/:id',
   authenticate,
-  authorize('ADMIN'),
+  checkPermission('users', 'update'),
+  auditLog('update_user', 'users'),
   validate(updateUserSchema),
   (req, res, next) => usersController.updateUser(req, res, next)
 );
+
+router.delete('/:id', authenticate, checkPermission('users', 'delete'), auditLog('delete_user', 'users
 
 router.delete('/:id', authenticate, authorize('ADMIN'), (req, res, next) =>
   usersController.deleteUser(req, res, next)

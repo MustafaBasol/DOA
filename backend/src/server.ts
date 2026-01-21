@@ -82,11 +82,24 @@ httpServer.listen(PORT, () => {
   console.log('  PATCH /api/search/saved/:id');
   console.log('  DELETE /api/search/saved/:id');
   console.log('  POST /api/search/saved/:id/execute');
+  console.log('  GET  /api/permissions/permissions');
+  console.log('  GET  /api/permissions/roles');
+  console.log('  GET  /api/permissions/roles/:role/permissions');
+  console.log('  POST /api/permissions/roles/:role/permissions');
+  console.log('  DELETE /api/permissions/roles/:role/permissions/:permissionId');
+  console.log('  GET  /api/permissions/users/:userId/permissions');
+  console.log('  GET  /api/audit');
+  console.log('  GET  /api/audit/users/:userId');
+  console.log('  GET  /api/audit/resources/:resource/:resourceId');
+  console.log('  GET  /api/audit/stats');
+  console.log('  POST /api/audit/clean');
   console.log('');
   console.log('🔌 WebSocket: Enabled (Socket.IO)');
   console.log('📊 Reports: Excel & PDF export enabled');
   console.log('📈 Analytics: Real-time metrics & charts');
   console.log('🔍 Search: Advanced filters & saved searches');
+  console.log('🔐 Permissions: Role-based access control (37 permissions)');
+  console.log('📝 Audit: Comprehensive activity logging');
   console.log('');
   console.log('✅ Ready to accept connections!');
   
