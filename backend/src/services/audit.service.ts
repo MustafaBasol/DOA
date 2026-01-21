@@ -30,6 +30,7 @@ class AuditService {
       console.error('Audit log error:', error);
       // Don't throw error, just log it
       // We don't want audit failures to break the main flow
+      return undefined;
     }
   }
 
