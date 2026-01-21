@@ -4,7 +4,7 @@
 
 DOA WhatsApp Manager artık **ExcelJS** ve **PDFKit** kullanarak otomatik rapor üretebilmektedir:
 
-- ✅ Mesaj raporları (Excel & PDF)
+- ✅ Mesaj raporları (Excel & PDF) - n8n'den gelen mesajlar
 - ✅ Müşteri raporları (Excel)
 - ✅ Ödeme raporları (Excel & PDF)
 - ✅ Abonelik raporları (Excel)
@@ -12,6 +12,8 @@ DOA WhatsApp Manager artık **ExcelJS** ve **PDFKit** kullanarak otomatik rapor 
 - ✅ Kullanıcıya özel raporlar
 - ✅ Özet istatistikler
 - ✅ Tek tıkla indirme
+
+**Not:** Mesaj raporları sadece n8n webhook'undan panele kaydedilen mesajları içerir (görüntüleme amaçlı).
 
 ## 🏗️ Mimari
 

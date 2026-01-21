@@ -25,10 +25,12 @@
 ### İş Gereksinimleri
 
 **Müşteri Paneli (Client Panel):**
-- WhatsApp müşteri yazışmalarını görüntüleme
+- n8n WhatsApp chatbot mesajlarını görüntüleme (sadece okuma)
 - Ödeme durumu ve geçmişi görüntüleme
 - Profil yönetimi (kullanıcı adı, şifre değiştirme)
 - Çok dilli arayüz (TR, EN, FR)
+
+**Not:** WhatsApp'a direkt bağlantı yoktur. Tüm mesajlaşma n8n workflow üzerinden gelir. Panelden mesaj gönderimi yapılmaz, sadece gelen mesajlar görüntülenir.
 
 **Admin Paneli:**
 - Müşteri (client) oluşturma ve yönetimi
@@ -78,10 +80,10 @@
                 │                           │
 ┌───────────────▼────────┐   ┌──────────────▼────────────┐
 │   PostgreSQL Database  │   │   n8n (Mevcut Sistem)     │
-│  • Users (admin/client)│   │  • WhatsApp Bot           │
-│  • Messages/Chats      │   │  • Webhook Sender         │
-│  • Payments            │   │                           │
-│  • Subscriptions       │   │                           │
+│  • Users (admin/client)│   │  • WhatsApp Chatbot       │
+│  • Messages (READ-ONLY)│   │  • Webhook → Panel        │
+│  • Payments            │   │  • Mesaj Gönderimi n8n'de │
+│  • Subscriptions       │   │    (Panel dışında)        │
 └────────────────────────┘   └───────────────────────────┘
 ```
 
@@ -632,18 +634,15 @@ frontend/
 
 ## 🔄 n8n Entegrasyonu
 
-### n8n Workflow Güncellemesi
+### Entegrasyon Mimarisi
 
-**Mevcut n8n Akışı:**
-```
-WhatsApp Trigger → Process Message → [Respond/Store]
-```
+**ÖNEMLİ:** Bu sistem WhatsApp'a direkt bağlanmaz. Tüm WhatsApp iletişimi n8n üzerinden yönetilir.
 
-**Yeni Akış (Backend Entegrasyonu):**
+**Veri Akışı (Tek Yönlü - n8n → Panel):**
 ```
-WhatsApp Trigger
+WhatsApp Mesaj Gelir (n8n'de)
   ↓
-Process Message
+n8n Chatbot İşler (otomatik yanıt)
   ↓
 HTTP Request Node
   ├─ URL: https://yourdomain.com/api/webhooks/n8n/message
@@ -652,9 +651,9 @@ HTTP Request Node
   │   └─ X-N8N-Secret: <your-secret-token>
   └─ Body:
       {
-        "client_id": "user_uuid",
+        "user_id": "user_uuid",
         "n8n_message_id": "{{ $json.messageId }}",
-        "direction": "inbound",
+        "direction": "INBOUND",
         "from_number": "{{ $json.from }}",
         "to_number": "{{ $json.to }}",
         "customer_name": "{{ $json.contact.name }}",
@@ -664,10 +663,19 @@ HTTP Request Node
         "timestamp": "{{ $json.timestamp }}"
       }
   ↓
-[Optional: Store locally in n8n] → [Respond to customer]
+Panel Veritabanına Kaydedilir (READ-ONLY)
+  ↓
+Müşteri Panelinde Görüntülenir
 ```
 
+**Panel'den n8n'e mesaj gönderimi YOKTUR:**
+- Panelden WhatsApp mesajı gönderilemez
+- Tüm mesaj gönderimi n8n workflow'unda yapılır
+- Panel sadece mesajları görüntüler (monitoring/dashboard)
+
 ### Backend Webhook Endpoint
+
+**Amaç:** n8n'den gelen mesajları panele kaydetmek (tek yönlü)
 
 **URL:** `POST /api/webhooks/n8n/message`
 
@@ -677,12 +685,12 @@ X-N8N-Secret: <secret-token-from-env>
 Content-Type: application/json
 ```
 
-**Request Body:**
+**Request Body (n8n'den gelir):**
 ```json
 {
-  "client_id": "uuid",
+  "user_id": "uuid",
   "n8n_message_id": "msg_123",
-  "direction": "inbound",
+  "direction": "INBOUND",
   "from_number": "+905551234567",
   "to_number": "+905559876543",
   "customer_name": "Ahmet Yılmaz",
@@ -693,6 +701,11 @@ Content-Type: application/json
   "timestamp": "2026-01-21T10:30:00Z"
 }
 ```
+
+**Not:** 
+- `direction` her zaman "INBOUND" olacak (n8n'den panel'e)
+- Panel'den n8n'e OUTBOUND mesaj gönderimi YOK
+- Giden mesajlar da n8n'de loglanıp buraya gönderilebilir (opsiyonel)
 
 **Response:**
 ```json

@@ -4,12 +4,14 @@
 
 DOA WhatsApp Manager artık **Nodemailer** ve **Handlebars** tabanlı email bildirimleri desteği sunmaktadır. Bu özellik sayesinde:
 
-- ✅ Yeni WhatsApp mesajı bildirimleri
+- ✅ Yeni WhatsApp mesajı bildirimleri (n8n'den gelen mesajlar için)
 - ✅ Abonelik süre uyarıları (7, 3, 1 gün kala)
 - ✅ Ödeme onay bildirimleri
 - ✅ Hoş geldiniz email'leri (yeni kullanıcılar)
 - ✅ Şifre sıfırlama email'leri
 - ✅ Otomatik planlı bildirimler (hourly scheduler)
+
+**Not:** Sistem n8n webhook'undan gelen mesajları izler ve bildirim gönderir. Panel'den WhatsApp mesaj gönderimi olmadığı için, sadece "gelen mesaj" bildirimleri vardır.
 
 ## 🏗️ Mimari
 

@@ -21,12 +21,15 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ Sayfalama desteği
 
 ### WhatsApp Mesaj Yönetimi
-- ✅ n8n webhook entegrasyonu
-- ✅ Konuşma listesi ve mesaj görüntüleme
-- ✅ Gelen/giden mesaj ayrımı
+- ✅ n8n webhook entegrasyonu (tek yönlü: n8n → Panel)
+- ✅ n8n chatbot mesajlarını görüntüleme (sadece okuma)
+- ✅ Konuşma listesi ve mesaj geçmişi
+- ✅ Gelen mesaj bildirimleri
 - ✅ Okundu işaretleme
-- ✅ Mesaj istatistikleri
-- ✅ Otomatik yenileme (30 saniye)
+- ✅ Mesaj istatistikleri ve filtreleme
+- ✅ Real-time mesaj güncellemeleri (Socket.IO)
+
+**Not:** Panel'den WhatsApp mesaj gönderimi YOKTUR. Tüm mesajlaşma n8n workflow'unda yönetilir.
 
 ### Abonelik ve Ödeme Sistemi
 - ✅ Abonelik yönetimi (CRUD)
