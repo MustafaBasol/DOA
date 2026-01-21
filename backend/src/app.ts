@@ -8,6 +8,8 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 // Routes
 import authRoutes from './modules/auth/auth.routes';
 import usersRoutes from './modules/users/users.routes';
+import messagesRoutes from './modules/messages/messages.routes';
+import webhooksRoutes from './modules/webhooks/webhooks.routes';
 
 const app: Application = express();
 
@@ -37,6 +39,8 @@ app.get('/api/health', (req, res) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/messages', messagesRoutes);
+app.use('/api/webhooks', webhooksRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

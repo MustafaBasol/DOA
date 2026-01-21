@@ -7,6 +7,7 @@
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/admin.css" />
 </head>
 <body class="dashboard">
   <div class="dashboard-header">
@@ -22,40 +23,189 @@
   </div>
 
   <div class="dashboard-content">
-    <h2>🎉 Admin Panel Hazır!</h2>
-    <p>Backend API başarıyla çalışıyor ve kimlik doğrulama sistemi aktif.</p>
-    
-    <div style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 0.5rem;">
-      <h3>✅ Tamamlanan İşlemler:</h3>
-      <ul style="line-height: 1.8;">
-        <li>✅ Backend API kurulumu (Node.js + Express + TypeScript)</li>
-        <li>✅ PostgreSQL veritabanı ve Prisma ORM</li>
-        <li>✅ JWT kimlik doğrulama sistemi</li>
-        <li>✅ User CRUD endpoint'leri</li>
-        <li>✅ Admin ve Client rolleri</li>
-        <li>✅ Login sayfası ve frontend</li>
-        <li>✅ Çok dilli destek (TR/EN/FR)</li>
-      </ul>
+    <div class="admin-container">
+      <!-- Header -->
+      <div class="admin-header">
+        <h2 data-i18n="admin.users">Müşteriler</h2>
+        <button class="btn btn-primary" onclick="openModal('createUserModal')">
+          + Yeni Müşteri
+        </button>
+      </div>
 
-      <h3 style="margin-top: 2rem;">📋 Sıradaki Adımlar:</h3>
-      <ul style="line-height: 1.8;">
-        <li>Müşteri listesi ve yönetim arayüzü</li>
-        <li>Mesajlaşma modülü</li>
-        <li>Ödeme takip sistemi</li>
-        <li>n8n webhook entegrasyonu</li>
-        <li>Dashboard istatistikleri</li>
-      </ul>
+      <!-- Search & Filter -->
+      <div class="filter-bar">
+        <input 
+          type="text" 
+          id="searchInput"
+          class="search-input" 
+          placeholder="İsim, email veya şirket ara..."
+        />
+      </div>
 
-      <div style="margin-top: 2rem; padding: 1rem; background: #f0f9ff; border-radius: 0.5rem;">
-        <strong>🔐 Test Hesapları:</strong><br/>
-        Admin: admin@autoviseo.com / Admin123!<br/>
-        Client: test@example.com / Client123!
+      <!-- Users Table -->
+      <div class="card">
+        <div class="card-body">
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Müşteri</th>
+                  <th>Şirket</th>
+                  <th>Telefon</th>
+                  <th>WhatsApp</th>
+                  <th>Durum</th>
+                  <th>İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody">
+                <tr>
+                  <td colspan="6" style="text-align: center; padding: 2rem;">
+                    <div class="loading-spinner" style="margin: 0 auto;"></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          
+          <div id="pagination" class="pagination"></div>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Create User Modal -->
+  <div id="createUserModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Yeni Müşteri Oluştur</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="createUserForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="email">E-posta *</label>
+            <input type="email" id="email" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="password">Şifre *</label>
+            <input type="password" id="password" required minlength="8" />
+            <small style="color: var(--color-text-muted); font-size: 0.8125rem;">
+              Min. 8 karakter, büyük/küçük harf ve rakam içermeli
+            </small>
+          </div>
+          
+          <div class="form-group">
+            <label for="fullName">Ad Soyad *</label>
+            <input type="text" id="fullName" required />
+          </div>
+          
+          <div class="form-group">
+            <label for="companyName">Şirket Adı</label>
+            <input type="text" id="companyName" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="phone">Telefon</label>
+              <input type="tel" id="phone" placeholder="+90 555 123 4567" />
+            </div>
+            
+            <div class="form-group">
+              <label for="whatsappNumber">WhatsApp Numarası</label>
+              <input type="tel" id="whatsappNumber" placeholder="+90 555 123 4567" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="language">Dil</label>
+            <select id="language">
+              <option value="TR">Türkçe</option>
+              <option value="EN">English</option>
+              <option value="FR">Français</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>
+            İptal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Oluştur
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div id="editUserModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Müşteri Düzenle</h3>
+        <button class="modal-close">&times;</button>
+      </div>
+      <form id="editUserForm">
+        <input type="hidden" id="editUserId" />
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="editFullName">Ad Soyad</label>
+            <input type="text" id="editFullName" />
+          </div>
+          
+          <div class="form-group">
+            <label for="editCompanyName">Şirket Adı</label>
+            <input type="text" id="editCompanyName" />
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label for="editPhone">Telefon</label>
+              <input type="tel" id="editPhone" />
+            </div>
+            
+            <div class="form-group">
+              <label for="editWhatsappNumber">WhatsApp</label>
+              <input type="tel" id="editWhatsappNumber" />
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="editLanguage">Dil</label>
+            <select id="editLanguage">
+              <option value="TR">Türkçe</option>
+              <option value="EN">English</option>
+              <option value="FR">Français</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-close-modal>
+            İptal
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Güncelle
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast">
+    <span class="toast-message"></span>
+  </div>
+
   <script src="/assets/js/panel/i18n.js"></script>
   <script src="/assets/js/panel/auth.js"></script>
+  <script src="/assets/js/panel/admin.js"></script>
   <script>
     // Display welcome message
     document.addEventListener('DOMContentLoaded', () => {

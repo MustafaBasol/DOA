@@ -23,6 +23,14 @@ app.listen(PORT, () => {
   console.log('  GET  /api/users/profile/me');
   console.log('  PATCH /api/users/profile/me');
   console.log('  PATCH /api/users/profile/password');
+  console.log('  GET  /api/messages');
+  console.log('  GET  /api/messages/conversations');
+  console.log('  GET  /api/messages/stats');
+  console.log('  GET  /api/messages/:id');
+  console.log('  PATCH /api/messages/:id/read');
+  console.log('  POST /api/messages/conversations/mark-read');
+  console.log('  POST /api/webhooks/n8n/message');
+  console.log('  GET  /api/webhooks/n8n/health');
   console.log('');
   console.log('✅ Ready to accept connections!');
 });
