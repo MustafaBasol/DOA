@@ -7,11 +7,12 @@
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="stylesheet" href="/assets/css/panel.css" />
+  <link rel="stylesheet" href="/assets/css/client.css" />
 </head>
 <body class="dashboard">
   <div class="dashboard-header">
     <div>
-      <h1 data-i18n="client.dashboard">Kontrol Paneli</h1>
+      <h1 data-i18n="client.dashboard">WhatsApp Mesajları</h1>
       <p id="welcomeMessage"></p>
     </div>
     <div>
@@ -21,34 +22,69 @@
     </div>
   </div>
 
-  <div class="dashboard-content">
-    <h2>🎉 Müşteri Paneli Hazır!</h2>
-    <p>WhatsApp chatbot yönetim sisteminize hoş geldiniz.</p>
-    
-    <div style="margin-top: 2rem; background: white; padding: 2rem; border-radius: 0.5rem;">
-      <h3>✅ Aktif Özellikler:</h3>
-      <ul style="line-height: 1.8;">
-        <li>✅ Güvenli giriş sistemi</li>
-        <li>✅ Profil yönetimi</li>
-        <li>✅ Çok dilli arayüz</li>
-      </ul>
+  <div class="dashboard-content" style="padding: 0; max-width: 100%; height: calc(100vh - 120px);">
+    <!-- Stats Row -->
+    <div class="stats-row" style="padding: 1.5rem; padding-bottom: 0;">
+      <div class="stat-card-small">
+        <div class="stat-label">Toplam Mesaj</div>
+        <div class="stat-value" id="statTotal">0</div>
+      </div>
+      <div class="stat-card-small">
+        <div class="stat-label">Okunmamış</div>
+        <div class="stat-value" id="statUnread" style="color: var(--color-primary);">0</div>
+      </div>
+      <div class="stat-card-small">
+        <div class="stat-label">Gelen Mesaj</div>
+        <div class="stat-value" id="statInbound">0</div>
+      </div>
+      <div class="stat-card-small">
+        <div class="stat-label">Giden Mesaj</div>
+        <div class="stat-value" id="statOutbound">0</div>
+      </div>
+    </div>
 
-      <h3 style="margin-top: 2rem;">🔜 Yakında:</h3>
-      <ul style="line-height: 1.8;">
-        <li>WhatsApp mesajlarınızı görüntüleme</li>
-        <li>Müşterilerinizle yazışmalar</li>
-        <li>Ödeme geçmişi ve faturalar</li>
-        <li>Profil düzenleme</li>
-      </ul>
+    <!-- Messages Layout -->
+    <div class="client-layout">
+      <!-- Conversations Sidebar -->
+      <div class="conversations-sidebar">
+        <div class="conversations-header">
+          <h2>Konuşmalar</h2>
+          <p style="font-size: 0.875rem; color: var(--color-text-muted); margin: 0;">WhatsApp Müşterileri</p>
+        </div>
+        <div class="conversations-list" id="conversationsList">
+          <!-- Conversations will be loaded here -->
+        </div>
+      </div>
 
-      <div style="margin-top: 2rem; padding: 1rem; background: #f0fdf4; border-radius: 0.5rem;">
-        <strong>💡 İpucu:</strong> Sisteminiz hazır! n8n webhook'ları aktif hale geldiğinde WhatsApp mesajlarınız bu panelde görünecek.
+      <!-- Messages Panel -->
+      <div class="messages-panel" id="messagesPanel">
+        <div class="messages-header" id="conversationHeader">
+          <!-- Conversation header will be loaded here -->
+        </div>
+        <div class="messages-container" id="messagesContainer">
+          <!-- Messages will be loaded here -->
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-messages-panel" id="emptyMessagesPanel">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+        </svg>
+        <p style="font-size: 1.125rem; margin-bottom: 0.5rem;">Bir konuşma seçin</p>
+        <p style="font-size: 0.875rem;">Mesajları görüntülemek için soldaki listeden seçim yapın</p>
       </div>
     </div>
   </div>
 
+  <!-- Loading Overlay -->
+  <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
   <script src="/assets/js/panel/i18n.js"></script>
   <script src="/assets/js/panel/auth.js"></script>
+  <script src="/assets/js/panel/client.js"></script>
   <script>
     // Display welcome message
     document.addEventListener('DOMContentLoaded', () => {
