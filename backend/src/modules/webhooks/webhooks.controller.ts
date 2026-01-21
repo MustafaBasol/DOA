@@ -1,6 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import { MessagesService } from '../messages/messages.service';
 import { PrismaClient } from '@prisma/client';
+import { socketService } from '../../socket';
+import { emailService } from '../notifications/email.service';
+import { serverConfig } from '../../config';
 
 const messagesService = new MessagesService();
 const prisma = new PrismaClient();
@@ -64,6 +67,57 @@ export class WebhooksController {
         mediaUrl: media_url,
         timestamp: timestamp || new Date(),
       });
+
+      // Emit real-time notification via WebSocket
+      if (socketService) {
+        // Notify the specific user
+        socketService.emitNewMessage(userId, {
+          id: message.id,
+          customerName: customer_name,
+          customerPhone: customer_phone,
+          messageContent: message_content,
+          messageType: message_type || 'text',
+          direction: direction || 'INBOUND',
+          timestamp: message.timestamp,
+          isRead: message.readStatus,
+        });
+
+        // Also notify all admins
+        socketService.emitToAdmins('new_message', {
+          id: message.id,
+          userId,
+          customerName: customer_name,
+          customerPhone: customer_phone,
+          messageContent: message_content,
+          direction: direction || 'INBOUND',
+        });
+
+        console.log(`📨 WebSocket notification sent for message ${message.id}`);
+      }
+
+      // Send email notification to user (only for inbound messages)
+      if (direction === 'INBOUND' || !direction) {
+        try {
+          const user = await prisma.user.findUnique({
+            where: { id: userId.toString() },
+            select: { email: true, fullName: true, companyName: true },
+          });
+
+          if (user && user.email) {
+            await emailService.sendNewMessageNotification({
+              to: user.email,
+              customerName: customer_name || 'Bilinmeyen',
+              customerPhone: customer_phone || from_number || 'Bilinmeyen',
+              messageContent: message_content || '(Medya mesajı)',
+              panelUrl: `${serverConfig.frontendUrl}/client.html`,
+            });
+            console.log(`📧 Email notification sent to ${user.email}`);
+          }
+        } catch (emailError) {
+          // Don't fail the request if email fails
+          console.error('⚠️ Email notification error:', emailError);
+        }
+      }
 
       res.status(201).json({
         success: true,

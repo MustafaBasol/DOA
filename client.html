@@ -16,7 +16,24 @@
       <h1 data-i18n="client.dashboard">WhatsApp Mesajları</h1>
       <p id="welcomeMessage"></p>
     </div>
-    <div>
+    <div style="display: flex; gap: 0.75rem; align-items: center;">
+      <div class="dropdown">
+        <button class="btn-secondary" id="reportsDropdownBtn" style="display: flex; align-items: center; gap: 0.5rem;">
+          📊 Raporlar
+          <span style="font-size: 0.75rem;">▼</span>
+        </button>
+        <div class="dropdown-menu" id="reportsDropdownMenu" style="display: none;">
+          <a href="#" onclick="exportReport('messages', 'excel'); return false;">📄 Mesajlar (Excel)</a>
+          <a href="#" onclick="exportReport('messages', 'pdf'); return false;">📑 Mesajlar (PDF)</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" onclick="exportReport('customers', 'excel'); return false;">👥 Müşteriler (Excel)</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" onclick="exportReport('payments', 'excel'); return false;">💳 Ödemeler (Excel)</a>
+          <a href="#" onclick="exportReport('payments', 'pdf'); return false;">💳 Ödemeler (PDF)</a>
+          <div class="dropdown-divider"></div>
+          <a href="#" onclick="exportReport('subscriptions', 'excel'); return false;">📅 Abonelikler (Excel)</a>
+        </div>
+      </div>
       <button onclick="logout()" class="btn-primary" data-i18n="nav.logout">
         Çıkış Yap
       </button>
@@ -99,6 +116,8 @@
   <script src="/assets/js/panel/client.js"></script>
   <script src="/assets/js/panel/payments.js"></script>
   <script src="/assets/js/panel/dashboard.js"></script>
+  <script src="/assets/js/panel/reports.js"></script>
+  <script src="/assets/js/socket-client.js"></script>
   <script>
     // Display welcome message
     document.addEventListener('DOMContentLoaded', () => {

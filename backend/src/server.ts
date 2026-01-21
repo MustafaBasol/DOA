@@ -1,9 +1,18 @@
+import { createServer } from 'http';
 import app from './app';
 import { serverConfig } from './config';
+import { initializeSocket } from './socket';
+import { subscriptionNotificationService } from './modules/notifications/subscription-notification.service';
 
 const PORT = serverConfig.port;
 
-app.listen(PORT, () => {
+// Create HTTP server
+const httpServer = createServer(app);
+
+// Initialize Socket.IO
+initializeSocket(httpServer);
+
+httpServer.listen(PORT, () => {
   console.log('🚀 Server started!');
   console.log(`📡 Environment: ${serverConfig.nodeEnv}`);
   console.log(`🔗 URL: ${serverConfig.apiUrl}`);
@@ -47,8 +56,24 @@ app.listen(PORT, () => {
   console.log('  POST /api/payments (admin)');
   console.log('  PATCH /api/payments/:id (admin)');
   console.log('  DELETE /api/payments/:id (admin)');
+  console.log('  GET  /api/reports/messages');
+  console.log('  GET  /api/reports/customers');
+  console.log('  GET  /api/reports/payments');
+  console.log('  GET  /api/reports/subscriptions');
+  console.log('  GET  /api/reports/messages/excel');
+  console.log('  GET  /api/reports/customers/excel');
+  console.log('  GET  /api/reports/payments/excel');
+  console.log('  GET  /api/reports/subscriptions/excel');
+  console.log('  GET  /api/reports/messages/pdf');
+  console.log('  GET  /api/reports/payments/pdf');
+  console.log('');
+  console.log('🔌 WebSocket: Enabled (Socket.IO)');
+  console.log('📊 Reports: Excel & PDF export enabled');
   console.log('');
   console.log('✅ Ready to accept connections!');
+  
+  // Start subscription notification scheduler
+  subscriptionNotificationService.startScheduler();
 });
 
 // Graceful shutdown

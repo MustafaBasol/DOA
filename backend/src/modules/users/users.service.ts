@@ -1,6 +1,8 @@
 import { PrismaClient, Role } from '@prisma/client';
 import { hashPassword, comparePassword, validatePasswordStrength } from '../../utils/password';
 import { AppError } from '../../middleware/errorHandler';
+import { emailService } from '../notifications/email.service';
+import { serverConfig } from '../../config';
 
 const prisma = new PrismaClient();
 
@@ -50,6 +52,17 @@ export class UsersService {
         createdAt: true,
       },
     });
+
+    // Send welcome email (async, don't wait)
+    if (user.email) {
+      emailService.sendWelcomeEmail({
+        to: user.email,
+        userName: user.fullName || user.companyName || user.email,
+        panelUrl: `${serverConfig.frontendUrl}/client.html`,
+      }).catch(error => {
+        console.error('⚠️ Welcome email error:', error);
+      });
+    }
 
     return user;
   }

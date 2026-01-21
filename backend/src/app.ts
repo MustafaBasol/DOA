@@ -12,6 +12,7 @@ import messagesRoutes from './modules/messages/messages.routes';
 import webhooksRoutes from './modules/webhooks/webhooks.routes';
 import subscriptionsRoutes from './modules/subscriptions/subscriptions.routes';
 import paymentsRoutes from './modules/payments/payments.routes';
+import reportsRoutes from './modules/reports/reports.routes';
 
 const app: Application = express();
 
@@ -45,6 +46,7 @@ app.use('/api/messages', messagesRoutes);
 app.use('/api/webhooks', webhooksRoutes);
 app.use('/api/subscriptions', subscriptionsRoutes);
 app.use('/api/payments', paymentsRoutes);
+app.use('/api/reports', reportsRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

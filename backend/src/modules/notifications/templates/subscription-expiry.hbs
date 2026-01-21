@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abonelik Süre Uyarısı</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    .content {
+      padding: 40px 30px;
+    }
+    .warning-box {
+      background-color: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .warning-box strong {
+      color: #d97706;
+      font-size: 18px;
+    }
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .info-row:last-child {
+      border-bottom: none;
+    }
+    .info-label {
+      font-weight: 600;
+      color: #6b7280;
+    }
+    .info-value {
+      color: #111827;
+    }
+    .button {
+      display: inline-block;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 6px;
+      margin: 20px 0;
+      font-weight: 600;
+      text-align: center;
+    }
+    .button:hover {
+      opacity: 0.9;
+    }
+    .footer {
+      background-color: #f8f9fa;
+      padding: 20px 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #666;
+    }
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>⚠️ Abonelik Süre Uyarısı</h1>
+    </div>
+    
+    <div class="content">
+      <p>Merhaba {{userName}},</p>
+      
+      <div class="warning-box">
+        <strong>Aboneliğiniz {{daysRemaining}} gün içinde sona eriyor!</strong>
+        <p style="margin: 10px 0 0 0;">Hizmet kesintisi yaşamamak için lütfen aboneliğinizi yenileyin.</p>
+      </div>
+      
+      <div style="background-color: #f9fafb; padding: 20px; border-radius: 6px; margin: 20px 0;">
+        <div class="info-row">
+          <span class="info-label">Plan:</span>
+          <span class="info-value">{{planName}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Son Kullanım Tarihi:</span>
+          <span class="info-value">{{expiryDate}}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Kalan Süre:</span>
+          <span class="info-value" style="color: #ef4444; font-weight: 600;">{{daysRemaining}} gün</span>
+        </div>
+      </div>
+      
+      <p style="text-align: center;">
+        <a href="{{renewUrl}}" class="button">
+          🔄 Aboneliği Yenile
+        </a>
+      </p>
+      
+      <p style="color: #666; font-size: 14px; margin-top: 30px;">
+        <strong>Abonelik sona erdiğinde:</strong><br>
+        • WhatsApp mesajlarınıza erişiminiz kesilecek<br>
+        • Yeni mesajlar alınamayacak<br>
+        • Panel özellikleri devre dışı kalacak
+      </p>
+      
+      <p style="color: #666; font-size: 14px;">
+        Sorularınız için <a href="mailto:support@autoviseo.com">destek ekibimize</a> ulaşabilirsiniz.
+      </p>
+    </div>
+    
+    <div class="footer">
+      <p>© {{year}} DOA WhatsApp Manager. Tüm hakları saklıdır.</p>
+      <p>
+        <a href="{{renewUrl}}">Abonelik Yönetimi</a> •
+        <a href="mailto:support@autoviseo.com">Destek</a>
+      </p>
+    </div>
+  </div>
+</body>
+</html>

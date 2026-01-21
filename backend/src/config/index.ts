@@ -27,3 +27,17 @@ export const rateLimitConfig = {
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS || '900000', 10),
   maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS || '100', 10),
 };
+
+export const emailConfig = {
+  smtp: {
+    host: process.env.SMTP_HOST || 'smtp.gmail.com',
+    port: parseInt(process.env.SMTP_PORT || '587', 10),
+    secure: process.env.SMTP_SECURE === 'true',
+    user: process.env.SMTP_USER || '',
+    pass: process.env.SMTP_PASS || '',
+  },
+  from: {
+    name: process.env.EMAIL_FROM_NAME || 'DOA WhatsApp Manager',
+    email: process.env.EMAIL_FROM_EMAIL || 'noreply@autoviseo.com',
+  },
+};

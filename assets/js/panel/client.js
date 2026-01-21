@@ -110,6 +110,9 @@ function renderMessages(messages, customerPhone) {
   
   if (!container || !header) return;
 
+  // Store customer phone in container for WebSocket updates
+  container.dataset.customerPhone = customerPhone;
+
   if (messages.length === 0) {
     container.innerHTML = '<div class="empty-state">Bu konuşmada henüz mesaj yok</div>';
     return;
@@ -139,7 +142,7 @@ function renderMessages(messages, customerPhone) {
     const time = new Date(msg.timestamp).toLocaleTimeString('tr-TR', { 
       hour: '2-digit', 
       minute: '2-digit' 
-    });
+    }); data-message-id="${msg.id}"
     
     return `
       <div class="message-bubble ${isInbound ? 'inbound' : 'outbound'}">
@@ -227,13 +230,82 @@ document.addEventListener('DOMContentLoaded', () => {
     loadConversations();
     loadMessageStats();
 
-    // Refresh every 30 seconds
+    // Refresh every 30 seconds (fallback for browsers without WebSocket)
     setInterval(() => {
-      loadConversations();
-      loadMessageStats();
+      if (!window.socketClient || !window.socketClient.isConnected) {
+        loadConversations();
+        loadMessageStats();
+      }
     }, 30000);
+
+    // Setup WebSocket event handlers
+    setupSocketHandlers();
   }
 });
+
+// Setup WebSocket real-time event handlers
+function setupSocketHandlers() {
+  if (!window.socketClient) {
+    console.warn('Socket client not available');
+    return;
+  }
+
+  // Handle new message
+  window.socketClient.on('new_message', (message) => {
+    console.log('📨 New message received via WebSocket:', message);
+    
+    // Reload conversations to update list
+    loadConversations();
+    
+    // If the message is for the currently open conversation, reload messages
+    const messagesContainer = document.getElementById('messagesContainer');
+    if (messagesContainer && messagesContainer.dataset.customerPhone === message.customerPhone) {
+      loadMessages(message.customerPhone);
+    }
+    
+    // Update stats
+    loadMessageStats();
+  });
+
+  // Handle message read status
+  window.socketClient.on('message_read', (data) => {
+    console.log('👁️ Message read:', data);
+    
+    // Update UI to show message as read
+    const messageElement = document.querySelector(`[data-message-id="${data.messageId}"]`);
+    if (messageElement) {
+      messageElement.classList.add('read');
+    }
+  });
+
+  // Handle typing indicator
+  window.socketClient.on('user_typing', (data) => {
+    const header = document.getElementById('conversationHeader');
+    if (header) {
+      const typingIndicator = header.querySelector('.typing-indicator');
+      
+      if (data.isTyping) {
+        if (!typingIndicator) {
+          const indicator = document.createElement('div');
+          indicator.className = 'typing-indicator';
+          indicator.textContent = 'Yazıyor...';
+          header.appendChild(indicator);
+        }
+      } else {
+        if (typingIndicator) {
+          typingIndicator.remove();
+        }
+      }
+    }
+  });
+
+  // Handle reconnection - reload data
+  window.socketClient.on('reconnected', () => {
+    console.log('🔄 Reconnected - reloading data...');
+    loadConversations();
+    loadMessageStats();
+  });
+}
 
 // Export
 if (typeof window !== 'undefined') {
