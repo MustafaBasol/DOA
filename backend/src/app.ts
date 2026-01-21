@@ -10,6 +10,8 @@ import authRoutes from './modules/auth/auth.routes';
 import usersRoutes from './modules/users/users.routes';
 import messagesRoutes from './modules/messages/messages.routes';
 import webhooksRoutes from './modules/webhooks/webhooks.routes';
+import subscriptionsRoutes from './modules/subscriptions/subscriptions.routes';
+import paymentsRoutes from './modules/payments/payments.routes';
 
 const app: Application = express();
 
@@ -41,6 +43,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/messages', messagesRoutes);
 app.use('/api/webhooks', webhooksRoutes);
+app.use('/api/subscriptions', subscriptionsRoutes);
+app.use('/api/payments', paymentsRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
