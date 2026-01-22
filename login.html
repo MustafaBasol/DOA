@@ -5,10 +5,51 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Giriş Yap | Autoviseo</title>
   <link rel="icon" href="/favicon.svg" sizes="any" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/assets/css/styles.css" />
   <link rel="stylesheet" href="/assets/css/panel.css" />
 </head>
 <body class="login-page">
+  <!-- Arka plan (ana sayfadaki gibi) -->
+  <div class="backdrop">
+    <div class="backdrop__ring"></div>
+    <div class="backdrop__ring backdrop__ring--sm"></div>
+    <div class="backdrop__texture"></div>
+  </div>
+
+  <div class="page-frame">
+    <!-- Ana sayfadaki header -->
+    <header class="site-header" data-animate>
+      <a class="site-header__logo" href="/" aria-label="Autoviseo">
+        <img src="assets/images/logo-mark.svg" alt="" aria-hidden="true" />
+        <span>Autoviseo</span>
+      </a>
+
+      <nav class="site-header__nav">
+        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false" data-i18n="header.toggle" data-i18n-attr="aria-label">
+          <span></span><span></span><span></span>
+        </button>
+
+        <ul class="site-header__links">
+          <li><a href="/#services" data-i18n="nav.services">Hizmetler</a></li>
+          <li><a href="/#contact" data-i18n="nav.contact">İletişim</a></li>
+        </ul>
+      </nav>
+
+      <div class="site-header__actions">
+        <div class="language-switcher" role="group" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+          <span class="sr-only" data-i18n="lang.label">Dil</span>
+          <button class="language-switcher__btn is-active" type="button" data-lang="tr" aria-pressed="true">TR</button>
+          <button class="language-switcher__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+          <button class="language-switcher__btn" type="button" data-lang="fr" aria-pressed="false">FR</button>
+        </div>
+        <a class="button button--sm" href="/#contact" data-i18n="header.cta">Ücretsiz Ön Analiz</a>
+      </div>
+    </header>
+
+    <main class="login-main">
   <div class="login-container">
     <div class="login-card">
       <div class="login-header">
@@ -50,11 +91,6 @@
       </form>
 
       <div class="login-footer">
-        <div class="language-selector">
-          <button type="button" class="lang-btn" data-lang="tr">TR</button>
-          <button type="button" class="lang-btn" data-lang="en">EN</button>
-          <button type="button" class="lang-btn" data-lang="fr">FR</button>
-        </div>
         <p>
           <a href="/" data-i18n="login.back">← Ana Sayfaya Dön</a>
         </p>
@@ -62,6 +98,10 @@
     </div>
   </div>
 
+    </main>
+  </div>
+
+  <script src="/assets/js/main.js"></script>
   <script src="/assets/js/panel/i18n.js"></script>
   <script src="/assets/js/panel/auth.js"></script>
 </body>
