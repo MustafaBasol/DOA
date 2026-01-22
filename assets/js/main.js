@@ -434,7 +434,24 @@
       const isFormControl = ['INPUT', 'SELECT', 'TEXTAREA', 'OPTION'].includes(tagName);
       const attrOnly = Boolean(attr);
       if (!isFormControl && !attrOnly) {
-        el.textContent = value;
+        // Eğer element içinde SVG veya diğer child elementler varsa
+        // sadece text node'ları değiştir
+        const hasChildElements = el.children.length > 0;
+        if (hasChildElements) {
+          // Son text node'u bul ve değiştir
+          const childNodes = Array.from(el.childNodes);
+          const textNodes = childNodes.filter(node => node.nodeType === Node.TEXT_NODE);
+          if (textNodes.length > 0) {
+            // En son text node'u güncelle (genellikle buton metni)
+            textNodes[textNodes.length - 1].textContent = value;
+          } else {
+            // Text node yoksa yeni bir tane ekle
+            el.appendChild(document.createTextNode(value));
+          }
+        } else {
+          // Child element yoksa direkt textContent kullan
+          el.textContent = value;
+        }
       }
     });
 
