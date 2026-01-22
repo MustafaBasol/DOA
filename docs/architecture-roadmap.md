@@ -500,7 +500,11 @@ GET    /api/health/db               # Database bağlantı kontrolü
 - [x] Integration testler (Auth, Permission API'leri)
 - [x] Jest + Supertest kurulumu
 - [x] Messages/Subscriptions/Payments testleri (116 unit + 100 integration tests)
-- [ ] E2E testler (Playwright/Cypress) - Opsiyonel
+- [x] **E2E testler (Playwright)** - ✅ TAMAMLANDI
+  - 43 E2E test (Auth: 13, Dashboard: 13, API: 17)
+  - Playwright kurulumu ve konfigürasyonu
+  - UI ve API test coverage
+  - CI/CD ready
 - [ ] Load testing (k6/Artillery) - Opsiyonel
 
 **Hafta 12: UAT ve Launch**
