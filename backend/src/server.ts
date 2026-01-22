@@ -3,6 +3,7 @@ import app from './app';
 import { serverConfig } from './config';
 import { initializeSocket } from './socket';
 import { subscriptionNotificationService } from './modules/notifications/subscription-notification.service';
+import { backupScheduler } from './services/backup-scheduler.service';
 
 const PORT = serverConfig.port;
 
@@ -105,15 +106,20 @@ httpServer.listen(PORT, () => {
   
   // Start subscription notification scheduler
   subscriptionNotificationService.startScheduler();
+  
+  // Start backup scheduler
+  backupScheduler.start();
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
   console.log('👋 SIGTERM received, shutting down gracefully...');
+  backupScheduler.stop();
   process.exit(0);
 });
 
 process.on('SIGINT', () => {
   console.log('👋 SIGINT received, shutting down gracefully...');
+  backupScheduler.stop();
   process.exit(0);
 });

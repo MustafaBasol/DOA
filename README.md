@@ -135,6 +135,15 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ **Critical route entegrasyonları**
 - 🟡 **UI (backend tamam, frontend geliştiriliyor)**
 
+### Backup & Restore System (YENI!)
+- ✅ **Automatic daily backups** (node-cron)
+- ✅ **Manual backup API** (full & table-specific)
+- ✅ **Database restore** (pg_dump/psql)
+- ✅ **Scheduled cleanup** (keep last N backups)
+- ✅ **Backup statistics & monitoring**
+- ✅ **Health check endpoint**
+- ✅ **SUPER_ADMIN only access**
+
 ### Çok Dilli Destek
 - ✅ Türkçe (TR)
 - ✅ İngilizce (EN)

@@ -23,6 +23,7 @@ import notificationRoutes from './modules/notifications/notifications.routes';
 import deviceRoutes from './routes/device.routes';
 import messageTemplateRoutes from './routes/message-template.routes';
 import whatsappRoutes from './routes/whatsapp.routes';
+import backupRoutes from './routes/backup.routes';
 
 const app: Application = express();
 
@@ -69,6 +70,7 @@ app.use('/api/notifications', notificationRoutes);
 app.use('/api/devices', deviceRoutes);
 app.use('/api/templates', messageTemplateRoutes);
 app.use('/api/whatsapp', whatsappRoutes);
+app.use('/api/backup', backupRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

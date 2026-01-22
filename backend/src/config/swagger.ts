@@ -173,6 +173,7 @@ const options: swaggerJsdoc.Options = {
       { name: 'Permissions', description: 'Role and permission management' },
       { name: 'Audit', description: 'Audit log management' },
       { name: 'Webhooks', description: 'Webhook endpoints for n8n integration' },
+      { name: 'Backup', description: 'Database backup and restore management' },
     ],
   },
   apis: [
