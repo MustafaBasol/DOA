@@ -1,7 +1,7 @@
 // Integration tests for Auth API endpoints
 import request from 'supertest';
 import express from 'express';
-import { authRouter } from '../../src/modules/auth/auth.routes';
+import authRouter from '../../src/modules/auth/auth.routes';
 import { prisma } from '../../src/config/database';
 
 // Create test app

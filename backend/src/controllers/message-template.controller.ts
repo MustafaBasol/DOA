@@ -4,7 +4,7 @@ import { messageTemplateService } from '../services/message-template.service';
 /**
  * Create a new template
  */
-export const createTemplate = async (req: Request, res: Response): Promise<void> => {
+export const createTemplate = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -44,7 +44,7 @@ export const createTemplate = async (req: Request, res: Response): Promise<void>
 /**
  * Get all templates
  */
-export const getTemplates = async (req: Request, res: Response): Promise<void> => {
+export const getTemplates = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { category, language, status, search } = req.query;
 
@@ -68,7 +68,7 @@ export const getTemplates = async (req: Request, res: Response): Promise<void> =
 /**
  * Get template by ID
  */
-export const getTemplateById = async (req: Request, res: Response): Promise<void> => {
+export const getTemplateById = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { id } = req.params;
 
@@ -91,7 +91,7 @@ export const getTemplateById = async (req: Request, res: Response): Promise<void
 /**
  * Update template
  */
-export const updateTemplate = async (req: Request, res: Response): Promise<void> => {
+export const updateTemplate = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -128,7 +128,7 @@ export const updateTemplate = async (req: Request, res: Response): Promise<void>
 /**
  * Delete template
  */
-export const deleteTemplate = async (req: Request, res: Response): Promise<void> => {
+export const deleteTemplate = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -158,7 +158,7 @@ export const deleteTemplate = async (req: Request, res: Response): Promise<void>
 /**
  * Preview template with variables
  */
-export const previewTemplate = async (req: Request, res: Response): Promise<void> => {
+export const previewTemplate = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { content, variables } = req.body;
 
@@ -181,7 +181,7 @@ export const previewTemplate = async (req: Request, res: Response): Promise<void
 /**
  * Duplicate template
  */
-export const duplicateTemplate = async (req: Request, res: Response): Promise<void> => {
+export const duplicateTemplate = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -211,7 +211,7 @@ export const duplicateTemplate = async (req: Request, res: Response): Promise<vo
 /**
  * Get template statistics
  */
-export const getTemplateStats = async (req: Request, res: Response): Promise<void> => {
+export const getTemplateStats = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userRole = req.user?.role;
 
@@ -234,7 +234,7 @@ export const getTemplateStats = async (req: Request, res: Response): Promise<voi
 /**
  * Search templates
  */
-export const searchTemplates = async (req: Request, res: Response): Promise<void> => {
+export const searchTemplates = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const { q } = req.query;
 

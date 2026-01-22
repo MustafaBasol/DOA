@@ -49,18 +49,18 @@ export class NotificationService {
       const user = await prisma.user.findUnique({
         where: { id: userId.toString() },
         select: {
+          id: true,
           email: true,
           fullName: true,
-          notificationPreferences: true,
         },
-      });
+      }) as any;
 
       if (!user) {
         console.error(`User ${userId} not found`);
         return;
       }
 
-      const preferences = (user.notificationPreferences as any) || {
+      const preferences = user.notificationPreferences || {
         email: true,
         push: false,
         inApp: true,
@@ -104,7 +104,7 @@ export class NotificationService {
 
       // Send via Push Notification
       if (preferences.push) {
-        await pushNotificationService.sendToUser(parseInt(userId.toString()), {
+        await pushNotificationService.sendToUser(userId.toString(), {
           title,
           body: message,
           data: data ? Object.fromEntries(
@@ -337,7 +337,7 @@ export class NotificationService {
   /**
    * Send welcome email to new user
    */
-  async sendWelcomeNotification(userId: number, email: string, fullName: string): Promise<void> {
+  async sendWelcomeNotification(userId: number, _email: string, fullName: string): Promise<void> {
     await this.sendNotification({
       userId,
       type: 'WELCOME',

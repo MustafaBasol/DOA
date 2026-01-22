@@ -32,7 +32,7 @@ export class PushNotificationService {
         return { success: 0, failed: 0 };
       }
 
-      const tokens = devices.map((d) => d.token);
+      const tokens = devices.map((d: any) => d.token);
 
       // Send multicast notification
       const result = await firebaseService.sendMulticastNotification(
@@ -76,7 +76,7 @@ export class PushNotificationService {
         return { success: 0, failed: 0 };
       }
 
-      const tokens = devices.map((d) => d.token);
+      const tokens = devices.map((d: any) => d.token);
 
       // Send multicast notification (max 500 tokens per call)
       let totalSuccess = 0;
@@ -252,7 +252,7 @@ export class PushNotificationService {
         return 0;
       }
 
-      const tokens = devices.map((d) => d.token);
+      const tokens = devices.map((d: any) => d.token);
       return await firebaseService.subscribeToTopic(tokens, topic);
     } catch (error) {
       console.error('Failed to subscribe user to topic:', error);
@@ -273,7 +273,7 @@ export class PushNotificationService {
         return 0;
       }
 
-      const tokens = devices.map((d) => d.token);
+      const tokens = devices.map((d: any) => d.token);
       return await firebaseService.unsubscribeFromTopic(tokens, topic);
     } catch (error) {
       console.error('Failed to unsubscribe user from topic:', error);

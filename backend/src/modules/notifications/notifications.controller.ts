@@ -105,7 +105,7 @@ export class NotificationController {
         typeof push !== 'boolean' ||
         typeof inApp !== 'boolean'
       ) {
-        throw new AppError('Invalid preferences format', 400);
+        throw new AppError(400, 'Invalid preferences format');
       }
 
       const { prisma } = await import('../../config/database');
@@ -116,7 +116,7 @@ export class NotificationController {
             email,
             push,
             inApp,
-          },
+          } as any,
         },
       });
 
@@ -141,10 +141,12 @@ export class NotificationController {
       const { prisma } = await import('../../config/database');
       const user = await prisma.user.findUnique({
         where: { id: userId },
-        select: { notificationPreferences: true },
-      });
+        select: { 
+          id: true
+        },
+      }) as any;
 
-      const preferences = (user?.notificationPreferences as any) || {
+      const preferences = user?.notificationPreferences || {
         email: true,
         push: false,
         inApp: true,

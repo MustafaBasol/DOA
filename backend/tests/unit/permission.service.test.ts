@@ -1,254 +1,185 @@
 // Unit tests for Permission Service
-import { PermissionService } from '../../src/services/permission.service';
+import { permissionService } from '../../src/services/permission.service';
 import { prisma } from '../../src/config/database';
 
 jest.mock('../../src/config/database', () => ({
   prisma: {
-    permission: {
+    rolePermission: {
       findMany: jest.fn(),
       findFirst: jest.fn(),
       findUnique: jest.fn(),
       create: jest.fn(),
       update: jest.fn(),
       delete: jest.fn(),
+      deleteMany: jest.fn(),
+    },
+    permission: {
+      findMany: jest.fn(),
+      findUnique: jest.fn(),
     },
   },
 }));
 
 describe('PermissionService', () => {
-  let permissionService: PermissionService;
-
   beforeEach(() => {
-    permissionService = new PermissionService();
+    // Clear cache before each test
+    permissionService.clearCache();
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  describe('getPermissionsByRole', () => {
-    it('should return permissions for a specific role', async () => {
-      const mockPermissions = [
+  describe('hasPermission', () => {
+    it('should return true if role has permission', async () => {
+      const mockRolePermissions = [
         {
-          id: 'perm-1',
+          id: 'rp-1',
           role: 'ADMIN',
-          resource: 'users',
-          action: 'create',
-          granted: true,
-          description: 'Create users',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          id: 'perm-2',
-          role: 'ADMIN',
-          resource: 'users',
-          action: 'read',
-          granted: true,
-          description: 'View users',
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          permissionId: 'perm-1',
+          permission: {
+            id: 'perm-1',
+            resource: 'users',
+            action: 'create',
+            description: 'Create users',
+          },
         },
       ];
 
-      (prisma.permission.findMany as jest.Mock).mockResolvedValue(mockPermissions);
+      (prisma.rolePermission.findMany as jest.Mock).mockResolvedValue(mockRolePermissions);
 
-      const result = await permissionService.getPermissionsByRole('ADMIN');
+      const result = await permissionService.hasPermission('ADMIN', 'users', 'create');
 
-      expect(prisma.permission.findMany).toHaveBeenCalledWith({
-        where: { role: 'ADMIN' },
-        orderBy: [{ resource: 'asc' }, { action: 'asc' }],
-      });
-      expect(result).toEqual(mockPermissions);
-      expect(result.length).toBe(2);
-    });
-
-    it('should return empty array if no permissions found', async () => {
-      (prisma.permission.findMany as jest.Mock).mockResolvedValue([]);
-
-      const result = await permissionService.getPermissionsByRole('CLIENT');
-
-      expect(result).toEqual([]);
-    });
-  });
-
-  describe('checkPermission', () => {
-    it('should return true if permission is granted', async () => {
-      const mockPermission = {
-        id: 'perm-1',
-        role: 'ADMIN',
-        resource: 'users',
-        action: 'create',
-        granted: true,
-        description: 'Create users',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-
-      (prisma.permission.findFirst as jest.Mock).mockResolvedValue(mockPermission);
-
-      const result = await permissionService.checkPermission('ADMIN', 'users', 'create');
-
-      expect(prisma.permission.findFirst).toHaveBeenCalledWith({
-        where: {
-          role: 'ADMIN',
-          resource: 'users',
-          action: 'create',
-          granted: true,
-        },
-      });
       expect(result).toBe(true);
     });
 
-    it('should return false if permission is not granted', async () => {
-      (prisma.permission.findFirst as jest.Mock).mockResolvedValue(null);
+    it('should return false if role does not have permission', async () => {
+      (prisma.rolePermission.findMany as jest.Mock).mockResolvedValue([]);
 
-      const result = await permissionService.checkPermission('CLIENT', 'users', 'delete');
+      const result = await permissionService.hasPermission('CLIENT', 'users', 'delete');
 
       expect(result).toBe(false);
     });
 
     it('should always return true for SUPER_ADMIN', async () => {
-      const result = await permissionService.checkPermission('SUPER_ADMIN', 'users', 'delete');
+      const result = await permissionService.hasPermission('SUPER_ADMIN', 'users', 'delete');
 
-      expect(prisma.permission.findFirst).not.toHaveBeenCalled();
       expect(result).toBe(true);
     });
   });
 
-  describe('updatePermission', () => {
-    it('should update permission successfully', async () => {
-      const permissionId = 'perm-1';
-      const updateData = { granted: false };
+  describe('getRolePermissions', () => {
+    it('should return permission strings for a role', async () => {
+      const mockRolePermissions = [
+        {
+          id: 'rp-1',
+          role: 'ADMIN',
+          permissionId: 'perm-1',
+          permission: {
+            id: 'perm-1',
+            resource: 'users',
+            action: 'create',
+            description: 'Create users',
+          },
+        },
+        {
+          id: 'rp-2',
+          role: 'ADMIN',
+          permissionId: 'perm-2',
+          permission: {
+            id: 'perm-2',
+            resource: 'users',
+            action: 'read',
+            description: 'Read users',
+          },
+        },
+      ];
 
-      const updatedPermission = {
-        id: permissionId,
-        role: 'ADMIN',
-        resource: 'users',
-        action: 'delete',
-        granted: false,
-        description: 'Delete users',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      (prisma.rolePermission.findMany as jest.Mock).mockResolvedValue(mockRolePermissions);
 
-      (prisma.permission.update as jest.Mock).mockResolvedValue(updatedPermission);
+      const result = await permissionService.getRolePermissions('ADMIN');
 
-      const result = await permissionService.updatePermission(permissionId, updateData);
-
-      expect(prisma.permission.update).toHaveBeenCalledWith({
-        where: { id: permissionId },
-        data: updateData,
-      });
-      expect(result.granted).toBe(false);
+      expect(result).toContain('users:create');
+      expect(result).toContain('users:read');
+      expect(result.length).toBe(2);
     });
 
-    it('should throw error if permission not found', async () => {
-      (prisma.permission.update as jest.Mock).mockRejectedValue(
-        new Error('Permission not found')
+    it('should return empty array if no permissions found', async () => {
+      (prisma.rolePermission.findMany as jest.Mock).mockResolvedValue([]);
+
+      const result = await permissionService.getRolePermissions('CLIENT');
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('assignPermissionToRole', () => {
+    it('should assign permission to role successfully', async () => {
+      const mockRolePermission = {
+        id: 'new-rp-id',
+        role: 'MANAGER',
+        permissionId: 'perm-1',
+        grantedById: 'admin-id',
+        createdAt: new Date(),
+      };
+
+      (prisma.rolePermission.create as jest.Mock).mockResolvedValue(mockRolePermission);
+
+      const result = await permissionService.assignPermissionToRole(
+        'MANAGER',
+        'perm-1',
+        'admin-id'
       );
 
-      await expect(
-        permissionService.updatePermission('invalid-id', { granted: false })
-      ).rejects.toThrow();
+      expect(result.id).toBe('new-rp-id');
+      expect(prisma.rolePermission.create).toHaveBeenCalledWith({
+        data: {
+          role: 'MANAGER',
+          permissionId: 'perm-1',
+          grantedById: 'admin-id',
+        },
+      });
     });
   });
 
-  describe('createPermission', () => {
-    it('should create new permission successfully', async () => {
-      const newPermission = {
-        role: 'MANAGER' as const,
-        resource: 'reports',
-        action: 'export',
-        granted: true,
-        description: 'Export reports',
-      };
+  describe('removePermissionFromRole', () => {
+    it('should remove permission from role successfully', async () => {
+      (prisma.rolePermission.deleteMany as jest.Mock).mockResolvedValue({ count: 1 });
 
-      const createdPermission = {
-        id: 'new-perm-id',
-        ...newPermission,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
+      await permissionService.removePermissionFromRole('MANAGER', 'perm-1');
 
-      (prisma.permission.create as jest.Mock).mockResolvedValue(createdPermission);
-
-      const result = await permissionService.createPermission(newPermission);
-
-      expect(prisma.permission.create).toHaveBeenCalledWith({
-        data: newPermission,
+      expect(prisma.rolePermission.deleteMany).toHaveBeenCalledWith({
+        where: {
+          role: 'MANAGER',
+          permissionId: 'perm-1',
+        },
       });
-      expect(result.id).toBe('new-perm-id');
     });
   });
 
-  describe('deletePermission', () => {
-    it('should delete permission successfully', async () => {
-      const permissionId = 'perm-to-delete';
-
-      (prisma.permission.delete as jest.Mock).mockResolvedValue({
-        id: permissionId,
-      });
-
-      await permissionService.deletePermission(permissionId);
-
-      expect(prisma.permission.delete).toHaveBeenCalledWith({
-        where: { id: permissionId },
-      });
-    });
-
-    it('should throw error if permission not found', async () => {
-      (prisma.permission.delete as jest.Mock).mockRejectedValue(
-        new Error('Permission not found')
-      );
-
-      await expect(permissionService.deletePermission('invalid-id')).rejects.toThrow();
-    });
-  });
-
-  describe('getPermissionMatrix', () => {
-    it('should return grouped permissions by resource', async () => {
+  describe('getAllPermissions', () => {
+    it('should return all available permissions', async () => {
       const mockPermissions = [
         {
           id: 'perm-1',
-          role: 'ADMIN',
           resource: 'users',
           action: 'create',
-          granted: true,
           description: 'Create users',
-          createdAt: new Date(),
-          updatedAt: new Date(),
         },
         {
           id: 'perm-2',
-          role: 'ADMIN',
           resource: 'users',
           action: 'read',
-          granted: true,
-          description: 'View users',
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        },
-        {
-          id: 'perm-3',
-          role: 'ADMIN',
-          resource: 'payments',
-          action: 'create',
-          granted: false,
-          description: 'Create payments',
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          description: 'Read users',
         },
       ];
 
       (prisma.permission.findMany as jest.Mock).mockResolvedValue(mockPermissions);
 
-      const result = await permissionService.getPermissionMatrix('ADMIN');
+      const result = await permissionService.getAllPermissions();
 
-      expect(result).toHaveProperty('users');
-      expect(result).toHaveProperty('payments');
-      expect(result.users.length).toBe(2);
-      expect(result.payments.length).toBe(1);
+      expect(result.length).toBe(2);
+      expect(result[0].resource).toBe('users');
     });
   });
 });

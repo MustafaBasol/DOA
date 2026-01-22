@@ -180,72 +180,43 @@ function displayLogsTable(logs) {
     };
 
     logs.forEach(log => {
-        const actionType = log.action.split('_')[0] || 'read';
+        const actionType = log.action.split('.')[0] || 'read';
         const badgeColor = actionColors[actionType] || 'secondary';
         const date = new Date(log.createdAt);
-        const formattedDate = date.toLocaleString('tr-TR');
-        const userName = log.user ? `${log.user.firstName} ${log.user.lastName}` : 'Sistem';
 
         const row = document.createElement('tr');
+        row.className = 'audit-row';
         row.innerHTML = `
             <td>
-                <small>${formattedDate}</small>
+                <small>${date.toLocaleDateString('tr-TR')}</small><br>
+                <small class="text-muted">${date.toLocaleTimeString('tr-TR')}</small>
             </td>
             <td>
-                <strong>${userName}</strong>
-                <br><small style="color: #6b7280;">${log.user?.email || '-'}</small>
+                ${log.user ? `
+                    <strong>${log.user.fullName || log.user.email}</strong><br>
+                    <small class="text-muted">${log.user.role}</small>
+                ` : '<span class="text-muted">System</span>'}
             </td>
             <td>
-                <span class="badge badge-${badgeColor}">
-                    ${formatAction(log.action)}
+                <span class="badge bg-${badgeColor} action-badge">
+                    ${log.action}
                 </span>
             </td>
             <td>
-                ${formatResource(log.resource)}
-            </td>
-            <td>
-                <small>${log.details || '-'}</small>
+                <span class="badge bg-secondary">${log.resource}</span>
+                ${log.resourceId ? `<br><small class="text-muted">${log.resourceId.substring(0, 8)}</small>` : ''}
             </td>
             <td>
                 <small>${log.ipAddress || '-'}</small>
             </td>
+            <td>
+                <button class="btn btn-sm btn-outline-primary" onclick="showLogDetails('${log.id}')">
+                    <i class="bi bi-eye"></i>
+                </button>
+            </td>
         `;
         tbody.appendChild(row);
     });
-}
-
-        return `
-            <tr class="audit-row">
-                <td>
-                    <small>${date.toLocaleDateString('tr-TR')}</small><br>
-                    <small class="text-muted">${date.toLocaleTimeString('tr-TR')}</small>
-                </td>
-                <td>
-                    ${log.user ? `
-                        <strong>${log.user.fullName || log.user.email}</strong><br>
-                        <small class="text-muted">${log.user.role}</small>
-                    ` : '<span class="text-muted">System</span>'}
-                </td>
-                <td>
-                    <span class="badge bg-${badgeColor} action-badge">
-                        ${log.action}
-                    </span>
-                </td>
-                <td>
-                    <span class="badge bg-secondary">${log.resource}</span>
-                    ${log.resourceId ? `<br><small class="text-muted">${log.resourceId.substring(0, 8)}</small>` : ''}
-                </td>
-                <td>
-                    <small>${log.ipAddress || '-'}</small>
-                </td>
-                <td>
-                    <button class="btn btn-sm btn-outline-primary" onclick="showLogDetails('${log.id}')">
-                        <i class="bi bi-eye"></i>
-                    </button>
-                </td>
-            </tr>
-        `;
-    }).join('');
 }
 
 // Display timeline

@@ -1,7 +1,7 @@
 // Integration tests for Permission API endpoints
 import request from 'supertest';
 import express from 'express';
-import { permissionRouter } from '../../src/routes/permission.routes';
+import permissionRouter from '../../src/routes/permission.routes';
 import { authenticate } from '../../src/middleware/auth';
 
 // Create test app

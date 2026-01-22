@@ -4,7 +4,7 @@ import { whatsAppService } from '../services/whatsapp.service';
 /**
  * Send template message to recipients
  */
-export const sendTemplateMessage = async (req: Request, res: Response): Promise<void> => {
+export const sendTemplateMessage = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -50,7 +50,7 @@ export const sendTemplateMessage = async (req: Request, res: Response): Promise<
 /**
  * Schedule message for later delivery
  */
-export const scheduleMessage = async (req: Request, res: Response): Promise<void> => {
+export const scheduleMessage = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -103,7 +103,7 @@ export const scheduleMessage = async (req: Request, res: Response): Promise<void
 /**
  * Get user's scheduled messages
  */
-export const getScheduledMessages = async (req: Request, res: Response): Promise<void> => {
+export const getScheduledMessages = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
 
@@ -126,7 +126,7 @@ export const getScheduledMessages = async (req: Request, res: Response): Promise
 /**
  * Cancel scheduled message
  */
-export const cancelScheduledMessage = async (req: Request, res: Response): Promise<void> => {
+export const cancelScheduledMessage = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
 
@@ -151,7 +151,7 @@ export const cancelScheduledMessage = async (req: Request, res: Response): Promi
 /**
  * Get scheduled message statistics
  */
-export const getScheduledMessageStats = async (req: Request, res: Response): Promise<void> => {
+export const getScheduledMessageStats = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -178,7 +178,7 @@ export const getScheduledMessageStats = async (req: Request, res: Response): Pro
 /**
  * Process pending scheduled messages (internal endpoint)
  */
-export const processPendingMessages = async (req: Request, res: Response): Promise<void> => {
+export const processPendingMessages = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userRole = req.user?.role;
 

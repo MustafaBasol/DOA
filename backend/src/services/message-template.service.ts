@@ -193,7 +193,7 @@ export class MessageTemplateService {
   /**
    * Validate template variables
    */
-  validateVariables(templateId: string, variables: Record<string, any>): {
+  validateVariables(templateId: string, _variables: Record<string, any>): {
     valid: boolean;
     missing: string[];
     extra: string[];

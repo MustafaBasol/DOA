@@ -193,7 +193,7 @@ export class ReportsController {
   }
 
   // GET /api/reports/subscriptions/expiring - Expiring Subscriptions Report
-  async exportSubscriptionExpiryReport(req: Request, res: Response, next: NextFunction) {
+  async exportSubscriptionExpiryReport(_req: Request, res: Response, next: NextFunction) {
     try {
       const buffer = await enhancedReportsService.generateSubscriptionExpiryReport();
       

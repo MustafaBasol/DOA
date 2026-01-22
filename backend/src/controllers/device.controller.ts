@@ -4,7 +4,7 @@ import { pushNotificationService } from '../services/push-notification.service';
 /**
  * Register device for push notifications
  */
-export const registerDevice = async (req: Request, res: Response): Promise<void> => {
+export const registerDevice = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -43,7 +43,7 @@ export const registerDevice = async (req: Request, res: Response): Promise<void>
 /**
  * Unregister device from push notifications
  */
-export const unregisterDevice = async (req: Request, res: Response): Promise<void> => {
+export const unregisterDevice = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -71,7 +71,7 @@ export const unregisterDevice = async (req: Request, res: Response): Promise<voi
 /**
  * Get user's registered devices
  */
-export const getUserDevices = async (req: Request, res: Response): Promise<void> => {
+export const getUserDevices = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -82,7 +82,7 @@ export const getUserDevices = async (req: Request, res: Response): Promise<void>
 
     res.json({
       success: true,
-      devices: devices.map((d) => ({
+      devices: devices.map((d: any) => ({
         id: d.id,
         platform: d.platform,
         deviceName: d.deviceName,
@@ -101,7 +101,7 @@ export const getUserDevices = async (req: Request, res: Response): Promise<void>
 /**
  * Send test push notification
  */
-export const sendTestNotification = async (req: Request, res: Response): Promise<void> => {
+export const sendTestNotification = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     if (!userId) {
@@ -134,7 +134,7 @@ export const sendTestNotification = async (req: Request, res: Response): Promise
 /**
  * Subscribe to topic (Admin only)
  */
-export const subscribeToTopic = async (req: Request, res: Response): Promise<void> => {
+export const subscribeToTopic = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -169,7 +169,7 @@ export const subscribeToTopic = async (req: Request, res: Response): Promise<voi
 /**
  * Unsubscribe from topic (Admin only)
  */
-export const unsubscribeFromTopic = async (req: Request, res: Response): Promise<void> => {
+export const unsubscribeFromTopic = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userId = req.user?.id;
     const userRole = req.user?.role;
@@ -204,7 +204,7 @@ export const unsubscribeFromTopic = async (req: Request, res: Response): Promise
 /**
  * Send push notification to users (Admin only)
  */
-export const sendPushToUsers = async (req: Request, res: Response): Promise<void> => {
+export const sendPushToUsers = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userRole = req.user?.role;
 
@@ -246,7 +246,7 @@ export const sendPushToUsers = async (req: Request, res: Response): Promise<void
 /**
  * Send push notification to role (Admin only)
  */
-export const sendPushToRole = async (req: Request, res: Response): Promise<void> => {
+export const sendPushToRole = async (req: Request, res: Response): Promise<Response | void> => {
   try {
     const userRole = req.user?.role;
 
