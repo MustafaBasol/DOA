@@ -102,6 +102,13 @@ body::before {
     width: min(92vw, var(--max-width));
     margin: 0 auto;
     padding-bottom: 160px;
+    padding-top: 0;
+}
+
+/* Login page specific - no top padding */
+.login-page .page-frame {
+    padding-top: 0;
+    margin-top: 0;
 }
 .site-header {
   display: flex;
@@ -114,13 +121,13 @@ body::before {
   z-index: 20;
 
   /* Kutuyu kaldır */
-  margin-top: 0;
+  margin: 0;
   border: none;
   border-image: none;
   border-radius: 0;
- background: rgba(5, 6, 15, 0.35);
-backdrop-filter: blur(12px);
-
+  background: rgba(5, 6, 15, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   /* İç boşluk (sayfa hizası bozulmasın) */
   padding: 18px 0;

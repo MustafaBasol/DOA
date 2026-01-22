@@ -5,14 +5,16 @@
   min-height: 100vh;
   background: var(--bg);
   color: var(--text-primary);
+  margin: 0;
+  padding: 0;
 }
 
 .login-main {
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 90px);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 3rem 1rem;
 }
 
 .login-container {

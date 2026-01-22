@@ -438,15 +438,17 @@
         // sadece text node'ları değiştir
         const hasChildElements = el.children.length > 0;
         if (hasChildElements) {
-          // Son text node'u bul ve değiştir
+          // Tüm child node'ları gez
           const childNodes = Array.from(el.childNodes);
-          const textNodes = childNodes.filter(node => node.nodeType === Node.TEXT_NODE);
+          const textNodes = childNodes.filter(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+          
           if (textNodes.length > 0) {
-            // En son text node'u güncelle (genellikle buton metni)
-            textNodes[textNodes.length - 1].textContent = value;
+            // En son anlamlı text node'u güncelle
+            const lastTextNode = textNodes[textNodes.length - 1];
+            lastTextNode.textContent = ' ' + value; // Önüne space ekle (SVG'den sonra)
           } else {
             // Text node yoksa yeni bir tane ekle
-            el.appendChild(document.createTextNode(value));
+            el.appendChild(document.createTextNode(' ' + value));
           }
         } else {
           // Child element yoksa direkt textContent kullan
