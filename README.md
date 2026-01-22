@@ -37,6 +37,31 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - ✅ 264 tests + 5 load test scenarios
 - 🔒 Production-ready with comprehensive security
 
+## 🚀 Quick Start - İlk Giriş
+
+### Production Deploy Sonrası İlk Admin Girişi
+
+Deploy işlemi tamamlandıktan sonra sisteme giriş yapmak için:
+
+```bash
+# Database seed script'ini çalıştırın (otomatik admin oluşturur)
+npm run seed
+
+# veya Docker ile
+docker-compose -f docker-compose.prod.yml exec backend npm run seed
+```
+
+**🔐 Default Admin Bilgileri:**
+- **Email:** `admin@autoviseo.com`
+- **Password:** `Admin123!`
+- **Login URL:** `https://yourdomain.com/login.html`
+
+⚠️ **ÖNEMLİ:** İlk girişten sonra mutlaka admin şifrenizi değiştirin!
+
+Detaylı bilgi için: [Production Deployment Guide](docs/production-deployment.md)
+
+---
+
 ## 🚀 Özellikler
 
 ### Güvenlik ve Kimlik Doğrulama
