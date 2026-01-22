@@ -17,7 +17,12 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:headed": "playwright test --headed",
-    "test:e2e:report": "playwright show-report"
+    "test:e2e:report": "playwright show-report",
+    "test:load": "k6 run tests/load/api-load-test.js",
+    "test:load:auth": "k6 run tests/load/auth-load-test.js",
+    "test:load:stress": "k6 run tests/load/stress-test.js",
+    "test:load:spike": "k6 run tests/load/spike-test.js",
+    "test:load:soak": "k6 run tests/load/soak-test.js"
   },
   "keywords": [
     "whatsapp",
