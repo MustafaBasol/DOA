@@ -28,24 +28,24 @@
       </a>
 
       <nav class="site-header__nav">
-        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false">
+        <button class="site-header__toggle" aria-label="Menüyü aç/kapat" aria-expanded="false" data-i18n="header.toggle" data-i18n-attr="aria-label">
           <span></span><span></span><span></span>
         </button>
 
         <ul class="site-header__links">
-          <li><a href="/#services">Hizmetler</a></li>
-          <li><a href="/#contact">İletişim</a></li>
+          <li><a href="/#services" data-i18n="nav.services">Hizmetler</a></li>
+          <li><a href="/#contact" data-i18n="nav.contact">İletişim</a></li>
         </ul>
       </nav>
 
       <div class="site-header__actions">
-        <div class="language-switcher" role="group" aria-label="Dil seçimi">
-          <span class="sr-only">Dil</span>
-          <button class="language-switcher__btn is-active" type="button" data-lang="tr" aria-pressed="true">TR</button>
-          <button class="language-switcher__btn" type="button" data-lang="en" aria-pressed="false">EN</button>
-          <button class="language-switcher__btn" type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <div class="language-switcher" role="group" aria-label="Dil seçimi" data-i18n="lang.aria" data-i18n-attr="aria-label">
+          <span class="sr-only" data-i18n="lang.label">Dil</span>
+          <button class="language-switcher__btn lang-btn is-active" type="button" data-lang="tr" aria-pressed="true">TR</button>
+          <button class="language-switcher__btn lang-btn" type="button" data-lang="en" aria-pressed="false">EN</button>
+          <button class="language-switcher__btn lang-btn" type="button" data-lang="fr" aria-pressed="false">FR</button>
         </div>
-        <a class="button button--sm" href="/#contact">Ücretsiz Ön Analiz</a>
+        <a class="button button--sm" href="/#contact" data-i18n="header.cta">Ücretsiz Ön Analiz</a>
       </div>
     </header>
 
