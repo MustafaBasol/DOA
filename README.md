@@ -155,6 +155,9 @@ WhatsApp chatbot'larını işletmelere satan bir firma için geliştirilmiş, m�
 - **Email:** Nodemailer
 - **Template Engine:** Handlebars (email templates)
 - **Reports:** ExcelJS, PDFKit
+- **Push Notifications:** Firebase Admin SDK
+- **WhatsApp Integration:** n8n webhooks
+- **API Documentation:** Swagger/OpenAPI 3.0 ✨ YENI!
 
 ### Frontend
 - **Vanilla JavaScript** (ES6+)
@@ -276,6 +279,10 @@ npm run dev
 ```
 
 Backend **http://localhost:5000** adresinde çalışacak.
+
+**API Dokümantasyonu:** 
+- Swagger UI: **http://localhost:5000/api-docs** (İnteraktif API testi)
+- JSON Spec: **http://localhost:5000/api-docs.json**
 
 ### 3. Frontend Çalıştırma
 ```bash

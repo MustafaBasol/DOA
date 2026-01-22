@@ -21,6 +21,8 @@ router.get('/stats', authenticate, (req, res, next) =>
 
 // Admin routes
 router.post(
+  '/',
+  authenticate,
   checkPermission('users', 'create'),
   auditLog('create_user', 'users'),
   validate(createUserSchema),

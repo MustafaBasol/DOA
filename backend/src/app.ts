@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import { serverConfig } from './config';
 import { generalLimiter } from './middleware/rateLimiter';
 import { errorHandler, notFoundHandler } from './middleware/errorHandler';
+import { setupSwagger } from './config/swagger';
 
 // Routes
 import authRoutes from './modules/auth/auth.routes';
@@ -38,6 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rate limiting
 app.use(generalLimiter);
+
+// Swagger documentation
+setupSwagger(app);
 
 // Health check
 app.get('/api/health', (_req, res) => {
