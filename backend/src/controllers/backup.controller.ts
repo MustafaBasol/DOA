@@ -30,7 +30,7 @@ export const createBackup = async (req: Request, res: Response, next: NextFuncti
 /**
  * List all backups
  */
-export const listBackups = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const listBackups = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const backups = await backupService.listBackups();
 
@@ -47,7 +47,7 @@ export const listBackups = async (req: Request, res: Response, next: NextFunctio
 /**
  * Get backup statistics
  */
-export const getBackupStats = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getBackupStats = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const stats = await backupService.getBackupStats();
 
@@ -130,7 +130,7 @@ export const cleanOldBackups = async (req: Request, res: Response, next: NextFun
 /**
  * Health check
  */
-export const backupHealthCheck = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const backupHealthCheck = async (_req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const health = await backupService.healthCheck();
 

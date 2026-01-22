@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 type BillingCycle = 'MONTHLY' | 'YEARLY';
-type SubscriptionStatus = 'ACTIVE' | 'CANCELED' | 'EXPIRED' | 'PAUSED';
+type SubscriptionStatus = 'ACTIVE' | 'CANCELLED' | 'SUSPENDED';
 
 interface CreateSubscriptionDto {
   userId: string;
@@ -149,7 +149,12 @@ export class SubscriptionService {
 
     const subscription = await prisma.subscription.create({
       data: {
-        ...data,
+        userId: data.userId,
+        planName: data.planName,
+        monthlyPrice: data.planPrice, // Map planPrice to monthlyPrice
+        startDate: data.startDate,
+        endDate: data.endDate,
+        autoRenew: data.autoRenew,
         status: 'ACTIVE',
       },
       include: {
@@ -197,7 +202,7 @@ export class SubscriptionService {
    */
   static async cancelSubscription(id: string) {
     const subscription = await this.updateSubscription(id, {
-      status: 'CANCELED',
+      status: 'CANCELLED',
       autoRenew: false,
     });
 
@@ -231,7 +236,7 @@ export class SubscriptionService {
         autoRenew: false,
       },
       data: {
-        status: 'EXPIRED',
+        status: 'SUSPENDED', // Changed from EXPIRED to SUSPENDED (matches schema)
       },
     });
 

@@ -64,24 +64,25 @@ export class ReportsService {
       if (filters.endDate) where.createdAt.lte = filters.endDate;
     }
 
-    const customers = await prisma.customer.findMany({
-      where,
-      include: {
-        user: {
-          select: {
-            id: true,
-            companyName: true,
-            fullName: true,
-          },
-        },
-        _count: {
-          select: {
-            messages: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
+    // TODO: Customer model not in schema yet - using empty array for now
+    const customers: any[] = []; // await prisma.customer.findMany({
+    //   where,
+    //   include: {
+    //     user: {
+    //       select: {
+    //         id: true,
+    //         companyName: true,
+    //         fullName: true,
+    //       },
+    //     },
+    //     _count: {
+    //       select: {
+    //         messages: true,
+    //       },
+    //     },
+    //   },
+    //   orderBy: { createdAt: 'desc' },
+    // });
 
     const stats = {
       total: customers.length,

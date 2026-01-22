@@ -250,7 +250,7 @@ export class PaymentService {
   /**
    * Get payment statistics
    */
-  static async getStats(userId?: number) {
+  static async getStats(userId?: string) {
     const where: any = userId ? { userId } : {};
 
     const [pending, completed, failed, refunded, totalAmount] = await Promise.all([

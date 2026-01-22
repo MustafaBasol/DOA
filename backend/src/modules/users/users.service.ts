@@ -70,7 +70,7 @@ export class UsersService {
   async getUsers(page = 1, limit = 10, search?: string) {
     const skip = (page - 1) * limit;
 
-    const where = search
+    const where: any = search
       ? {
           role: 'CLIENT',
           OR: [

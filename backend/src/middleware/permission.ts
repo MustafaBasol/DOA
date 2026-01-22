@@ -130,8 +130,8 @@ export const checkRole = (...roles: Role[]) => {
 
       if (!roles.includes(user.role as Role)) {
         throw new AppError(
-          `Access denied: requires one of ${roles.join(', ')} role`,
-          403
+          403,
+          'Access denied: insufficient role'
         );
       }
 

@@ -49,7 +49,7 @@ export class SubscriptionNotificationService {
 
         // Send email notifications
         for (const subscription of expiringSubscriptions) {
-          if (subscription.user.email) {
+          if (subscription.user.email && subscription.endDate) {
             try {
               await emailService.sendSubscriptionExpiryWarning({
                 to: subscription.user.email,

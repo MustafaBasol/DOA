@@ -40,7 +40,7 @@ export class PaymentController {
   static async getStats(req: Request, res: Response) {
     try {
       const userId = req.query.userId ? parseInt(req.query.userId as string) : undefined;
-      const stats = await PaymentService.getStats(userId);
+      const stats = await PaymentService.getStats(userId?.toString());
 
       res.json({
         success: true,
