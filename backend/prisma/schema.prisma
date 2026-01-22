@@ -34,6 +34,9 @@ model User {
   rolePermissions RolePermission[]
   auditLogs       AuditLog[]
   notifications   Notification[]
+  deviceTokens    DeviceToken[]
+  messageTemplates MessageTemplate[]
+  scheduledMessages ScheduledMessage[]
   notificationPreferences Json?  @map("notification_preferences")
 
   @@index([email])
@@ -222,6 +225,75 @@ model Notification {
   @@map("notifications")
 }
 
+model DeviceToken {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  token      String   @unique
+  platform   DevicePlatform
+  deviceId   String?  @map("device_id") // Unique device identifier
+  deviceName String?  @map("device_name") // e.g., "iPhone 14 Pro"
+  appVersion String?  @map("app_version")
+  isActive   Boolean  @default(true) @map("is_active")
+  lastUsedAt DateTime @default(now()) @map("last_used_at")
+  createdAt  DateTime @default(now()) @map("created_at")
+  
+  // Relations
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+  @@index([isActive])
+  @@map("device_tokens")
+}
+
+model MessageTemplate {
+  id         String   @id @default(uuid())
+  name       String
+  content    String   @db.Text
+  variables  String[] // Array of variable names like ["name", "amount"]
+  language   String   @default("TR")
+  category   String   // e.g., "marketing", "transactional", "support"
+  status     TemplateStatus @default(DRAFT)
+  createdById String  @map("created_by_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  createdBy  User     @relation(fields: [createdById], references: [id])
+  scheduledMessages ScheduledMessage[]
+
+  @@index([createdById])
+  @@index([category])
+  @@index([status])
+  @@map("message_templates")
+}
+
+model ScheduledMessage {
+  id         String   @id @default(uuid())
+  templateId String   @map("template_id")
+  userId     String   @map("user_id")
+  recipients String[] // Array of phone numbers
+  variables  Json     // Variables for template rendering
+  scheduledFor DateTime @map("scheduled_for")
+  status     ScheduledMessageStatus @default(PENDING)
+  sentAt     DateTime? @map("sent_at")
+  failedCount Int     @default(0) @map("failed_count")
+  successCount Int    @default(0) @map("success_count")
+  errorMessage String? @map("error_message") @db.Text
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  
+  // Relations
+  template   MessageTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([templateId])
+  @@index([scheduledFor])
+  @@index([status])
+  @@map("scheduled_messages")
+}
+
 enum Role {
   SUPER_ADMIN
   ADMIN
@@ -278,4 +350,25 @@ enum NotificationPriority {
   MEDIUM
   HIGH
   URGENT
+}
+
+enum DevicePlatform {
+  IOS
+  ANDROID
+  WEB
+}
+
+enum TemplateStatus {
+  DRAFT
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum ScheduledMessageStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
 }

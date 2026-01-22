@@ -1,6 +1,7 @@
 import { prisma } from '../../config/database';
 import { socketService } from '../../socket';
 import { EmailService } from './email.service';
+import { pushNotificationService } from '../../services/push-notification.service';
 
 export interface NotificationPayload {
   userId: number;
@@ -73,7 +74,7 @@ export class NotificationService {
           title,
           message,
           data: data || {},
-          priority,
+          priority: priority.toUpperCase() as 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT',
           actionUrl,
           isRead: false,
         },
@@ -97,8 +98,25 @@ export class NotificationService {
       }
 
       // Send via Email
-      if (preferences.email && this.shouldSendEmail(type, priority)) {
+      if (preferences.email && user.fullName && this.shouldSendEmail(type, priority)) {
         await this.sendEmailNotification(user.email, user.fullName, payload);
+      }
+
+      // Send via Push Notification
+      if (preferences.push) {
+        await pushNotificationService.sendToUser(parseInt(userId.toString()), {
+          title,
+          body: message,
+          data: data ? Object.fromEntries(
+            Object.entries(data).map(([k, v]) => [k, String(v)])
+          ) : {
+            type,
+            notificationId: notification.id,
+          },
+        }).catch((error) => {
+          console.error('Failed to send push notification:', error);
+          // Don't throw - push failures shouldn't break the flow
+        });
       }
 
       console.log(`✅ Notification sent to user ${userId}: ${type}`);

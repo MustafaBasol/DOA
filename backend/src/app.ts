@@ -19,6 +19,9 @@ import advancedSearchRoutes from './modules/search/advanced-search.routes';
 import permissionRoutes from './routes/permission.routes';
 import auditRoutes from './routes/audit.routes';
 import notificationRoutes from './modules/notifications/notifications.routes';
+import deviceRoutes from './routes/device.routes';
+import messageTemplateRoutes from './routes/message-template.routes';
+import whatsappRoutes from './routes/whatsapp.routes';
 
 const app: Application = express();
 
@@ -59,6 +62,9 @@ app.use('/api/search-advanced', advancedSearchRoutes);
 app.use('/api/permissions', permissionRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/devices', deviceRoutes);
+app.use('/api/templates', messageTemplateRoutes);
+app.use('/api/whatsapp', whatsappRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
