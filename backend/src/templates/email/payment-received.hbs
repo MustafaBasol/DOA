@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if (eq lang "tr")}}Ödeme Onayı{{else if (eq lang "en")}}Payment Confirmation{{else}}Confirmation de paiement{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: -30px -30px 30px -30px;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .payment-details {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #d1fae5;
+        }
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        .detail-label {
+            color: #047857;
+            font-weight: 600;
+        }
+        .detail-value {
+            color: #1f2937;
+            font-weight: 500;
+        }
+        .amount {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .amount-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #10b981;
+        }
+        .amount-label {
+            font-size: 14px;
+            color: #6b7280;
+            text-transform: uppercase;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        .info-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="success-icon">✅</div>
+            <h1>
+                {{#if (eq lang "tr")}}Ödemeniz Başarıyla Alındı!
+                {{else if (eq lang "en")}}Payment Received Successfully!
+                {{else}}Paiement reçu avec succès!
+                {{/if}}
+            </h1>
+        </div>
+
+        <p>
+            {{#if (eq lang "tr")}}Merhaba {{fullName}},
+            {{else if (eq lang "en")}}Hello {{fullName}},
+            {{else}}Bonjour {{fullName}},
+            {{/if}}
+        </p>
+
+        <p>
+            {{#if (eq lang "tr")}}
+                Ödemeniz başarıyla işlendi. İşlem detayları aşağıdadır:
+            {{else if (eq lang "en")}}
+                Your payment has been successfully processed. Transaction details are below:
+            {{else}}
+                Votre paiement a été traité avec succès. Les détails de la transaction sont ci-dessous:
+            {{/if}}
+        </p>
+
+        <div class="amount">
+            <div class="amount-value">{{amount}} {{currency}}</div>
+            <div class="amount-label">
+                {{#if (eq lang "tr")}}Ödenen Tutar
+                {{else if (eq lang "en")}}Amount Paid
+                {{else}}Montant payé
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="payment-details">
+            <div class="detail-row">
+                <span class="detail-label">
+                    {{#if (eq lang "tr")}}İşlem No:
+                    {{else if (eq lang "en")}}Transaction ID:
+                    {{else}}ID de transaction:
+                    {{/if}}
+                </span>
+                <span class="detail-value">{{transactionId}}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    {{#if (eq lang "tr")}}Ödeme Tarihi:
+                    {{else if (eq lang "en")}}Payment Date:
+                    {{else}}Date de paiement:
+                    {{/if}}
+                </span>
+                <span class="detail-value">{{paymentDate}}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    {{#if (eq lang "tr")}}Ödeme Yöntemi:
+                    {{else if (eq lang "en")}}Payment Method:
+                    {{else}}Mode de paiement:
+                    {{/if}}
+                </span>
+                <span class="detail-value">{{paymentMethod}}</span>
+            </div>
+            {{#if subscriptionPlan}}
+            <div class="detail-row">
+                <span class="detail-label">
+                    {{#if (eq lang "tr")}}Abonelik Planı:
+                    {{else if (eq lang "en")}}Subscription Plan:
+                    {{else}}Plan d'abonnement:
+                    {{/if}}
+                </span>
+                <span class="detail-value">{{subscriptionPlan}}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">
+                    {{#if (eq lang "tr")}}Geçerlilik:
+                    {{else if (eq lang "en")}}Validity:
+                    {{else}}Validité:
+                    {{/if}}
+                </span>
+                <span class="detail-value">{{validUntil}}</span>
+            </div>
+            {{/if}}
+        </div>
+
+        {{#if invoiceUrl}}
+        <div style="text-align: center;">
+            <a href="{{invoiceUrl}}" class="btn">
+                {{#if (eq lang "tr")}}📄 Faturayı İndir
+                {{else if (eq lang "en")}}📄 Download Invoice
+                {{else}}📄 Télécharger la facture
+                {{/if}}
+            </a>
+        </div>
+        {{/if}}
+
+        <div class="info-box">
+            {{#if (eq lang "tr")}}
+                <strong>💡 Bilgi:</strong> Bu ödeme makbuzu yasal fatura değildir. Resmi faturanız mail adresinize ayrıca gönderilecektir.
+            {{else if (eq lang "en")}}
+                <strong>💡 Note:</strong> This payment receipt is not a legal invoice. Your official invoice will be sent separately to your email address.
+            {{else}}
+                <strong>💡 Note:</strong> Ce reçu de paiement n'est pas une facture légale. Votre facture officielle sera envoyée séparément à votre adresse e-mail.
+            {{/if}}
+        </div>
+
+        <p>
+            {{#if (eq lang "tr")}}
+                Hizmetlerimizi kullandığınız için teşekkür ederiz!
+            {{else if (eq lang "en")}}
+                Thank you for using our services!
+            {{else}}
+                Merci d'utiliser nos services!
+            {{/if}}
+        </p>
+
+        <div class="footer">
+            <p>
+                {{#if (eq lang "tr")}}
+                    Sorularınız için: support@autoviseo.com
+                {{else if (eq lang "en")}}
+                    For questions: support@autoviseo.com
+                {{else}}
+                    Pour des questions: support@autoviseo.com
+                {{/if}}
+            </p>
+            <p style="font-size: 12px; color: #9ca3af;">
+                © {{year}} DOA - Autoviseo
+            </p>
+        </div>
+    </div>
+</body>
+</html>

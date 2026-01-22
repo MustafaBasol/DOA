@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if (eq lang "tr")}}Yeni Mesaj{{else if (eq lang "en")}}New Message{{else}}Nouveau Message{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: -30px -30px 30px -30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .message-icon {
+            font-size: 40px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .message-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .message-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .message-content {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #1f2937;
+            line-height: 1.8;
+        }
+        .customer-info {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .customer-info strong {
+            color: #1e40af;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background: #fef3c7;
+            border-radius: 8px;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #d97706;
+        }
+        .stat-label {
+            font-size: 12px;
+            color: #92400e;
+            text-transform: uppercase;
+        }
+        .footer {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="message-icon">💬</span>
+            <h1>
+                {{#if (eq lang "tr")}}Yeni WhatsApp Mesajı Aldınız!
+                {{else if (eq lang "en")}}You Have a New WhatsApp Message!
+                {{else}}Vous avez un nouveau message WhatsApp!
+                {{/if}}
+            </h1>
+        </div>
+
+        <div class="customer-info">
+            {{#if (eq lang "tr")}}
+                <p><strong>👤 Gönderen:</strong> {{customerName}}</p>
+                <p><strong>📱 Telefon:</strong> {{customerPhone}}</p>
+                <p><strong>🕐 Tarih:</strong> {{timestamp}}</p>
+            {{else if (eq lang "en")}}
+                <p><strong>👤 From:</strong> {{customerName}}</p>
+                <p><strong>📱 Phone:</strong> {{customerPhone}}</p>
+                <p><strong>🕐 Date:</strong> {{timestamp}}</p>
+            {{else}}
+                <p><strong>👤 De:</strong> {{customerName}}</p>
+                <p><strong>📱 Téléphone:</strong> {{customerPhone}}</p>
+                <p><strong>🕐 Date:</strong> {{timestamp}}</p>
+            {{/if}}
+        </div>
+
+        <div class="message-box">
+            <div class="message-meta">
+                <span>
+                    {{#if (eq lang "tr")}}Mesaj İçeriği
+                    {{else if (eq lang "en")}}Message Content
+                    {{else}}Contenu du message
+                    {{/if}}
+                </span>
+                <span>{{messageType}}</span>
+            </div>
+            <div class="message-content">
+                {{messageContent}}
+            </div>
+        </div>
+
+        {{#if unreadCount}}
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value">{{unreadCount}}</div>
+                <div class="stat-label">
+                    {{#if (eq lang "tr")}}Okunmamış
+                    {{else if (eq lang "en")}}Unread
+                    {{else}}Non lu
+                    {{/if}}
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">{{totalMessages}}</div>
+                <div class="stat-label">
+                    {{#if (eq lang "tr")}}Toplam
+                    {{else if (eq lang "en")}}Total
+                    {{else}}Total
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
+        <div style="text-align: center;">
+            <a href="{{panelUrl}}/messages" class="btn">
+                {{#if (eq lang "tr")}}📬 Mesajı Görüntüle
+                {{else if (eq lang "en")}}📬 View Message
+                {{else}}📬 Voir le message
+                {{/if}}
+            </a>
+        </div>
+
+        <div class="footer">
+            <p>
+                {{#if (eq lang "tr")}}
+                    Bu bildirim otomatik olarak gönderilmiştir. Ayarlarınızı <a href="{{panelUrl}}/profile">buradan</a> değiştirebilirsiniz.
+                {{else if (eq lang "en")}}
+                    This notification was sent automatically. You can change your settings <a href="{{panelUrl}}/profile">here</a>.
+                {{else}}
+                    Cette notification a été envoyée automatiquement. Vous pouvez modifier vos paramètres <a href="{{panelUrl}}/profile">ici</a>.
+                {{/if}}
+            </p>
+            <p style="font-size: 12px; color: #9ca3af;">
+                © {{year}} DOA - Autoviseo
+            </p>
+        </div>
+    </div>
+</body>
+</html>

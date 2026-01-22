@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="{{lang}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if (eq lang "tr")}}Hoş Geldiniz{{else if (eq lang "en")}}Welcome{{else}}Bienvenue{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #2563eb;
+            margin: 0;
+            font-size: 28px;
+        }
+        .welcome-icon {
+            font-size: 60px;
+            margin: 20px 0;
+        }
+        .content {
+            margin: 30px 0;
+        }
+        .info-box {
+            background: #f0f9ff;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .credentials {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .credentials strong {
+            color: #1e40af;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+            text-align: center;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        .features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: bold;
+            font-size: 20px;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .support {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="welcome-icon">🎉</div>
+            <h1>
+                {{#if (eq lang "tr")}}
+                    Hoş Geldiniz, {{fullName}}!
+                {{else if (eq lang "en")}}
+                    Welcome, {{fullName}}!
+                {{else}}
+                    Bienvenue, {{fullName}}!
+                {{/if}}
+            </h1>
+        </div>
+
+        <div class="content">
+            {{#if (eq lang "tr")}}
+                <p>DOA WhatsApp Yönetim Paneli'ne katıldığınız için teşekkür ederiz! Hesabınız başarıyla oluşturuldu.</p>
+                
+                <div class="credentials">
+                    <p><strong>Giriş Bilgileriniz:</strong></p>
+                    <p>📧 <strong>Email:</strong> {{email}}</p>
+                    <p>🔑 <strong>Geçici Şifre:</strong> {{tempPassword}}</p>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠️ Önemli Güvenlik Notu:</strong><br>
+                    Güvenliğiniz için ilk girişte şifrenizi değiştirmenizi öneririz.
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="{{panelUrl}}" class="btn">🚀 Panele Giriş Yap</a>
+                </div>
+
+                <p><strong>Neler Yapabilirsiniz?</strong></p>
+                <ul class="features">
+                    <li>WhatsApp mesajlarınızı gerçek zamanlı görüntüleyin</li>
+                    <li>Müşteri konuşmalarını takip edin</li>
+                    <li>Abonelik durumunuzu kontrol edin</li>
+                    <li>Ödeme geçmişinizi inceleyin</li>
+                    <li>Profil bilgilerinizi güncelleyin</li>
+                </ul>
+
+                <div class="support">
+                    <strong>💡 Yardıma mı ihtiyacınız var?</strong><br>
+                    Herhangi bir sorunuz varsa bizimle iletişime geçmekten çekinmeyin:<br>
+                    📧 support@autoviseo.com
+                </div>
+
+            {{else if (eq lang "en")}}
+                <p>Thank you for joining the DOA WhatsApp Management Panel! Your account has been successfully created.</p>
+                
+                <div class="credentials">
+                    <p><strong>Your Login Credentials:</strong></p>
+                    <p>📧 <strong>Email:</strong> {{email}}</p>
+                    <p>🔑 <strong>Temporary Password:</strong> {{tempPassword}}</p>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠️ Important Security Note:</strong><br>
+                    For your security, we recommend changing your password upon first login.
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="{{panelUrl}}" class="btn">🚀 Login to Panel</a>
+                </div>
+
+                <p><strong>What Can You Do?</strong></p>
+                <ul class="features">
+                    <li>View your WhatsApp messages in real-time</li>
+                    <li>Track customer conversations</li>
+                    <li>Check your subscription status</li>
+                    <li>Review your payment history</li>
+                    <li>Update your profile information</li>
+                </ul>
+
+                <div class="support">
+                    <strong>💡 Need Help?</strong><br>
+                    Don't hesitate to contact us if you have any questions:<br>
+                    📧 support@autoviseo.com
+                </div>
+
+            {{else}}
+                <p>Merci d'avoir rejoint le panneau de gestion WhatsApp DOA ! Votre compte a été créé avec succès.</p>
+                
+                <div class="credentials">
+                    <p><strong>Vos identifiants de connexion:</strong></p>
+                    <p>📧 <strong>Email:</strong> {{email}}</p>
+                    <p>🔑 <strong>Mot de passe temporaire:</strong> {{tempPassword}}</p>
+                </div>
+
+                <div class="info-box">
+                    <strong>⚠️ Note de sécurité importante:</strong><br>
+                    Pour votre sécurité, nous vous recommandons de changer votre mot de passe lors de votre première connexion.
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="{{panelUrl}}" class="btn">🚀 Connexion au panneau</a>
+                </div>
+
+                <p><strong>Que pouvez-vous faire?</strong></p>
+                <ul class="features">
+                    <li>Visualisez vos messages WhatsApp en temps réel</li>
+                    <li>Suivez les conversations clients</li>
+                    <li>Vérifiez le statut de votre abonnement</li>
+                    <li>Consultez votre historique de paiement</li>
+                    <li>Mettez à jour vos informations de profil</li>
+                </ul>
+
+                <div class="support">
+                    <strong>💡 Besoin d'aide?</strong><br>
+                    N'hésitez pas à nous contacter si vous avez des questions:<br>
+                    📧 support@autoviseo.com
+                </div>
+            {{/if}}
+        </div>
+
+        <div class="footer">
+            <p>© {{year}} DOA - Autoviseo. 
+                {{#if (eq lang "tr")}}Tüm hakları saklıdır.
+                {{else if (eq lang "en")}}All rights reserved.
+                {{else}}Tous droits réservés.
+                {{/if}}
+            </p>
+            <p style="font-size: 12px; color: #9ca3af;">
+                {{#if (eq lang "tr")}}
+                    Bu email {{email}} adresine gönderilmiştir.
+                {{else if (eq lang "en")}}
+                    This email was sent to {{email}}.
+                {{else}}
+                    Cet email a été envoyé à {{email}}.
+                {{/if}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
