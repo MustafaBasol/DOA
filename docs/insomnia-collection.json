@@ -1,0 +1,372 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-01-22T00:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v2023.5.8",
+  "resources": [
+    {
+      "_id": "wrk_doa_panel",
+      "_type": "workspace",
+      "name": "DOA Panel API",
+      "description": "Document Organization & Analysis Platform API v2.0",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000/api",
+        "access_token": "",
+        "refresh_token": ""
+      },
+      "dataPropertyOrder": {
+        "&": ["base_url", "access_token", "refresh_token"]
+      },
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "folder_auth",
+      "_type": "request_group",
+      "name": "Authentication",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_register",
+      "_type": "request",
+      "name": "Register",
+      "url": "{{ _.base_url }}/auth/register",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\",\n  \"fullName\": \"John Doe\",\n  \"companyName\": \"Example Corp\",\n  \"phone\": \"+905551234567\",\n  \"language\": \"TR\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parentId": "folder_auth"
+    },
+    {
+      "_id": "req_login",
+      "_type": "request",
+      "name": "Login",
+      "url": "{{ _.base_url }}/auth/login",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"SecurePassword123!\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parentId": "folder_auth"
+    },
+    {
+      "_id": "req_refresh",
+      "_type": "request",
+      "name": "Refresh Token",
+      "url": "{{ _.base_url }}/auth/refresh",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ _.refresh_token }}\"\n}"
+      },
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "parentId": "folder_auth"
+    },
+    {
+      "_id": "req_logout",
+      "_type": "request",
+      "name": "Logout",
+      "url": "{{ _.base_url }}/auth/logout",
+      "method": "POST",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_auth"
+    },
+    {
+      "_id": "folder_users",
+      "_type": "request_group",
+      "name": "Users",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_get_users",
+      "_type": "request",
+      "name": "Get All Users",
+      "url": "{{ _.base_url }}/users?page=1&limit=10",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_users"
+    },
+    {
+      "_id": "req_create_user",
+      "_type": "request",
+      "name": "Create User",
+      "url": "{{ _.base_url }}/users",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"newuser@example.com\",\n  \"password\": \"Password123!\",\n  \"fullName\": \"Jane Doe\",\n  \"role\": \"CLIENT\"\n}"
+      },
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_users"
+    },
+    {
+      "_id": "folder_messages",
+      "_type": "request_group",
+      "name": "Messages",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_get_messages",
+      "_type": "request",
+      "name": "Get Messages",
+      "url": "{{ _.base_url }}/messages?page=1&limit=20",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_messages"
+    },
+    {
+      "_id": "req_send_message",
+      "_type": "request",
+      "name": "Send Message",
+      "url": "{{ _.base_url }}/messages/send",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"toNumber\": \"+905551234567\",\n  \"messageContent\": \"Hello from API!\",\n  \"messageType\": \"text\"\n}"
+      },
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_messages"
+    },
+    {
+      "_id": "folder_subscriptions",
+      "_type": "request_group",
+      "name": "Subscriptions",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_get_subscriptions",
+      "_type": "request",
+      "name": "Get All Subscriptions",
+      "url": "{{ _.base_url }}/subscriptions",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_subscriptions"
+    },
+    {
+      "_id": "folder_payments",
+      "_type": "request_group",
+      "name": "Payments",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_get_payments",
+      "_type": "request",
+      "name": "Get Payments",
+      "url": "{{ _.base_url }}/payments?page=1&limit=20",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_payments"
+    },
+    {
+      "_id": "req_payment_stats",
+      "_type": "request",
+      "name": "Get Payment Stats",
+      "url": "{{ _.base_url }}/payments/stats",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_payments"
+    },
+    {
+      "_id": "folder_analytics",
+      "_type": "request_group",
+      "name": "Analytics",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_dashboard_stats",
+      "_type": "request",
+      "name": "Dashboard Stats",
+      "url": "{{ _.base_url }}/analytics/dashboard",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_analytics"
+    },
+    {
+      "_id": "req_message_trends",
+      "_type": "request",
+      "name": "Message Trends",
+      "url": "{{ _.base_url }}/analytics/trends?period=30",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_analytics"
+    },
+    {
+      "_id": "folder_reports",
+      "_type": "request_group",
+      "name": "Reports",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_messages_report",
+      "_type": "request",
+      "name": "Generate Messages Report",
+      "url": "{{ _.base_url }}/reports/messages",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"startDate\": \"2026-01-01\",\n  \"endDate\": \"2026-01-31\",\n  \"format\": \"pdf\"\n}"
+      },
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_reports"
+    },
+    {
+      "_id": "folder_search",
+      "_type": "request_group",
+      "name": "Search",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_advanced_search",
+      "_type": "request",
+      "name": "Advanced Search",
+      "url": "{{ _.base_url }}/search",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"entity\": \"MESSAGES\",\n  \"filters\": {\n    \"searchTerm\": \"hello\",\n    \"dateFrom\": \"2026-01-01\",\n    \"dateTo\": \"2026-01-31\"\n  },\n  \"page\": 1,\n  \"limit\": 20\n}"
+      },
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_search"
+    },
+    {
+      "_id": "folder_notifications",
+      "_type": "request_group",
+      "name": "Notifications",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_get_notifications",
+      "_type": "request",
+      "name": "Get Notifications",
+      "url": "{{ _.base_url }}/notifications?page=1&limit=20",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_notifications"
+    },
+    {
+      "_id": "folder_audit",
+      "_type": "request_group",
+      "name": "Audit Logs",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_audit_logs",
+      "_type": "request",
+      "name": "Get Audit Logs",
+      "url": "{{ _.base_url }}/audit?page=1&limit=50",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_audit"
+    },
+    {
+      "_id": "folder_backup",
+      "_type": "request_group",
+      "name": "Backup & Restore",
+      "environment": {},
+      "parentId": "wrk_doa_panel"
+    },
+    {
+      "_id": "req_create_backup",
+      "_type": "request",
+      "name": "Create Backup",
+      "url": "{{ _.base_url }}/backup",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"tables\": [\"users\", \"messages\", \"subscriptions\"]\n}"
+      },
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_backup"
+    },
+    {
+      "_id": "req_list_backups",
+      "_type": "request",
+      "name": "List Backups",
+      "url": "{{ _.base_url }}/backup",
+      "method": "GET",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.access_token }}"
+      },
+      "parentId": "folder_backup"
+    }
+  ]
+}
