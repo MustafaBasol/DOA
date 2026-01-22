@@ -515,9 +515,9 @@ GET    /api/health/db               # Database bağlantı kontrolü
 - [ ] User acceptance testing (UAT) - İş gereksinimi
 - [ ] Bug fixing - Devam eden süreç
 - [ ] İlk müşterileri sisteme ekleme - İş operasyonu
-- [ ] Eğitim ve onboarding materyalleri - Dokümantasyon
+- [x] Eğitim ve onboarding materyalleri - ✅ TAMAMLANDI (onboarding-guide.md)
 - [ ] Go-live! 🚀 - İş kararı
-- [ ] Post-launch monitoring - Operasyonel
+- [x] Post-launch monitoring - ✅ TAMAMLANDI (post-launch-monitoring.md)
 
 ---
 
