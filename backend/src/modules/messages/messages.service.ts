@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import { AppError } from '../../middleware/errorHandler';
+import { notificationService } from '../notifications/notification.service';
+import { socketService } from '../../socket';
 
 const prisma = new PrismaClient();
 
@@ -38,6 +40,22 @@ export class MessagesService {
         createdAt: true,
       },
     });
+
+    // Send real-time notification via WebSocket
+    if (socketService && data.direction === MessageDirection.INBOUND) {
+      socketService.emitNewMessage(parseInt(data.userId), {
+        event: 'new_message',
+        message,
+      });
+
+      // Send notification for inbound messages
+      const messagePreview = data.messageContent || '[Media]';
+      await notificationService.sendNewMessageNotification(
+        parseInt(data.userId),
+        data.fromNumber,
+        messagePreview
+      ).catch(err => console.error('Failed to send notification:', err));
+    }
 
     return message;
   }

@@ -17,6 +17,7 @@ import analyticsRoutes from './modules/analytics/analytics.routes';
 import searchRoutes from './modules/search/search.routes';
 import permissionRoutes from './routes/permission.routes';
 import auditRoutes from './routes/audit.routes';
+import notificationRoutes from './modules/notifications/notifications.routes';
 
 const app: Application = express();
 
@@ -55,6 +56,7 @@ app.use('/api/analytics', analyticsRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/permissions', permissionRoutes);
 app.use('/api/audit', auditRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

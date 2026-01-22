@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 interface SocketUser {
   id: number;
   email: string;
-  role: 'ADMIN' | 'CLIENT';
+  role: 'SUPER_ADMIN' | 'ADMIN' | 'MANAGER' | 'CLIENT';
 }
 
 interface AuthenticatedSocket extends Socket {
@@ -79,8 +79,8 @@ export class SocketService {
         socket.join(userRoom);
         console.log(`📍 User ${socket.user.id} joined room: ${userRoom}`);
 
-        // Admin joins admin room
-        if (socket.user.role === 'ADMIN') {
+        // Admin and Manager join admin room
+        if (socket.user.role === 'ADMIN' || socket.user.role === 'SUPER_ADMIN' || socket.user.role === 'MANAGER') {
           socket.join('admin');
           console.log(`👑 Admin ${socket.user.id} joined admin room`);
         }

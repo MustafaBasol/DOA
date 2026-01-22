@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { notificationService } from '../notifications/notification.service';
 
 const prisma = new PrismaClient();
 
@@ -185,7 +186,7 @@ export class PaymentService {
    */
   static async updatePayment(id: string, data: UpdatePaymentDto) {
     // Check if payment exists
-    await this.getPaymentById(id);
+    const existingPayment = await this.getPaymentById(id);
 
     const payment = await prisma.payment.update({
       where: { id },
@@ -207,6 +208,29 @@ export class PaymentService {
         },
       },
     });
+
+    // Send notification on status change
+    if (data.status && data.status !== existingPayment.status) {
+      const userId = parseInt(payment.userId);
+      const amount = parseFloat(payment.amount.toString());
+      
+      if (data.status === 'COMPLETED') {
+        await notificationService.sendPaymentReceivedNotification(
+          userId,
+          amount,
+          payment.currency
+        ).catch(err => console.error('Failed to send payment notification:', err));
+      } else if (data.status === 'FAILED') {
+        await notificationService.sendNotification({
+          userId,
+          type: 'PAYMENT_FAILED',
+          title: 'Ödeme Başarısız ❌',
+          message: `${amount} ${payment.currency} tutarındaki ödemeniz başarısız oldu.`,
+          priority: 'high',
+          actionUrl: '/payments',
+        }).catch(err => console.error('Failed to send payment notification:', err));
+      }
+    }
 
     return payment;
   }
