@@ -23,4 +23,10 @@ router.get('/subscriptions/excel', (req, res, next) => reportsController.exportS
 router.get('/messages/pdf', (req, res, next) => reportsController.exportMessagesToPDF(req, res, next));
 router.get('/payments/pdf', (req, res, next) => reportsController.exportPaymentsToPDF(req, res, next));
 
+// Enhanced Reports
+router.get('/analytics/pdf', (req, res, next) => reportsController.exportAnalyticsPDF(req, res, next));
+router.get('/payments/summary', (req, res, next) => reportsController.exportPaymentSummaryExcel(req, res, next));
+router.get('/subscriptions/expiring', (req, res, next) => reportsController.exportSubscriptionExpiryReport(req, res, next));
+router.get('/users/activity', (req, res, next) => reportsController.exportUserActivityReport(req, res, next));
+
 export default router;

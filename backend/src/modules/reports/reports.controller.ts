@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { reportsService, ReportFilters } from './reports.service';
+import { enhancedReportsService } from './enhanced-reports.service';
 import { AppError } from '../../middleware/errorHandler';
 
 export class ReportsController {
@@ -152,6 +153,69 @@ export class ReportsController {
       const filename = `odeme-raporu-${new Date().toISOString().split('T')[0]}.pdf`;
       
       res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/reports/analytics/pdf - Comprehensive Analytics PDF
+  async exportAnalyticsPDF(req: Request, res: Response, next: NextFunction) {
+    try {
+      const filters = this.parseFilters(req.query);
+      const buffer = await enhancedReportsService.generateAnalyticsReportPDF(filters);
+      
+      const filename = `analytics-report-${new Date().toISOString().split('T')[0]}.pdf`;
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/reports/payments/summary - Payment Summary Excel with monthly breakdown
+  async exportPaymentSummaryExcel(req: Request, res: Response, next: NextFunction) {
+    try {
+      const filters = this.parseFilters(req.query);
+      const buffer = await enhancedReportsService.generatePaymentSummaryExcel(filters);
+      
+      const filename = `payment-summary-${new Date().toISOString().split('T')[0]}.xlsx`;
+      
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/reports/subscriptions/expiring - Expiring Subscriptions Report
+  async exportSubscriptionExpiryReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const buffer = await enhancedReportsService.generateSubscriptionExpiryReport();
+      
+      const filename = `expiring-subscriptions-${new Date().toISOString().split('T')[0]}.xlsx`;
+      
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.send(buffer);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET /api/reports/users/activity - User Activity Report
+  async exportUserActivityReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      const filters = this.parseFilters(req.query);
+      const buffer = await enhancedReportsService.generateUserActivityReport(filters);
+      
+      const filename = `user-activity-${new Date().toISOString().split('T')[0]}.xlsx`;
+      
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
       res.send(buffer);
     } catch (error) {
