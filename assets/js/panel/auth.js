@@ -1,5 +1,7 @@
 // Authentication logic
-const API_URL = 'http://localhost:5000/api';
+const API_URL = window.location.hostname === 'localhost' 
+  ? 'http://localhost:5000/api'
+  : `${window.location.protocol}//${window.location.host}/api`;
 
 // Store token in localStorage
 function setToken(accessToken, refreshToken) {

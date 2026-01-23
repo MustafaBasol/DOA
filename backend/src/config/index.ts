@@ -1,8 +1,17 @@
 import { config } from 'dotenv';
 config();
 
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_SECRET must be set in production environment');
+}
+
+if (!process.env.JWT_REFRESH_SECRET && process.env.NODE_ENV === 'production') {
+  throw new Error('JWT_REFRESH_SECRET must be set in production environment');
+}
+
 export const jwtConfig = {
-  secret: process.env.JWT_SECRET || 'fallback-secret-do-not-use-in-production',
+  secret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
+  refreshSecret: process.env.JWT_REFRESH_SECRET || 'dev-refresh-secret-change-in-production',
   accessExpiry: process.env.JWT_ACCESS_EXPIRY || '15m',
   refreshExpiry: process.env.JWT_REFRESH_EXPIRY || '7d',
 };

@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { comparePassword } from '../../utils/password';
-import { generateAccessToken, generateRefreshToken, verifyToken } from '../../utils/jwt';
+import { generateAccessToken, generateRefreshToken, verifyToken, verifyRefreshToken } from '../../utils/jwt';
 import { AppError } from '../../middleware/errorHandler';
 
 const prisma = new PrismaClient();
@@ -80,7 +80,7 @@ export class AuthService {
 
   async refreshAccessToken(refreshToken: string) {
     // Verify refresh token
-    verifyToken(refreshToken);
+    verifyRefreshToken(refreshToken);
 
     // Check if token exists in database
     const tokenRecord = await prisma.refreshToken.findUnique({

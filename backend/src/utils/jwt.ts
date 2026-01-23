@@ -31,7 +31,7 @@ export function generateRefreshToken(payload: {
     role: payload.role,
   };
 
-  return jwt.sign(jwtPayload, jwtConfig.secret, {
+  return jwt.sign(jwtPayload, jwtConfig.refreshSecret, {
     expiresIn: jwtConfig.refreshExpiry as any,
   });
 }
@@ -41,5 +41,13 @@ export function verifyToken(token: string): JwtPayload {
     return jwt.verify(token, jwtConfig.secret) as JwtPayload;
   } catch (error) {
     throw new Error('Invalid or expired token');
+  }
+}
+
+export function verifyRefreshToken(token: string): JwtPayload {
+  try {
+    return jwt.verify(token, jwtConfig.refreshSecret) as JwtPayload;
+  } catch (error) {
+    throw new Error('Invalid or expired refresh token');
   }
 }

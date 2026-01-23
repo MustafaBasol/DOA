@@ -208,6 +208,10 @@
     <span class="toast-message"></span>
   </div>
 
+  <!-- Security Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3/dist/purify.min.js"></script>
+  <script src="/assets/js/security.js"></script>
+  
   <script src="/assets/js/panel/i18n.js"></script>
   <script src="/assets/js/panel/auth.js"></script>
   <script src="/assets/js/panel/admin.js"></script>
@@ -216,8 +220,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       const user = getUser();
       if (user) {
-        document.getElementById('welcomeMessage').textContent = 
-          `Hoş geldiniz, ${user.fullName || user.email}`;
+        const welcomeElement = document.getElementById('welcomeMessage');
+        // Use textContent for XSS protection
+        welcomeElement.textContent = `Hoş geldiniz, ${user.fullName || user.email}`;
       }
     });
   </script>
