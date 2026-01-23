@@ -179,19 +179,138 @@
   color: var(--color-text-muted);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Large Tablet */
+@media (max-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .client-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .dashboard-grid,
+  .client-dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  
+  .quick-actions {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  
+  .stats-mini-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .dashboard-card {
+    padding: 1.25rem;
+  }
+  
+  .dashboard-section {
+    padding: 1.25rem 0;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .dashboard-grid,
   .client-dashboard-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .quick-actions {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
   .stats-mini-grid {
     grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  
+  .dashboard-card {
+    padding: 1rem;
+  }
+  
+  .dashboard-card h3 {
+    font-size: 1.125rem;
+  }
+  
+  .stat-number {
+    font-size: 1.875rem;
+  }
+  
+  .stat-label {
+    font-size: 0.8125rem;
+  }
+  
+  .quick-action-btn {
+    padding: 0.875rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .dashboard-grid,
+  .client-dashboard-grid {
+    gap: 0.875rem;
+  }
+  
+  .dashboard-card {
+    padding: 0.875rem;
+  }
+  
+  .dashboard-card h3 {
+    font-size: 1rem;
+  }
+  
+  .stat-number {
+    font-size: 1.625rem;
+  }
+  
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  
+  .quick-action-btn {
+    padding: 0.75rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+  
+  .chart-container {
+    height: 220px;
+  }
+  
+  .dashboard-section {
+    padding: 1rem 0;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .quick-actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .stats-mini-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

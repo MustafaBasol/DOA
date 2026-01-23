@@ -340,7 +340,31 @@
   color: var(--color-text);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE DESIGN ===== */
+
+/* Large Tablet */
+@media (max-width: 1024px) {
+  .client-layout {
+    grid-template-columns: 300px 1fr;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .client-layout {
+    grid-template-columns: 280px 1fr;
+  }
+  
+  .conversation-item {
+    padding: 0.875rem;
+  }
+  
+  .message-input-container {
+    padding: 1rem;
+  }
+}
+
+/* Mobile */
 @media (max-width: 768px) {
   .client-layout {
     grid-template-columns: 1fr;
@@ -358,12 +382,111 @@
     right: 0;
     bottom: 0;
     z-index: 100;
+    background: var(--color-bg);
   }
 
   .message-bubble {
     max-width: 85%;
   }
+  
+  .messages-header {
+    padding: 1rem;
+  }
+  
+  .message-input-container {
+    padding: 0.875rem;
+  }
+  
+  .message-input {
+    padding: 0.75rem;
+    font-size: 0.9375rem;
+  }
+  
+  /* Mobile Menu Toggle for Conversations */
+  .mobile-conversations-toggle {
+    display: block;
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    z-index: 50;
+    padding: 0.75rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+  }
+  
+  .client-header {
+    padding: 1rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .message-bubble {
+    max-width: 90%;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  .message-time {
+    font-size: 0.6875rem;
+  }
+  
+  .message-input-container {
+    padding: 0.75rem;
+    gap: 0.5rem;
+  }
+  
+  .message-input {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+  
+  .send-button {
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  .conversation-item {
+    padding: 0.75rem;
+  }
+  
+  .conversation-name {
+    font-size: 0.9375rem;
+  }
+  
+  .conversation-preview {
+    font-size: 0.8125rem;
+  }
+  
+  .messages-header h3 {
+    font-size: 1rem;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+  .client-layout {
+    grid-template-columns: 240px 1fr;
+  }
+  
+  .conversations-sidebar {
+    display: flex;
+  }
+  
+  .mobile-conversations-toggle {
+    display: none;
+  }
+}
+
 
 /* Scrollbar Styling */
 .conversations-list::-webkit-scrollbar,
